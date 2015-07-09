@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E3E1D294-B3DA-40E6-80AD-15646224EF06</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>04101981B66E318109934C9516F88D824BB96459</key>
+		<string>https://github.com/ccgus/fmdb.git</string>
+	</dict>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>04101981B66E318109934C9516F88D824BB96459</key>
+		<string>fmdb/</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/ccgus/fmdb.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>04101981B66E318109934C9516F88D824BB96459</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>04101981B66E318109934C9516F88D824BB96459</string>
+			<key>IDESourceControlWCCName</key>
+			<string>fmdb</string>
+		</dict>
+	</array>
+</dict>
+</plist>
