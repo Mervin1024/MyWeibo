@@ -12,19 +12,20 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self setTab];
-
+    
     return YES;
 }
 
 
-// 初始化Tabview界面
+
 - (void) setTab{
     UITabBarController *tabViewController = (UITabBarController *) self.window.rootViewController;
     [tabViewController setSelectedIndex:0];
-
+    //
     UITabBar *tabBar = tabViewController.tabBar;
     [tabBar setTintColor: [UIColor greenColor]];
     
+    //UITabBarItem
     UITabBarItem *tab1 = [tabBar.items objectAtIndex:0];
     UITabBarItem *tab2 = [tabBar.items objectAtIndex:1];
     UITabBarItem *tab3 = [tabBar.items objectAtIndex:2];

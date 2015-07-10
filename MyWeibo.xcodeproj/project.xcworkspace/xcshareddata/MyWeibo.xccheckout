@@ -6,31 +6,35 @@
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>E3E1D294-B3DA-40E6-80AD-15646224EF06</string>
+	<key>IDESourceControlProjectName</key>
+	<string>MyWeibo</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>04101981B66E318109934C9516F88D824BB96459</key>
-		<string>https://github.com/ccgus/fmdb.git</string>
+		<key>6FCCE9F98B95CC1C538B77510C23DEC247CB6B25</key>
+		<string>https://github.com/Mervin1024/MyWeibo.git</string>
 	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>MyWeibo.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>04101981B66E318109934C9516F88D824BB96459</key>
-		<string>fmdb/</string>
+		<key>6FCCE9F98B95CC1C538B77510C23DEC247CB6B25</key>
+		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/ccgus/fmdb.git</string>
+	<string>https://github.com/Mervin1024/MyWeibo.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>04101981B66E318109934C9516F88D824BB96459</string>
+	<string>6FCCE9F98B95CC1C538B77510C23DEC247CB6B25</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>04101981B66E318109934C9516F88D824BB96459</string>
+			<string>6FCCE9F98B95CC1C538B77510C23DEC247CB6B25</string>
 			<key>IDESourceControlWCCName</key>
-			<string>fmdb</string>
+			<string>MyWeibo</string>
 		</dict>
 	</array>
 </dict>
