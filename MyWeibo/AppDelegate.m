@@ -1,7 +1,8 @@
 
 
 #import "AppDelegate.h"
-#import "FMDatabase.h"
+#import "DBManager.h"
+#import "MyWeiboData.h"
 
 @interface AppDelegate ()
 @end
@@ -12,11 +13,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     [self setTab];
-    
+//    [self dropTable];
     return YES;
 }
-
-
 
 - (void) setTab{
     UITabBarController *tabViewController = (UITabBarController *) self.window.rootViewController;
@@ -68,6 +67,12 @@
     (void)[tab5 initWithTitle:@"个人" image:scaledTab5Image selectedImage:scaledTab5SelectedImage];
     
     
+}
+
+- (void) dropTable{
+    [[MyWeiboData sharedManager].dbManager dropTableName:newsTable];
+    [[MyWeiboData sharedManager].dbManager dropTableName:imagesTable];
+    [[MyWeiboData sharedManager].dbManager dropTableName:userTable];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

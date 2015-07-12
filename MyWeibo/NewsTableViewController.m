@@ -1,214 +1,141 @@
-
+//
+//  NewsTableViewController.m
+//  MyWeibo
+//
+//  Created by 马遥 on 15/7/12.
+//  Copyright (c) 2015年 NJUPT. All rights reserved.
+//
 
 #import "NewsTableViewController.h"
 #import "NewTableViewCell.h"
-#import "FMDatabase.h"
-#import "FMDatabaseAdditions.h"
+#import "DBManager.h"
+#import "MyWeiboData.h"
 #import "NewsModel.h"
+#import "InitialNews.h"
+#import "DocumentAccess.h"
 
-@interface NewsTableViewController () {
+@interface NewsTableViewController (){
     NSMutableArray *tableData;
-    NSDictionary *_newsAttributesAndTypes;
-    NSDictionary *_newsAttributesAndNames;
-    NSString *_dbName;
-    NSString *_tableName;
-    NSString *_avatar;
-    NSString *_name;
-    NSString *_description;
-    NSString *_weibo;
-    NSString *_weiboImage;
+    NSArray *images;
+    DBManager *dbManager;
+    NewsModel *newsModel;
 }
 
 @end
 
 @implementation NewsTableViewController
-@synthesize count;
-@synthesize sizeOfRefresh;
-@synthesize dbManager;
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        
-    }
-    return self;
-}
 
 - (void)viewDidLoad {
-    NSLog(@"Rand: %d", arc4random());
-    [self initValues];
-    [self initDB];
-    [self insearItemsToTableData];
-    [self addRefreshViewControl];
-    [self setUpForTableView];
     [super viewDidLoad];
+    [self initValue];
+    [self initDB];
+    [self initTableData];
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
-- (void) didReceiveMemoryWarning
-{
+- (void) initValue{
+    dbManager = [MyWeiboData sharedManager].dbManager;
+    tableData = [NSMutableArray array];
+}
+
+- (void) initDB{
+    [NewsModel creatTableFromSql];
+    [InitialNews insertUserModel];
+    [InitialNews insertNewsModel];
+}
+
+- (void) initTableData{
+    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:0 to:0]];
+}
+
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Init Values
+#pragma mark - Table view data source
 
-- (void) initValues
-{
-    _dbName = @"my_weibo_db";
-    _tableName = @"news";
-    
-    tableData = [[NSMutableArray alloc] init];
-    self.dbManager = [[DBManager alloc] init];
-    self.sizeOfRefresh = 10;
-    self.count = self.sizeOfRefresh;
-    
-    _newsAttributesAndTypes = [NewsModel directoryForAtrributesAndTpyes];
-    _newsAttributesAndNames = [NewsModel directoryForAtrributesAndNames];
-    self.columns = [_newsAttributesAndTypes allKeys];
-    
-    _avatar = [_newsAttributesAndNames objectForKeyedSubscript:@"avatar"];
-    _name = [_newsAttributesAndNames objectForKeyedSubscript:@"name"];
-    _description = [_newsAttributesAndNames objectForKeyedSubscript:@"desc"];
-    _weibo = [_newsAttributesAndNames objectForKeyedSubscript:@"weibo"];
-    _weiboImage = [_newsAttributesAndNames objectForKey:@"weibo_image"];
-    
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//
+//    return 0;
+//}
 
-#pragma mark - Set Up For Table View
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-- (void) setUpForTableView
-{
-    self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
-}
-
-#pragma mark - News Database operation
-
-- (void) initDB {
-    [self.dbManager connectDBName:_dbName];
-    [self.dbManager createTableName:_tableName columns: [NewsModel directoryForAtrributesAndTpyes]];
-    
-    if ([self.dbManager queyCountOfTableName:_tableName] <= 20) {
-        for (int i = 0; i < 20; i++) {
-            NewsModel *news = [NewsModel newsWithRandomValues];
-            [self.dbManager insearItemsTableName:_tableName columns: [news dictionaryWithNewsPairs]];
-        }
-    }
-}
-
-- (void) insearItemsToTableData
-{
-    long to = self.count + self.sizeOfRefresh;
-    NSArray *adding = [self.dbManager queryItemsInTableName:_tableName from: self.count to: to columns:self.columns];
-    
-    [tableData addObjectsFromArray:adding];
-    
-}
-
-#pragma mark - Refresh Controller
-
--(void)addRefreshViewControl
-{
-    self.refreshControl = [[UIRefreshControl alloc]init];
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新"];
-    [self.refreshControl addTarget:self action:@selector(RefreshViewControlEventValueChanged) forControlEvents:UIControlEventValueChanged];
+    return tableData.count;
 }
 
 
--(void)RefreshViewControlEventValueChanged
-{
-    
-    if (self.refreshControl.refreshing) {
-        NSLog(@"refreshing");
-        self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新中"];
-        
-        [self performSelector:@selector(handleData) withObject:nil afterDelay:0.5];
-        
-    }
-}
-
-- (void) handleData
-{
-    NSLog(@"refreshed");
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self insearItemsToTableData];
-        NSLog(@"tableDate:%lu",(unsigned long)tableData.count);
-        NSLog(@"self:%ld",(long)self.count);
-        if (tableData.count > self.count) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新成功"];
-                self.count = tableData.count;
-                [self.tableView reloadData];
-                [self performSelector:@selector(endRefreshingAinamation) withObject:nil afterDelay:0.5];
-            });
-        } else {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"没有更新的新鲜事了"];
-                [self performSelector:@selector(endRefreshingAinamation) withObject:nil afterDelay:0.5];
-            });
-        }
-    });
-}
-
-- (void) endRefreshingAinamation
-{
-    [self.refreshControl endRefreshing];
-    [self performSelector:@selector(changeRefreshingTitle) withObject:nil afterDelay:1];
-}
-
-- (void) changeRefreshingTitle
-{
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新"];
-}
-
-#pragma mark - Table view settings
-
-- (NSInteger) numberOfSectionsInTableView:(UITableView *)tableView
-{
-    return 1;
-}
-
-- (NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return self.count;
-}
-
-- (UITableViewCell *) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"NewsCell";
-    NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewCell"];
     if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"NewsCell" owner:self options:nil] lastObject];
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil] lastObject];
         [cell setAvatarAsRound];
     }
-    
-    long r = (long)indexPath.row;
-    long index = self.count - 1 - r;
-    
-    NSDictionary *d = (NSDictionary *) [tableData objectAtIndex:index];
-    cell.avatar.image = [UIImage imageNamed:[d objectForKey:_avatar]];
-    cell.name.text = [[d objectForKey:_name] stringByAppendingFormat:@"_%ld", index];
-    cell.description.text = [d objectForKey:_description];
-    cell.weibo.text = [d objectForKey:_weibo];
-    //    NSLog(@"Weibo Image: %@", [d objectForKey:_weiboImage]);
-    cell.weiboImage.image = [UIImage imageNamed:[d objectForKey:_weiboImage]];
-    
+    NewsModel *new = tableData[indexPath.row];
+//    UIImage *avatar = [[UIImage alloc]initWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
+//    cell.avatar.image = [UIImage imageWithCGImage:[avatar CGImage] scale:(avatar.scale *0.5) orientation:(avatar.imageOrientation)];
+    cell.avatar.image = [[UIImage alloc]initWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
+    cell.weibo.text = new.news_text;
+    cell.description.text = new.user.desc;
+//    NSLog(@"name:%@",new.user.name);
+    if (new.user.name) {
+        cell.name.text = new.user.name;
+    }else{
+        cell.name.text = new.user.user_ID;
+    }
+//    NSLog(@"cell.images:%lu",(unsigned long)new.images.count);
+    [cell setImages:new.images];
     return cell;
 }
 
-- (CGFloat) tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 10;
-}
 
-- (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CellIdentifier = @"NewsCell";
-    NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    
-    cell = (NewTableViewCell *)[tableView cellForRowAtIndexPath: indexPath];
-    cell.description.text = [cell.description.text stringByAppendingString:@"X"];
+/*
+// Override to support conditional editing of the table view.
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the specified item to be editable.
+    return YES;
 }
+*/
+
+/*
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+*/
+
+/*
+// Override to support rearranging the table view.
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+}
+*/
+
+/*
+// Override to support conditional rearranging of the table view.
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+    // Return NO if you do not want the item to be re-orderable.
+    return YES;
+}
+*/
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
 
 @end

@@ -7,6 +7,7 @@
 
 + (int) randZeroToNum:(int)num;
 + (BOOL) possibilityTenOfNum:(int)num;
-+ (NSString *) stringOfRandomWeibo:(int)length;
++ (NSArray *) randNum:(int)num inZeroToNum:(int)numb;
+//+ (NSString *) stringOfRandomWeibo:(int)length;
 
 @end

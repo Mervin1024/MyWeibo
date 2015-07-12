@@ -8,14 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		C96DB60E1B4E948B00114622 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB60D1B4E948B00114622 /* ViewController.m */; };
-		C96DB6111B4E94A200114622 /* NewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB6101B4E94A200114622 /* NewsTableViewController.m */; };
-		C96DB6131B4E94EA00114622 /* NewsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C96DB6121B4E94EA00114622 /* NewsCell.xib */; };
 		C96DB6151B4E951500114622 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C96DB6141B4E951500114622 /* Main.storyboard */; };
-		C96DB61B1B4E95D300114622 /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB61A1B4E95D300114622 /* DBManager.m */; };
-		C96DB62B1B4E964300114622 /* NSArray+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB6261B4E964300114622 /* NSArray+Assemble.m */; };
-		C96DB62C1B4E964300114622 /* NSString+Format.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB6281B4E964300114622 /* NSString+Format.m */; };
 		C96DB62D1B4E964300114622 /* Random.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB62A1B4E964300114622 /* Random.m */; };
-		C96DB6311B4E96AF00114622 /* NewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB6301B4E96AF00114622 /* NewsModel.m */; };
 		C9D3F3A41B0B459900313035 /* MyWeiboTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F3A31B0B459900313035 /* MyWeiboTests.m */; };
 		C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4231B0B681100313035 /* AppDelegate.m */; };
 		C9D3F4341B0B681100313035 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9D3F4241B0B681100313035 /* LaunchScreen.xib */; };
@@ -29,6 +23,19 @@
 		C9D3F44F1B0B699700313035 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4481B0B699700313035 /* FMDatabaseQueue.m */; };
 		C9D3F4501B0B699700313035 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F44B1B0B699700313035 /* FMResultSet.m */; };
 		C9D3F4541B0B742200313035 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D3F4531B0B742200313035 /* libsqlite3.dylib */; };
+		C9EF2CDC1B52512E0099983A /* NewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9EF2CDB1B52512E0099983A /* NewCell.xib */; };
+		C9EF2D291B52802D0099983A /* NSArray+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D221B52802D0099983A /* NSArray+Assemble.m */; };
+		C9EF2D2A1B52802D0099983A /* NSDictionary+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D241B52802D0099983A /* NSDictionary+Assemble.m */; };
+		C9EF2D2B1B52802D0099983A /* NSString+Format.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D261B52802D0099983A /* NSString+Format.m */; };
+		C9EF2D2C1B52802D0099983A /* NSDate+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D281B52802D0099983A /* NSDate+Assemble.m */; };
+		C9EF2D2F1B5280360099983A /* DBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D2E1B5280360099983A /* DBManager.m */; };
+		C9EF2D321B5281AC0099983A /* MyWeiboData.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D311B5281AC0099983A /* MyWeiboData.m */; };
+		C9EF2D351B5283E50099983A /* DocumentAccess.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D341B5283E50099983A /* DocumentAccess.m */; };
+		C9EF2D381B5289680099983A /* NewsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D371B5289680099983A /* NewsTableViewController.m */; };
+		C9EF2D3B1B528C290099983A /* NewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D3A1B528C290099983A /* NewsModel.m */; };
+		C9EF2D3E1B52A9B00099983A /* ImagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D3D1B52A9B00099983A /* ImagesModel.m */; };
+		C9EF2D411B52B9630099983A /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D401B52B9630099983A /* UserModel.m */; };
+		C9EF2D441B52C9AA0099983A /* InitialNews.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D431B52C9AA0099983A /* InitialNews.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,20 +51,9 @@
 /* Begin PBXFileReference section */
 		C96DB60C1B4E948B00114622 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		C96DB60D1B4E948B00114622 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		C96DB60F1B4E94A200114622 /* NewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsTableViewController.h; sourceTree = "<group>"; };
-		C96DB6101B4E94A200114622 /* NewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsTableViewController.m; sourceTree = "<group>"; };
-		C96DB6121B4E94EA00114622 /* NewsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCell.xib; sourceTree = "<group>"; };
 		C96DB6141B4E951500114622 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
-		C96DB6191B4E95D300114622 /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBManager.h; path = MyWeibo/DBManager.h; sourceTree = "<group>"; };
-		C96DB61A1B4E95D300114622 /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBManager.m; path = MyWeibo/DBManager.m; sourceTree = "<group>"; };
-		C96DB6251B4E964300114622 /* NSArray+Assemble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+Assemble.h"; path = "MyWeibo/NSArray+Assemble.h"; sourceTree = "<group>"; };
-		C96DB6261B4E964300114622 /* NSArray+Assemble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+Assemble.m"; path = "MyWeibo/NSArray+Assemble.m"; sourceTree = "<group>"; };
-		C96DB6271B4E964300114622 /* NSString+Format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Format.h"; path = "MyWeibo/NSString+Format.h"; sourceTree = "<group>"; };
-		C96DB6281B4E964300114622 /* NSString+Format.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Format.m"; path = "MyWeibo/NSString+Format.m"; sourceTree = "<group>"; };
 		C96DB6291B4E964300114622 /* Random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Random.h; path = MyWeibo/Random.h; sourceTree = "<group>"; };
 		C96DB62A1B4E964300114622 /* Random.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Random.m; path = MyWeibo/Random.m; sourceTree = "<group>"; };
-		C96DB62F1B4E96AF00114622 /* NewsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsModel.h; sourceTree = "<group>"; };
-		C96DB6301B4E96AF00114622 /* NewsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsModel.m; sourceTree = "<group>"; };
 		C9D3F3841B0B459900313035 /* MyWeibo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeibo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D3F39D1B0B459900313035 /* MyWeiboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyWeiboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D3F3A21B0B459900313035 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,6 +78,31 @@
 		C9D3F44A1B0B699700313035 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
 		C9D3F44B1B0B699700313035 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
 		C9D3F4531B0B742200313035 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		C9EF2CDB1B52512E0099983A /* NewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewCell.xib; sourceTree = "<group>"; };
+		C9EF2D211B52802D0099983A /* NSArray+Assemble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Assemble.h"; sourceTree = "<group>"; };
+		C9EF2D221B52802D0099983A /* NSArray+Assemble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Assemble.m"; sourceTree = "<group>"; };
+		C9EF2D231B52802D0099983A /* NSDictionary+Assemble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Assemble.h"; sourceTree = "<group>"; };
+		C9EF2D241B52802D0099983A /* NSDictionary+Assemble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Assemble.m"; sourceTree = "<group>"; };
+		C9EF2D251B52802D0099983A /* NSString+Format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Format.h"; sourceTree = "<group>"; };
+		C9EF2D261B52802D0099983A /* NSString+Format.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Format.m"; sourceTree = "<group>"; };
+		C9EF2D271B52802D0099983A /* NSDate+Assemble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Assemble.h"; sourceTree = "<group>"; };
+		C9EF2D281B52802D0099983A /* NSDate+Assemble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Assemble.m"; sourceTree = "<group>"; };
+		C9EF2D2D1B5280360099983A /* DBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DBManager.h; sourceTree = "<group>"; };
+		C9EF2D2E1B5280360099983A /* DBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DBManager.m; sourceTree = "<group>"; };
+		C9EF2D301B5281AC0099983A /* MyWeiboData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyWeiboData.h; sourceTree = "<group>"; };
+		C9EF2D311B5281AC0099983A /* MyWeiboData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyWeiboData.m; sourceTree = "<group>"; };
+		C9EF2D331B5283E50099983A /* DocumentAccess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DocumentAccess.h; path = MyWeibo/DocumentAccess.h; sourceTree = "<group>"; };
+		C9EF2D341B5283E50099983A /* DocumentAccess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DocumentAccess.m; path = MyWeibo/DocumentAccess.m; sourceTree = "<group>"; };
+		C9EF2D361B5289680099983A /* NewsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsTableViewController.h; sourceTree = "<group>"; };
+		C9EF2D371B5289680099983A /* NewsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsTableViewController.m; sourceTree = "<group>"; };
+		C9EF2D391B528C290099983A /* NewsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsModel.h; sourceTree = "<group>"; };
+		C9EF2D3A1B528C290099983A /* NewsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsModel.m; sourceTree = "<group>"; };
+		C9EF2D3C1B52A9B00099983A /* ImagesModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagesModel.h; sourceTree = "<group>"; };
+		C9EF2D3D1B52A9B00099983A /* ImagesModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagesModel.m; sourceTree = "<group>"; };
+		C9EF2D3F1B52B9630099983A /* UserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserModel.h; sourceTree = "<group>"; };
+		C9EF2D401B52B9630099983A /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
+		C9EF2D421B52C9A90099983A /* InitialNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialNews.h; path = MyWeibo/InitialNews.h; sourceTree = "<group>"; };
+		C9EF2D431B52C9AA0099983A /* InitialNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialNews.m; path = MyWeibo/InitialNews.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,14 +127,14 @@
 		C96DB6161B4E955500114622 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				C96DB6251B4E964300114622 /* NSArray+Assemble.h */,
-				C96DB6261B4E964300114622 /* NSArray+Assemble.m */,
-				C96DB6271B4E964300114622 /* NSString+Format.h */,
-				C96DB6281B4E964300114622 /* NSString+Format.m */,
-				C96DB6291B4E964300114622 /* Random.h */,
-				C96DB62A1B4E964300114622 /* Random.m */,
-				C96DB6191B4E95D300114622 /* DBManager.h */,
-				C96DB61A1B4E95D300114622 /* DBManager.m */,
+				C9D3F4401B0B699700313035 /* fmdb */,
+				C9EF2D111B527FB70099983A /* CateGroies */,
+				C9EF2D101B527FAE0099983A /* DateBase */,
+				C9EF2D0F1B527F9F0099983A /* Kits */,
+				C9EF2D301B5281AC0099983A /* MyWeiboData.h */,
+				C9EF2D311B5281AC0099983A /* MyWeiboData.m */,
+				C9EF2D421B52C9A90099983A /* InitialNews.h */,
+				C9EF2D431B52C9AA0099983A /* InitialNews.m */,
 			);
 			name = Utils;
 			path = ..;
@@ -122,8 +143,12 @@
 		C96DB62E1B4E969600114622 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C96DB62F1B4E96AF00114622 /* NewsModel.h */,
-				C96DB6301B4E96AF00114622 /* NewsModel.m */,
+				C9EF2D391B528C290099983A /* NewsModel.h */,
+				C9EF2D3A1B528C290099983A /* NewsModel.m */,
+				C9EF2D3C1B52A9B00099983A /* ImagesModel.h */,
+				C9EF2D3D1B52A9B00099983A /* ImagesModel.m */,
+				C9EF2D3F1B52B9630099983A /* UserModel.h */,
+				C9EF2D401B52B9630099983A /* UserModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -132,7 +157,6 @@
 			isa = PBXGroup;
 			children = (
 				C9D3F4531B0B742200313035 /* libsqlite3.dylib */,
-				C9D3F4401B0B699700313035 /* fmdb */,
 				C9D3F4211B0B681000313035 /* MyWeibo */,
 				C9D3F3A01B0B459900313035 /* MyWeiboTests */,
 				C9D3F3851B0B459900313035 /* Products */,
@@ -168,12 +192,12 @@
 		C9D3F4211B0B681000313035 /* MyWeibo */ = {
 			isa = PBXGroup;
 			children = (
+				C9D3F4221B0B681100313035 /* AppDelegate.h */,
+				C9D3F4231B0B681100313035 /* AppDelegate.m */,
 				C96DB62E1B4E969600114622 /* Model */,
 				C9D3F4521B0B69C100313035 /* Controller */,
 				C9D3F4511B0B69B300313035 /* View */,
 				C96DB6161B4E955500114622 /* Utils */,
-				C9D3F4221B0B681100313035 /* AppDelegate.h */,
-				C9D3F4231B0B681100313035 /* AppDelegate.m */,
 				C9D3F4281B0B681100313035 /* Images.xcassets */,
 				C9D3F43D1B0B68C000313035 /* Supporting Files */,
 			);
@@ -210,8 +234,8 @@
 		C9D3F4511B0B69B300313035 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C9EF2CDB1B52512E0099983A /* NewCell.xib */,
 				C96DB6141B4E951500114622 /* Main.storyboard */,
-				C96DB6121B4E94EA00114622 /* NewsCell.xib */,
 				C9D3F4241B0B681100313035 /* LaunchScreen.xib */,
 				C9D3F42F1B0B681100313035 /* NewTableViewCell.h */,
 				C9D3F4301B0B681100313035 /* NewTableViewCell.m */,
@@ -222,12 +246,47 @@
 		C9D3F4521B0B69C100313035 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				C96DB60F1B4E94A200114622 /* NewsTableViewController.h */,
-				C96DB6101B4E94A200114622 /* NewsTableViewController.m */,
 				C96DB60C1B4E948B00114622 /* ViewController.h */,
 				C96DB60D1B4E948B00114622 /* ViewController.m */,
+				C9EF2D361B5289680099983A /* NewsTableViewController.h */,
+				C9EF2D371B5289680099983A /* NewsTableViewController.m */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		C9EF2D0F1B527F9F0099983A /* Kits */ = {
+			isa = PBXGroup;
+			children = (
+				C96DB6291B4E964300114622 /* Random.h */,
+				C96DB62A1B4E964300114622 /* Random.m */,
+				C9EF2D331B5283E50099983A /* DocumentAccess.h */,
+				C9EF2D341B5283E50099983A /* DocumentAccess.m */,
+			);
+			name = Kits;
+			sourceTree = "<group>";
+		};
+		C9EF2D101B527FAE0099983A /* DateBase */ = {
+			isa = PBXGroup;
+			children = (
+				C9EF2D2D1B5280360099983A /* DBManager.h */,
+				C9EF2D2E1B5280360099983A /* DBManager.m */,
+			);
+			name = DateBase;
+			sourceTree = "<group>";
+		};
+		C9EF2D111B527FB70099983A /* CateGroies */ = {
+			isa = PBXGroup;
+			children = (
+				C9EF2D211B52802D0099983A /* NSArray+Assemble.h */,
+				C9EF2D221B52802D0099983A /* NSArray+Assemble.m */,
+				C9EF2D231B52802D0099983A /* NSDictionary+Assemble.h */,
+				C9EF2D241B52802D0099983A /* NSDictionary+Assemble.m */,
+				C9EF2D251B52802D0099983A /* NSString+Format.h */,
+				C9EF2D261B52802D0099983A /* NSString+Format.m */,
+				C9EF2D271B52802D0099983A /* NSDate+Assemble.h */,
+				C9EF2D281B52802D0099983A /* NSDate+Assemble.m */,
+			);
+			name = CateGroies;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -313,8 +372,8 @@
 				C9D3F4371B0B681100313035 /* Info.plist in Resources */,
 				C96DB6151B4E951500114622 /* Main.storyboard in Resources */,
 				C9D3F4361B0B681100313035 /* Images.xcassets in Resources */,
-				C96DB6131B4E94EA00114622 /* NewsCell.xib in Resources */,
 				C9D3F4341B0B681100313035 /* LaunchScreen.xib in Resources */,
+				C9EF2CDC1B52512E0099983A /* NewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,21 +391,28 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9EF2D3B1B528C290099983A /* NewsModel.m in Sources */,
+				C9EF2D2A1B52802D0099983A /* NSDictionary+Assemble.m in Sources */,
+				C9EF2D411B52B9630099983A /* UserModel.m in Sources */,
+				C9EF2D441B52C9AA0099983A /* InitialNews.m in Sources */,
 				C96DB60E1B4E948B00114622 /* ViewController.m in Sources */,
 				C9D3F43F1B0B68F500313035 /* main.m in Sources */,
+				C9EF2D351B5283E50099983A /* DocumentAccess.m in Sources */,
 				C9D3F43B1B0B681100313035 /* NewTableViewCell.m in Sources */,
 				C9D3F44C1B0B699700313035 /* FMDatabase.m in Sources */,
-				C96DB62B1B4E964300114622 /* NSArray+Assemble.m in Sources */,
+				C9EF2D2C1B52802D0099983A /* NSDate+Assemble.m in Sources */,
 				C9D3F4501B0B699700313035 /* FMResultSet.m in Sources */,
-				C96DB62C1B4E964300114622 /* NSString+Format.m in Sources */,
+				C9EF2D2F1B5280360099983A /* DBManager.m in Sources */,
+				C9EF2D2B1B52802D0099983A /* NSString+Format.m in Sources */,
+				C9EF2D381B5289680099983A /* NewsTableViewController.m in Sources */,
 				C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */,
 				C96DB62D1B4E964300114622 /* Random.m in Sources */,
-				C96DB6111B4E94A200114622 /* NewsTableViewController.m in Sources */,
-				C96DB6311B4E96AF00114622 /* NewsModel.m in Sources */,
-				C96DB61B1B4E95D300114622 /* DBManager.m in Sources */,
 				C9D3F44E1B0B699700313035 /* FMDatabasePool.m in Sources */,
+				C9EF2D321B5281AC0099983A /* MyWeiboData.m in Sources */,
 				C9D3F44D1B0B699700313035 /* FMDatabaseAdditions.m in Sources */,
+				C9EF2D291B52802D0099983A /* NSArray+Assemble.m in Sources */,
 				C9D3F44F1B0B699700313035 /* FMDatabaseQueue.m in Sources */,
+				C9EF2D3E1B52A9B00099983A /* ImagesModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

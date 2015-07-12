@@ -1,15 +1,13 @@
-
-
-
+//
+//  NewsTableViewController.h
+//  MyWeibo
+//
+//  Created by 马遥 on 15/7/12.
+//  Copyright (c) 2015年 NJUPT. All rights reserved.
+//
 
 #import <UIKit/UIKit.h>
-#import "DBManager.h"
 
 @interface NewsTableViewController : UITableViewController
-
-@property (nonatomic) NSInteger count;
-@property (nonatomic) NSInteger sizeOfRefresh;
-@property (nonatomic) DBManager *dbManager;
-@property (nonatomic) NSArray *columns;
 
 @end
