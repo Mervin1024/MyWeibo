@@ -9,9 +9,15 @@
 #import "UIImage+ImageFrame.h"
 
 @implementation UIImage (ImageFrame)
-- (CGSize)sizeOfViewImage:(CGFloat)viewWidth{
+- (CGSize)sizeOfViewImageWithWidth:(CGFloat)viewWidth{
     CGFloat scale = viewWidth / self.size.width;
     CGSize size = CGSizeMake(viewWidth, self.size.height * scale);
+    return size;
+}
+
+- (CGSize)sizeOfViewImageWithHight:(CGFloat)viewHight{
+    CGFloat scale = viewHight / self.size.height;
+    CGSize size = CGSizeMake(self.size.width * scale, viewHight);
     return size;
 }
 @end

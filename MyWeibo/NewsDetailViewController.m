@@ -1,59 +1,31 @@
 //
-//  NewsTableViewController.m
+//  NewsDetailViewController.m
 //  MyWeibo
 //
-//  Created by 马遥 on 15/7/12.
+//  Created by 马遥 on 15/7/14.
 //  Copyright (c) 2015年 NJUPT. All rights reserved.
 //
 
-#import "NewsTableViewController.h"
-#import "NewTableViewCell.h"
-#import "DBManager.h"
-#import "MyWeiboData.h"
-#import "NewsModel.h"
-#import "InitialNews.h"
-#import "DocumentAccess.h"
-#import "UIImage+ImageFrame.h"
-#import "UILabel+StringFrame.h"
 #import "NewsDetailViewController.h"
-#import "CommentCell.h"
+#import "NewTableViewCell.h"
+#import "DocumentAccess.h"
+#import "UILabel+StringFrame.h"
 
-@interface NewsTableViewController (){
-    NSMutableArray *tableData;
-//    NSArray *images;
-    DBManager *dbManager;
-    NewsModel *newsModel;
-}
+@interface NewsDetailViewController ()
 
 @end
 
-@implementation NewsTableViewController
+@implementation NewsDetailViewController
+@synthesize newsModel;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initValue];
-    [self initDB];
-    [self initTableData];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-}
-
-- (void) initValue{
-    dbManager = [MyWeiboData sharedManager].dbManager;
-    tableData = [NSMutableArray array];
-}
-
-- (void) initDB{
-    [NewsModel creatTableFromSql];
-    [InitialNews insertUserModel];
-    [InitialNews insertNewsModel];
-}
-
-- (void) initTableData{
-    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:0 to:0]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,31 +36,34 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    return tableData.count;
+    // Return the number of sections.
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-//    return tableData.count;
-    return 2;
+    if (section == 0) {
+        return 1;
+    }else{
+//        return [super tableView:tableView numberOfRowsInSection:section];
+        return 0;
+    }
+    
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
-        NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewCell"];
+    if (indexPath.section == 0) {
+        NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DetailsCell"];
         if (cell == nil) {
-            cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil] lastObject];
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil]lastObject];
         }
-        NewsModel *new = tableData[indexPath.section];
-        cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
-        cell.weibo.text = new.news_text;
-        cell.description.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
-        if (new.user.name) {
-            cell.name.text = new.user.name;
+        cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.user.avatar]];
+        cell.weibo.text = newsModel.news_text;
+        cell.description.text = newsModel.user.desc;
+        if (newsModel.user.name) {
+            cell.name.text = newsModel.user.name;
         }else{
-            cell.name.text = new.user.user_ID;
+            cell.name.text = newsModel.user.user_ID;
         }
         NSMutableArray *imageViews = [NSMutableArray array];
         for (int i = 0; i < 3; i++) {
@@ -99,50 +74,24 @@
             [cell.contentView addSubview:imageView];
         }
         cell.weiboImages = [NSArray arrayWithArray:imageViews];
-        [cell setImages:new.images];
+        [cell setImages:newsModel.images];
         return cell;
     }else{
-        CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
         if (cell == nil) {
-            cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentCell"];
+            
         }
         return cell;
     }
-    
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return CELL_CONTENT_MARGIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        NewsModel *new = tableData[indexPath.section];
-        
-        return [NewTableViewCell heighForRowWithModel:new];
+    if (indexPath.section == 0) {
+        return [NewTableViewCell heighForRowWithModel:newsModel];
     }else{
-        return 30.0f;
-    }
-}
-
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return @" ";
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        NewsModel *news = tableData[indexPath.section];
-        [self performSegueWithIdentifier:@"ShowDetails" sender:news];
-    }else{
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-    }
-    
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"ShowDetails"]) {
-        NewsDetailViewController *controller = segue.destinationViewController;
-        controller.newsModel = sender;
+//        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+        return 20.0f;
     }
 }
 

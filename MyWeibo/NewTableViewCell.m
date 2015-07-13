@@ -16,11 +16,15 @@
 
 - (void) layoutSubviews{
     [super layoutSubviews];
-//    NSLog(@"sefl.weibo.size:%@",NSStringFromCGSize(self.weibo.bounds.size));
-//    NSLog(@"sefl.content.size:%@",NSStringFromCGSize(self.contentView.bounds.size));
-//    UIImageView *imageView = self.weiboImages[0];
-//    NSLog(@"sefl.image.size:%@",NSStringFromCGSize(imageView.bounds.size));
-//    NSLog(@"sefl.avatar.size:%@",NSStringFromCGSize(self.avatar.bounds.size));
+
+}
+
+- (void) prepareForReuse{
+    [super prepareForReuse];
+    for (UIImageView *view in weiboImages) {
+        view.image = nil;
+    }
+    
 }
 
 - (void) setAvatarAsRound
@@ -29,41 +33,45 @@
     self.avatar.layer.cornerRadius = self.avatar.bounds.size.width/2;
 }
 
-- (void) setImages:(NSArray *)images{
-    if (images.count == 0) {
-        for (int i = 0; i < 3; i++) {
-            UIImageView *imageView = [weiboImages objectAtIndex:i];
+- (void)setImages:(NSArray *) images
+{
+    for (int i = 0; i < weiboImages.count; i++) {
+        if (i < [images count]) {
+            UIImageView * imageView = [weiboImages objectAtIndex:i];
+            imageView.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
+        } else {
+            UIImageView * imageView = [weiboImages objectAtIndex:i];
             imageView.image = nil;
         }
-    }else{
-        for (int i = 0; i < 3; i++) {
-            if (i < images.count) {
-                UIImageView *imageView = [weiboImages objectAtIndex:i];
-                //            imageView.image = [[UIImage alloc]initWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
-                imageView.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
-                
-            }else{
-                UIImageView *imageView = [weiboImages objectAtIndex:i];
-                imageView.image = nil;
-            }
-        }
+        
     }
+}
+
+- (void) setImages:(NSArray *) images withLabelSize:(CGSize)size{
+    for (int i = 0; i < images.count; i++) {
+        CGFloat floatX = CELL_CONTENT_MARGIN * (i+1) + CELL_IMAGE_HIGHT * i;
+        CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+size.height;
+        UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
+        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_IMAGE_HIGHT, CELL_IMAGE_HIGHT)];
+        imageView.image = image;
+        [imageView setTag:3];
+        [self.contentView addSubview:imageView];
+    }
+    
 }
 
 + (CGFloat) heighForRowWithModel:(NewsModel *)newsModel{
     CGFloat imageHeight = 0.0f;
     if (newsModel.images.count > 0) {
-        for (int i = 0; i < newsModel.images.count; i++) {
-            UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.images[i]]];
-            imageHeight = imageHeight + [image sizeOfViewImage:CELL_IMAGE_WIDTH].height;
-        }
+        imageHeight += CELL_IMAGE_HIGHT + CELL_CONTENT_MARGIN;
     }
     UILabel *label = [UILabel new];
-    label.text = newsModel.news_text;
-    label.font = [UIFont systemFontOfSize:FONT_SIZE];
-    CGFloat textHeigh = [label boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
-    // 雾
-    return textHeigh;
+        label.text = newsModel.news_text;
+        label.font = [UIFont systemFontOfSize:FONT_SIZE];
+        CGFloat textHeigh = [label boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
+    
+    CGFloat cellHeight = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT + textHeigh + imageHeight;
+    return cellHeight;
 }
 
 @end

@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImage (ImageFrame)
-- (CGSize)sizeOfViewImage:(CGFloat)viewWidth;
+- (CGSize)sizeOfViewImageWithWidth:(CGFloat)viewWidth;
+- (CGSize)sizeOfViewImageWithHight:(CGFloat)viewHight;
 @end
