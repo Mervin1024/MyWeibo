@@ -36,6 +36,8 @@
 		C9EF2D3E1B52A9B00099983A /* ImagesModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D3D1B52A9B00099983A /* ImagesModel.m */; };
 		C9EF2D411B52B9630099983A /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D401B52B9630099983A /* UserModel.m */; };
 		C9EF2D441B52C9AA0099983A /* InitialNews.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D431B52C9AA0099983A /* InitialNews.m */; };
+		C9EF2D471B53FBE10099983A /* UILabel+StringFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D461B53FBE10099983A /* UILabel+StringFrame.m */; };
+		C9EF2D4A1B53FE460099983A /* UIImage+ImageFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D491B53FE460099983A /* UIImage+ImageFrame.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +105,10 @@
 		C9EF2D401B52B9630099983A /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		C9EF2D421B52C9A90099983A /* InitialNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = InitialNews.h; path = MyWeibo/InitialNews.h; sourceTree = "<group>"; };
 		C9EF2D431B52C9AA0099983A /* InitialNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = InitialNews.m; path = MyWeibo/InitialNews.m; sourceTree = "<group>"; };
+		C9EF2D451B53FBE10099983A /* UILabel+StringFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+StringFrame.h"; sourceTree = "<group>"; };
+		C9EF2D461B53FBE10099983A /* UILabel+StringFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+StringFrame.m"; sourceTree = "<group>"; };
+		C9EF2D481B53FE460099983A /* UIImage+ImageFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageFrame.h"; sourceTree = "<group>"; };
+		C9EF2D491B53FE460099983A /* UIImage+ImageFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageFrame.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,6 +291,10 @@
 				C9EF2D261B52802D0099983A /* NSString+Format.m */,
 				C9EF2D271B52802D0099983A /* NSDate+Assemble.h */,
 				C9EF2D281B52802D0099983A /* NSDate+Assemble.m */,
+				C9EF2D451B53FBE10099983A /* UILabel+StringFrame.h */,
+				C9EF2D461B53FBE10099983A /* UILabel+StringFrame.m */,
+				C9EF2D481B53FE460099983A /* UIImage+ImageFrame.h */,
+				C9EF2D491B53FE460099983A /* UIImage+ImageFrame.m */,
 			);
 			name = CateGroies;
 			sourceTree = "<group>";
@@ -392,6 +402,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9EF2D3B1B528C290099983A /* NewsModel.m in Sources */,
+				C9EF2D4A1B53FE460099983A /* UIImage+ImageFrame.m in Sources */,
+				C9EF2D471B53FBE10099983A /* UILabel+StringFrame.m in Sources */,
 				C9EF2D2A1B52802D0099983A /* NSDictionary+Assemble.m in Sources */,
 				C9EF2D411B52B9630099983A /* UserModel.m in Sources */,
 				C9EF2D441B52C9AA0099983A /* InitialNews.m in Sources */,

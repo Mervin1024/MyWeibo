@@ -13,6 +13,8 @@
 #import "NewsModel.h"
 #import "InitialNews.h"
 #import "DocumentAccess.h"
+#import "UIImage+ImageFrame.h"
+#import "UILabel+StringFrame.h"
 
 @interface NewsTableViewController (){
     NSMutableArray *tableData;
@@ -81,18 +83,27 @@
 //    cell.avatar.image = [UIImage imageWithCGImage:[avatar CGImage] scale:(avatar.scale *0.5) orientation:(avatar.imageOrientation)];
     cell.avatar.image = [[UIImage alloc]initWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
     cell.weibo.text = new.news_text;
-    cell.description.text = new.user.desc;
+//    cell.description.text = new.user.desc;
+    cell.description.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)indexPath.row]];
 //    NSLog(@"name:%@",new.user.name);
     if (new.user.name) {
         cell.name.text = new.user.name;
     }else{
         cell.name.text = new.user.user_ID;
     }
-//    NSLog(@"cell.images:%lu",(unsigned long)new.images.count);
+    NSLog(@"%ld.cell.images:%lu",(long)indexPath.row,(unsigned long)new.images.count);
     [cell setImages:new.images];
+//    [cell.weibo.layer setBorderWidth:2.0f];
+//    NSLog(@"text hight %f",[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height);
+//    NSLog(@"cell size %@",NSStringFromCGSize(cell.contentView.bounds.size));
     return cell;
 }
 
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NewsModel *new = tableData[indexPath.row];
+//    NSString *text = new.news_text;
+//    CGSize constraint = CGSizeMake(CELL_CONTENT_WIDTH - (CELL_CONTENT_MARGIN * 2), CELL_CONTENT_MARGIN);
+//}
 
 /*
 // Override to support conditional editing of the table view.

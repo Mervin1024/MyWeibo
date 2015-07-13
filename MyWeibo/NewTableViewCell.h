@@ -1,6 +1,13 @@
 
 
 #import <UIKit/UIKit.h>
+#import "NewsModel.h"
+
+#define CELL_CONTENT_WIDTH 375.0f
+#define CELL_CONTENT_MARGIN 13.0f
+#define CELL_TEXT_WIDTH 349.0f
+#define FONT_SIZE 17.0f
+#define CELL_IMAGE_WIDTH 105.0f
 
 @interface NewTableViewCell : UITableViewCell
 
@@ -14,4 +21,5 @@
 
 - (void) setAvatarAsRound;
 - (void) setImages:(NSArray *) images;
++ (CGFloat) heighForRowWithModel:(NewsModel *)newsModel;
 @end

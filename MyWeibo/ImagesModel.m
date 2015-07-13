@@ -50,7 +50,7 @@
 }
 
 + (NSArray *) arrayAllBySelectedWhere:(NSDictionary *)condition{
-    NSArray *arr = [[MyWeiboData sharedManager].dbManager arrayBySelect:[ImagesModel arrayOfProperties] fromTable:imagesTable where:condition orderBy:nil from:0 to:0];
+//    NSArray *arr = [[MyWeiboData sharedManager].dbManager arrayBySelect:[ImagesModel arrayOfProperties] fromTable:imagesTable where:condition orderBy:nil from:0 to:0];
 //    NSLog(@"allImageCount:%lu",(unsigned long)arr.count);
     return [[MyWeiboData sharedManager].dbManager arrayBySelect:[ImagesModel arrayOfProperties] fromTable:imagesTable where:condition orderBy:nil from:0 to:0];
 }

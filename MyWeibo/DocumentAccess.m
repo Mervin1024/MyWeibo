@@ -20,7 +20,7 @@
 }
 
 + (void) saveImage:(UIImage *)image withImageName:(NSString *)imageName{
-    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     NSString *imageFilePath = [DocumentAccess stringOfFilePathForName:imageName];
 //    NSLog(@"imageFilePath:%@",imageFilePath);
     [imageData writeToFile:imageFilePath atomically:YES];
