@@ -20,7 +20,7 @@
 
 @interface NewsTableViewController (){
     NSMutableArray *tableData;
-//    NSArray *images;
+    NSInteger sizeOfRefresh;
     DBManager *dbManager;
     NewsModel *newsModel;
 }
@@ -28,12 +28,13 @@
 @end
 
 @implementation NewsTableViewController
-
+@synthesize count;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initValue];
     [self initDB];
-    [self initTableData];
+    [self setTableData];
+    [self setRefreshControl];
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -44,6 +45,8 @@
 - (void) initValue{
     dbManager = [MyWeiboData sharedManager].dbManager;
     tableData = [NSMutableArray array];
+    sizeOfRefresh = 10;
+    self.count = 0;
 }
 
 - (void) initDB{
@@ -52,8 +55,52 @@
     [InitialNews insertNewsModel];
 }
 
-- (void) initTableData{
-    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:0 to:0]];
+- (void) setTableData{
+    self.count = tableData.count;
+//    NSLog(@"count1:%ld,count2:%ld",(long)self.count,self.count+sizeOfRefresh);
+    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:self.count to:self.count+sizeOfRefresh]];
+    
+//    NSLog(@"count3:%ld",tableData.count);
+}
+
+- (void) setRefreshControl{
+    self.refreshControl = [[UIRefreshControl alloc]init];
+    [self changeRefreshingTitle];
+    [self.refreshControl addTarget:self action:@selector(refreshControlWillRefreshing) forControlEvents:UIControlEventValueChanged];
+}
+
+- (void) refreshControlWillRefreshing{
+    if (self.refreshControl.refreshing) {
+        self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新中..."];
+        [self performSelector:@selector(refreshControlDidRefreshing) withObject:nil afterDelay:0.5];
+    }
+}
+
+- (void) refreshControlDidRefreshing{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self setTableData];
+        if (tableData.count > self.count) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新成功"];
+                [self.tableView reloadData];
+                [self performSelector:@selector(didFinishRefreshing) withObject:nil afterDelay:0.5];
+            });
+        }else{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"已经是最新了"];
+                [self performSelector:@selector(didFinishRefreshing) withObject:nil afterDelay:0.5];
+            });
+        }
+    });
+}
+
+- (void) didFinishRefreshing{
+    [self.refreshControl endRefreshing];
+    [self performSelector:@selector(changeRefreshingTitle) withObject:nil afterDelay:1];
+}
+
+- (void) changeRefreshingTitle{
+    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,28 +110,31 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-
-    return tableData.count;
-}
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+////    NSLog(@"section:%ld",tableData.count);
+//    return tableData.count;
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
 //    return tableData.count;
-    return 2;
+    return tableData.count*3;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row == 0) {
+    if (indexPath.row %3 == 1) {
         NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewCell"];
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil] lastObject];
         }
-        NewsModel *new = tableData[indexPath.section];
+        long index = tableData.count -1- indexPath.row/3;
+//         NSLog(@"indexPath.section:%ld  index:%ld",indexPath.section,index);
+        NewsModel *new = tableData[index];
+        
         cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
         cell.weibo.text = new.news_text;
-        cell.description.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)indexPath.section]];
+        cell.description.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)index]];
         if (new.user.name) {
             cell.name.text = new.user.name;
         }else{
@@ -101,38 +151,57 @@
         cell.weiboImages = [NSArray arrayWithArray:imageViews];
         [cell setImages:new.images];
         return cell;
-    }else{
+    }else if (indexPath.row %3 == 2){
         CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
         }
+        
+        return cell;
+    }else{
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"grey"];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"grey"];
+        }
+        cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return CELL_CONTENT_MARGIN;
+//    if (section == 0) {
+//        return 0;
+//    }else{
+        return 0;
+//    }
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        NewsModel *new = tableData[indexPath.section];
+    if (indexPath.row %3 == 1) {
+        long index = tableData.count -1- indexPath.row/3;
+        NewsModel *new = tableData[index];
         
-        return [NewTableViewCell heighForRowWithModel:new];
-    }else{
+        return [NewTableViewCell heighForRowWithStyle:NewsStyleOfList model:new];
+    }else if (indexPath.row %3 == 2){
         return 30.0f;
+    }else{
+        return CELL_CONTENT_MARGIN;
     }
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return @" ";
-}
+//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
+//    return @" ";
+//}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        NewsModel *news = tableData[indexPath.section];
+    if (indexPath.row %3== 1) {
+        long index = tableData.count -1- indexPath.row/3;
+        NewsModel *news = tableData[index];
         [self performSegueWithIdentifier:@"ShowDetails" sender:news];
+        
     }else{
         [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }

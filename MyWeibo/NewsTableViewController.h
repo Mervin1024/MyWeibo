@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface NewsTableViewController : UITableViewController
-
+@property (assign, nonatomic)NSInteger count;
 @end

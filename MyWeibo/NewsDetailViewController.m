@@ -35,28 +35,10 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 2;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section == 0) {
-        return 1;
-    }else{
-//        return [super tableView:tableView numberOfRowsInSection:section];
-        return 0;
-    }
-    
-}
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0) {
-        NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DetailsCell"];
-        if (cell == nil) {
-            cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil]lastObject];
-        }
+    if (indexPath.row == 0) {
+        NewTableViewCell *cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil]lastObject];
         cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.user.avatar]];
         cell.weibo.text = newsModel.news_text;
         cell.description.text = newsModel.user.desc;
@@ -66,32 +48,45 @@
             cell.name.text = newsModel.user.user_ID;
         }
         NSMutableArray *imageViews = [NSMutableArray array];
+        CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
+        CGFloat floatX = CELL_CONTENT_MARGIN;
+        CGFloat imageH = CELL_IMAGE_HIGHT;
         for (int i = 0; i < 3; i++) {
-            CGFloat floatX = CELL_CONTENT_MARGIN * (i+1) + CELL_IMAGE_HIGHT * i;
-            CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_IMAGE_HIGHT, CELL_IMAGE_HIGHT)];
+            if (i < newsModel.images.count) {
+                UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.images[i]]];
+                imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH;
+            }
+            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH, imageH)];
             [imageViews addObject:imageView];
             [cell.contentView addSubview:imageView];
+            floatY +=imageH+CELL_CONTENT_MARGIN;
         }
         cell.weiboImages = [NSArray arrayWithArray:imageViews];
         [cell setImages:newsModel.images];
         return cell;
+    }else if (indexPath.row == 1){
+        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"grey"];
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
     }else{
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentCell"];
-            
-        }
+        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentCell"];
+//        cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
         return cell;
     }
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+        return CELL_CONTENT_MARGIN;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 0) {
-        return [NewTableViewCell heighForRowWithModel:newsModel];
+    if (indexPath.row == 0) {
+        return [NewTableViewCell heighForRowWithStyle:NewsStyleOfDetail model:newsModel];
+    }else if (indexPath.row == 1){
+        return 13.0f;
     }else{
-//        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
-        return 20.0f;
+        return 44.0f;
     }
 }
 

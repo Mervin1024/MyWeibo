@@ -10,7 +10,14 @@
 #define FONT_SIZE 15.0f
 #define CELL_IMAGE_HIGHT 100.0f
 
-@interface NewTableViewCell : UITableViewCell
+typedef enum {
+    NewsStyleOfDetail,
+    NewsStyleOfList
+}NewsStyle;
+
+@interface NewTableViewCell : UITableViewCell{
+}
+
 
 @property (weak, nonatomic) IBOutlet UIImageView *avatar;
 @property (weak, nonatomic) IBOutlet UILabel *name;
@@ -20,5 +27,5 @@
 - (void) setAvatarAsRound;
 - (void) setImages:(NSArray *) images;
 - (void) setImages:(NSArray *) images withLabelSize:(CGSize)size;
-+ (CGFloat) heighForRowWithModel:(NewsModel *)newsModel;
++ (CGFloat) heighForRowWithStyle:(NewsStyle)newsStyle model:(NewsModel *)newsModel;
 @end

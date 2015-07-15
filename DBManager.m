@@ -67,12 +67,13 @@
     }
     long _to = 100000;
     long _from = 0;
-    if (from > 0) {
+    if (from >= 0) {
          _from = from;
         if (to > from) {
             _to = to;
         }
     }
+//    NSLog(@"_from:%ld,_to:%ld",_from,_to);
     [dBQueue inDatabase:^(FMDatabase *db){
         FMResultSet *rs = [db executeQuery:sql];
         for (int first = 0; [rs next] && first < _to; first++) {

@@ -6,7 +6,9 @@
 #import "UIImage+ImageFrame.h"
 #import "UILabel+StringFrame.h"
 
-@implementation NewTableViewCell
+@implementation NewTableViewCell{
+    
+}
 
 @synthesize avatar;
 @synthesize name;
@@ -60,18 +62,35 @@
     
 }
 
-+ (CGFloat) heighForRowWithModel:(NewsModel *)newsModel{
-    CGFloat imageHeight = 0.0f;
-    if (newsModel.images.count > 0) {
-        imageHeight += CELL_IMAGE_HIGHT + CELL_CONTENT_MARGIN;
-    }
-    UILabel *label = [UILabel new];
++ (CGFloat) heighForRowWithStyle:(NewsStyle)newsStyle model:(NewsModel *)newsModel{
+    if (newsStyle == NewsStyleOfList) {
+        CGFloat imageHeight = 0.0f;
+        if (newsModel.images.count > 0) {
+            imageHeight += CELL_IMAGE_HIGHT + CELL_CONTENT_MARGIN;
+        }
+        UILabel *label = [UILabel new];
         label.text = newsModel.news_text;
         label.font = [UIFont systemFontOfSize:FONT_SIZE];
         CGFloat textHeigh = [label boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
-    
-    CGFloat cellHeight = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT + textHeigh + imageHeight;
-    return cellHeight;
+        
+        CGFloat cellHeight = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT + textHeigh + imageHeight;
+        return cellHeight;
+    }else if (newsStyle == NewsStyleOfDetail){
+        CGFloat imageHeight = 0.0f;
+        for (int i = 0; i < newsModel.images.count; i++) {
+            UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.images[i]]];
+            CGFloat imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH;
+            imageHeight += CELL_CONTENT_MARGIN+imageH;
+        }
+        UILabel *label = [UILabel new];
+        label.text = newsModel.news_text;
+        label.font = [UIFont systemFontOfSize:FONT_SIZE];
+        CGFloat textHeigh = [label boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
+        CGFloat cellHeight = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT + textHeigh + imageHeight;
+        return cellHeight;
+    }else{
+        return 44.0f;
+    }
 }
 
 @end

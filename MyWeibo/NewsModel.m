@@ -88,7 +88,7 @@
 }
 
 + (NSArray *) arrayBySelectedWhere:(NSDictionary *)condition from:(long)from to:(long)to{
-    NSArray *news = [[MyWeiboData sharedManager].dbManager arrayBySelect:[NewsModel arrayOfProperties] fromTable:newsTable where:nil orderBy:nil from:0 to:0];
+    NSArray *news = [[MyWeiboData sharedManager].dbManager arrayBySelect:[NewsModel arrayOfProperties] fromTable:newsTable where:condition orderBy:nil from:from to:to];
     NSMutableArray *data = [NSMutableArray array];
     for (NSDictionary *new in news) {
         [data addObject:[[NewsModel alloc]initWithDictionary:new]];
