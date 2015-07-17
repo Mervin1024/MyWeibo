@@ -29,17 +29,13 @@
 
 @implementation NewsTableViewController
 @synthesize count;
+@synthesize aRefreshController;
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initValue];
     [self initDB];
     [self setTableData];
     [self setRefreshControl];
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void) initValue{
@@ -64,14 +60,16 @@
 }
 
 - (void) setRefreshControl{
-    self.refreshControl = [[UIRefreshControl alloc]init];
+//    self.refreshControl = [[UIRefreshControl alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 10)];
+    aRefreshController = [[UIRefreshControl alloc]init];
     [self changeRefreshingTitle];
-    [self.refreshControl addTarget:self action:@selector(refreshControlWillRefreshing) forControlEvents:UIControlEventValueChanged];
+    [aRefreshController addTarget:self action:@selector(refreshControlWillRefreshing) forControlEvents:UIControlEventValueChanged];
+    [self.tableView addSubview:aRefreshController];
 }
 
 - (void) refreshControlWillRefreshing{
-    if (self.refreshControl.refreshing) {
-        self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新中..."];
+    if (aRefreshController.refreshing) {
+        aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新中..."];
         [self performSelector:@selector(refreshControlDidRefreshing) withObject:nil afterDelay:0.5];
     }
 }
@@ -81,13 +79,13 @@
         [self setTableData];
         if (tableData.count > self.count) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新成功"];
+                aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新成功"];
                 [self.tableView reloadData];
                 [self performSelector:@selector(didFinishRefreshing) withObject:nil afterDelay:0.5];
             });
         }else{
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"已经是最新了"];
+                aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"已经是最新了"];
                 [self performSelector:@selector(didFinishRefreshing) withObject:nil afterDelay:0.5];
             });
         }
@@ -95,12 +93,12 @@
 }
 
 - (void) didFinishRefreshing{
-    [self.refreshControl endRefreshing];
+    [aRefreshController endRefreshing];
     [self performSelector:@selector(changeRefreshingTitle) withObject:nil afterDelay:1];
 }
 
 - (void) changeRefreshingTitle{
-    self.refreshControl.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新"];
+    aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -145,18 +143,20 @@
             CGFloat floatX = CELL_CONTENT_MARGIN * (i+1) + CELL_IMAGE_HIGHT * i;
             CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
             UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_IMAGE_HIGHT, CELL_IMAGE_HIGHT)];
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.clipsToBounds = self;
             [imageViews addObject:imageView];
             [cell.contentView addSubview:imageView];
         }
         cell.weiboImages = [NSArray arrayWithArray:imageViews];
-        [cell setImages:new.images];
+        [cell setImages:new.images withStyle:NewsStyleOfList];
         return cell;
     }else if (indexPath.row %3 == 2){
         CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
         }
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else{
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"grey"];
@@ -201,10 +201,10 @@
         long index = tableData.count -1- indexPath.row/3;
         NewsModel *news = tableData[index];
         [self performSegueWithIdentifier:@"ShowDetails" sender:news];
-        
-    }else{
-        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
+//    }else{
+//        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    }
     
 }
 

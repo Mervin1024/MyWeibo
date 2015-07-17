@@ -35,31 +35,19 @@
     self.avatar.layer.cornerRadius = self.avatar.bounds.size.width/2;
 }
 
-- (void)setImages:(NSArray *) images
+- (void)setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle
 {
     for (int i = 0; i < weiboImages.count; i++) {
         if (i < [images count]) {
-            UIImageView * imageView = [weiboImages objectAtIndex:i];
+            UIImageView *imageView = [weiboImages objectAtIndex:i];
             imageView.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
+            
         } else {
             UIImageView * imageView = [weiboImages objectAtIndex:i];
             imageView.image = nil;
         }
         
     }
-}
-
-- (void) setImages:(NSArray *) images withLabelSize:(CGSize)size{
-    for (int i = 0; i < images.count; i++) {
-        CGFloat floatX = CELL_CONTENT_MARGIN * (i+1) + CELL_IMAGE_HIGHT * i;
-        CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+size.height;
-        UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
-        UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_IMAGE_HIGHT, CELL_IMAGE_HIGHT)];
-        imageView.image = image;
-        [imageView setTag:3];
-        [self.contentView addSubview:imageView];
-    }
-    
 }
 
 + (CGFloat) heighForRowWithStyle:(NewsStyle)newsStyle model:(NewsModel *)newsModel{
@@ -79,7 +67,7 @@
         CGFloat imageHeight = 0.0f;
         for (int i = 0; i < newsModel.images.count; i++) {
             UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.images[i]]];
-            CGFloat imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH;
+            CGFloat imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH/2;
             imageHeight += CELL_CONTENT_MARGIN+imageH;
         }
         UILabel *label = [UILabel new];

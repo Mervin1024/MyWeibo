@@ -10,8 +10,15 @@
 #import "NewTableViewCell.h"
 #import "DocumentAccess.h"
 #import "UILabel+StringFrame.h"
+#import "imageScrollView.h"
 
-@interface NewsDetailViewController ()
+@interface NewsDetailViewController ()<ImageScrollViewDelegate,UIScrollViewDelegate>{
+    UIView *blankView;
+    UIView *markView;
+    UIScrollView *myScrollView;
+    
+    imageScrollView *lastImageScrollView;
+}
 
 @end
 
@@ -21,16 +28,35 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self setView];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setView{
+    blankView = [[UIView alloc]initWithFrame:self.view.frame];
+    blankView.backgroundColor = [UIColor clearColor];
+    blankView.alpha = 0;
+    [self.view addSubview:blankView];
+    
+    markView = [[UIView alloc]initWithFrame:blankView.frame];
+    markView.backgroundColor = [UIColor blackColor];
+    markView.alpha = 0;
+    [blankView addSubview:markView];
+    
+    myScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+    [blankView addSubview:myScrollView];
+    myScrollView.pagingEnabled = YES;
+    myScrollView.delegate = self;
+    CGSize contentSize = myScrollView.contentSize;
+    contentSize.height = self.view.bounds.size.height;
+    contentSize.width = self.view.bounds.size.width*3;
+    myScrollView.contentSize = contentSize;
+    
+    
 }
 
 #pragma mark - Table view data source
@@ -50,19 +76,23 @@
         NSMutableArray *imageViews = [NSMutableArray array];
         CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
         CGFloat floatX = CELL_CONTENT_MARGIN;
-        CGFloat imageH = CELL_IMAGE_HIGHT;
+        CGFloat imageH = 0;
         for (int i = 0; i < 3; i++) {
             if (i < newsModel.images.count) {
                 UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.images[i]]];
-                imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH;
+                imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH/2;
             }
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH, imageH)];
+            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH/2, imageH)];
+            imageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapped:)];
+            [imageView addGestureRecognizer:tap];
             [imageViews addObject:imageView];
             [cell.contentView addSubview:imageView];
             floatY +=imageH+CELL_CONTENT_MARGIN;
         }
         cell.weiboImages = [NSArray arrayWithArray:imageViews];
-        [cell setImages:newsModel.images];
+        [cell setImages:newsModel.images withStyle:NewsStyleOfDetail];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else if (indexPath.row == 1){
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"grey"];
@@ -72,8 +102,26 @@
     }else{
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentCell"];
 //        cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
+}
+
+- (void)tapped:(UIGestureRecognizer *)gestureRecognizer{
+//    NSLog(@"there");
+    if ([self respondsToSelector:@selector(tappedWithObject:)]) {
+        [self tappedWithObject:gestureRecognizer.view];
+    }
+}
+
+- (void) tappedWithObject:(id)sender{
+    UIImageView *image = sender;
+    NSLog(@"%@",NSStringFromCGRect(image.frame));
+    
+}
+
+- (void) tapImageViewTappedWithObject:(id)sender{
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -90,48 +138,9 @@
     }
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+//}
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

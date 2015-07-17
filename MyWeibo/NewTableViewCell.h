@@ -25,7 +25,7 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UILabel *weibo;
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *weiboImages;
 - (void) setAvatarAsRound;
-- (void) setImages:(NSArray *) images;
-- (void) setImages:(NSArray *) images withLabelSize:(CGSize)size;
+- (void) setImages:(NSArray *) images withStyle:(NewsStyle)newsStyle;
+//- (void) setImages:(NSArray *) images withLabelSize:(CGSize)size;
 + (CGFloat) heighForRowWithStyle:(NewsStyle)newsStyle model:(NewsModel *)newsModel;
 @end

@@ -13,7 +13,6 @@
 		C9D3F3A41B0B459900313035 /* MyWeiboTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F3A31B0B459900313035 /* MyWeiboTests.m */; };
 		C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4231B0B681100313035 /* AppDelegate.m */; };
 		C9D3F4361B0B681100313035 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C9D3F4281B0B681100313035 /* Images.xcassets */; };
-		C9D3F4371B0B681100313035 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9D3F4291B0B681100313035 /* Info.plist */; };
 		C9D3F43B1B0B681100313035 /* NewTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4301B0B681100313035 /* NewTableViewCell.m */; };
 		C9D3F43F1B0B68F500313035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F43E1B0B68F500313035 /* main.m */; };
 		C9D3F44C1B0B699700313035 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4421B0B699700313035 /* FMDatabase.m */; };
@@ -41,6 +40,8 @@
 		C9EF2D521B5434A50099983A /* NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D511B5434A50099983A /* NewsDetailViewController.m */; };
 		C9EF2D561B5442360099983A /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D541B5442360099983A /* CommentCell.m */; };
 		C9EF2D571B5442360099983A /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9EF2D551B5442360099983A /* CommentCell.xib */; };
+		C9F2E55C1B5991AF006DE9C1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9D3F3A21B0B459900313035 /* Info.plist */; };
+		C9F2E55F1B59AB98006DE9C1 /* imageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F2E55E1B59AB98006DE9C1 /* imageScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -117,6 +118,8 @@
 		C9EF2D531B5442360099983A /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		C9EF2D541B5442360099983A /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		C9EF2D551B5442360099983A /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
+		C9F2E55D1B59AB98006DE9C1 /* imageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageScrollView.h; sourceTree = "<group>"; };
+		C9F2E55E1B59AB98006DE9C1 /* imageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +259,8 @@
 				C9D3F4301B0B681100313035 /* NewTableViewCell.m */,
 				C9EF2D531B5442360099983A /* CommentCell.h */,
 				C9EF2D541B5442360099983A /* CommentCell.m */,
+				C9F2E55D1B59AB98006DE9C1 /* imageScrollView.h */,
+				C9F2E55E1B59AB98006DE9C1 /* imageScrollView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -392,8 +397,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9F2E55C1B5991AF006DE9C1 /* Info.plist in Resources */,
 				C9EF2D4D1B541CB10099983A /* LaunchScreen.xib in Resources */,
-				C9D3F4371B0B681100313035 /* Info.plist in Resources */,
 				C96DB6151B4E951500114622 /* Main.storyboard in Resources */,
 				C9EF2D571B5442360099983A /* CommentCell.xib in Resources */,
 				C9D3F4361B0B681100313035 /* Images.xcassets in Resources */,
@@ -434,6 +439,7 @@
 				C9EF2D381B5289680099983A /* NewsTableViewController.m in Sources */,
 				C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */,
 				C96DB62D1B4E964300114622 /* Random.m in Sources */,
+				C9F2E55F1B59AB98006DE9C1 /* imageScrollView.m in Sources */,
 				C9D3F44E1B0B699700313035 /* FMDatabasePool.m in Sources */,
 				C9EF2D321B5281AC0099983A /* MyWeiboData.m in Sources */,
 				C9D3F44D1B0B699700313035 /* FMDatabaseAdditions.m in Sources */,
