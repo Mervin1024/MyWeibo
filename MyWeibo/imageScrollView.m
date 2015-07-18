@@ -6,9 +6,9 @@
 //  Copyright (c) 2015年 NJUPT. All rights reserved.
 //
 
-#import "imageScrollView.h"
+#import "ImageScrollView.h"
 
-@interface imageScrollView()<UIScrollViewDelegate>
+@interface ImageScrollView()<UIScrollViewDelegate>
 {
     UIImageView *imageView;
     
@@ -21,9 +21,9 @@
 
 @end
 
-@implementation imageScrollView
+@implementation ImageScrollView
 
-- (imageScrollView *)initWithFrame:(CGRect)frame{
+- (ImageScrollView *)initWithFrame:(CGRect)frame{
     if ((self = [super initWithFrame:frame])) {
         self.showsHorizontalScrollIndicator = NO;
         self.showsVerticalScrollIndicator = NO;
@@ -41,20 +41,25 @@
 }
 
 - (void)setContentWithFrame:(CGRect)rect{
+    NSLog(@"setContentWithFrame");
     imageView.frame = rect;
     initRect = rect;
 }
 
 - (void)setAnimationRect{
+    NSLog(@"setAnimationRect");
+    NSLog(@"%@",NSStringFromCGRect(scaleOriginRect));
     imageView.frame = scaleOriginRect;
 }
 
 - (void)rechangeInitRdct{
+    NSLog(@"rechangeInitRdct");
     self.zoomScale = 1.0;
     imageView.frame = initRect;
 }
 
 - (void)setImage:(UIImage *)image{
+    NSLog(@"setImage");
     imageView.image = image;
     imgSize = image.size;
     
@@ -62,10 +67,12 @@
     float scaleY = self.frame.size.height/imgSize.height;
     
     if (scaleX > scaleY) {
+//        NSLog(@"a");
         float imageW = imgSize.width*scaleY;
         self.minimumZoomScale = self.frame.size.width/imageW;
         scaleOriginRect = CGRectMake(self.frame.size.width/2-imageW/2, 0, imageW, self.frame.size.height);
     }else{
+        NSLog(@"%@",NSStringFromCGSize(imgSize));
         float imageH = imgSize.height*scaleX;
         self.maximumZoomScale = self.frame.size.height/imageH;
         scaleOriginRect = CGRectMake(0, self.frame.size.height/2-imageH/2, self.frame.size.width, imageH);

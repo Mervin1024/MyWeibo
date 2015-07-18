@@ -15,7 +15,7 @@
 
 @end
 
-@interface imageScrollView : UIScrollView
+@interface ImageScrollView : UIScrollView
 
 - (void) setContentWithFrame:(CGRect) rect;
 - (void) setImage:(UIImage *) image;

@@ -41,7 +41,7 @@
 		C9EF2D561B5442360099983A /* CommentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EF2D541B5442360099983A /* CommentCell.m */; };
 		C9EF2D571B5442360099983A /* CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9EF2D551B5442360099983A /* CommentCell.xib */; };
 		C9F2E55C1B5991AF006DE9C1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9D3F3A21B0B459900313035 /* Info.plist */; };
-		C9F2E55F1B59AB98006DE9C1 /* imageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F2E55E1B59AB98006DE9C1 /* imageScrollView.m */; };
+		C9F2E55F1B59AB98006DE9C1 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C9F2E55E1B59AB98006DE9C1 /* ImageScrollView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -118,8 +118,8 @@
 		C9EF2D531B5442360099983A /* CommentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCell.h; sourceTree = "<group>"; };
 		C9EF2D541B5442360099983A /* CommentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCell.m; sourceTree = "<group>"; };
 		C9EF2D551B5442360099983A /* CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentCell.xib; sourceTree = "<group>"; };
-		C9F2E55D1B59AB98006DE9C1 /* imageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = imageScrollView.h; sourceTree = "<group>"; };
-		C9F2E55E1B59AB98006DE9C1 /* imageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = imageScrollView.m; sourceTree = "<group>"; };
+		C9F2E55D1B59AB98006DE9C1 /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
+		C9F2E55E1B59AB98006DE9C1 /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -259,8 +259,8 @@
 				C9D3F4301B0B681100313035 /* NewTableViewCell.m */,
 				C9EF2D531B5442360099983A /* CommentCell.h */,
 				C9EF2D541B5442360099983A /* CommentCell.m */,
-				C9F2E55D1B59AB98006DE9C1 /* imageScrollView.h */,
-				C9F2E55E1B59AB98006DE9C1 /* imageScrollView.m */,
+				C9F2E55D1B59AB98006DE9C1 /* ImageScrollView.h */,
+				C9F2E55E1B59AB98006DE9C1 /* ImageScrollView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -439,7 +439,7 @@
 				C9EF2D381B5289680099983A /* NewsTableViewController.m in Sources */,
 				C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */,
 				C96DB62D1B4E964300114622 /* Random.m in Sources */,
-				C9F2E55F1B59AB98006DE9C1 /* imageScrollView.m in Sources */,
+				C9F2E55F1B59AB98006DE9C1 /* ImageScrollView.m in Sources */,
 				C9D3F44E1B0B699700313035 /* FMDatabasePool.m in Sources */,
 				C9EF2D321B5281AC0099983A /* MyWeiboData.m in Sources */,
 				C9D3F44D1B0B699700313035 /* FMDatabaseAdditions.m in Sources */,

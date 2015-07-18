@@ -10,14 +10,14 @@
 #import "NewTableViewCell.h"
 #import "DocumentAccess.h"
 #import "UILabel+StringFrame.h"
-#import "imageScrollView.h"
+#import "ImageScrollView.h"
 
 @interface NewsDetailViewController ()<ImageScrollViewDelegate,UIScrollViewDelegate>{
     UIView *blankView;
     UIView *markView;
     UIScrollView *myScrollView;
-    
-    imageScrollView *lastImageScrollView;
+    NSInteger index;
+    ImageScrollView *lastImageScrollView;
 }
 
 @end
@@ -27,7 +27,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setView];
 }
 
@@ -85,6 +84,8 @@
             UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH/2, imageH)];
             imageView.userInteractionEnabled = YES;
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapped:)];
+            imageView.tag = i+1;
+//            NSLog(@"%ld",(long)imageView.tag);
             [imageView addGestureRecognizer:tap];
             [imageViews addObject:imageView];
             [cell.contentView addSubview:imageView];
@@ -108,20 +109,78 @@
 }
 
 - (void)tapped:(UIGestureRecognizer *)gestureRecognizer{
-//    NSLog(@"there");
+    NSLog(@"tapped");
     if ([self respondsToSelector:@selector(tappedWithObject:)]) {
         [self tappedWithObject:gestureRecognizer.view];
+       index = gestureRecognizer.view.tag;
     }
 }
 
 - (void) tappedWithObject:(id)sender{
-    UIImageView *image = sender;
-    NSLog(@"%@",NSStringFromCGRect(image.frame));
-    
+    NSLog(@"tappedWithObject");
+    [self.view bringSubviewToFront:blankView];
+    blankView.alpha = 1;
+    UIImageView *imageView = sender;
+    CGRect convertRext = [[imageView superview] convertRect:imageView.frame toView:self.view];
+    CGPoint contentOffset = myScrollView.contentOffset;
+    contentOffset.x = index*self.view.bounds.size.width;
+    myScrollView.contentOffset = contentOffset;
+
+    [self addSubImageView:(UIImageView *)imageView];
+    NSLog(@"1");
+    ImageScrollView *tmpImgScrollView = [[ImageScrollView alloc]initWithFrame:(CGRect){contentOffset, myScrollView.bounds.size}];
+    [tmpImgScrollView setContentWithFrame:convertRext];
+    [tmpImgScrollView setImage:imageView.image];
+    [myScrollView addSubview:tmpImgScrollView];
+    tmpImgScrollView.i_delegate = self;
+    [self performSelector:@selector(setOriginFrame:) withObject:tmpImgScrollView afterDelay:0.1];
+}
+
+- (void) setOriginFrame:(ImageScrollView *)sender{
+    NSLog(@"setOriginFrame");
+    [UIView animateWithDuration:0.4 animations:^{
+        [sender setAnimationRect];
+        markView.alpha = 1;
+    }];
+}
+
+- (void) addSubImageView:(UIImageView *)imageView{
+    NSLog(@"addSubImageView");
+    for (UIView *tmpView in myScrollView.subviews) {
+        [tmpView removeFromSuperview];
+    }
+    for (int i = 0; i < 3; i++) {
+        if (i == index) {
+            continue;
+        }
+        NSLog(@"index:%ld",(long)index);
+        UIImageView *tmpView = (UIImageView *)[[imageView superview] viewWithTag:i];
+        
+        CGRect converRect = [[tmpView superview] convertRect:tmpView.frame toView:self.view];
+        ImageScrollView *tmpImgScrollView = [[ImageScrollView alloc]initWithFrame:CGRectMake(i*myScrollView.bounds.size.width, 0, myScrollView.bounds.size.width, myScrollView.bounds.size.height)];
+        [tmpImgScrollView setContentWithFrame:converRect];
+        [tmpImgScrollView setImage:tmpView.image];
+        [myScrollView addSubview:tmpImgScrollView];
+        tmpImgScrollView.i_delegate = self;
+        [tmpImgScrollView setAnimationRect];
+        NSLog(@"2");
+    }
 }
 
 - (void) tapImageViewTappedWithObject:(id)sender{
-    
+    NSLog(@"tapImageViewTappedWithObject");
+    ImageScrollView *tmpImgView = sender;
+    [UIView animateWithDuration:0.5 animations:^{
+        markView.alpha = 0;
+        [tmpImgView rechangeInitRdct];
+    }completion:^(BOOL finished){
+        blankView.alpha = 0;
+    }];
+}
+
+- (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    CGFloat pageW = scrollView.frame.size.width;
+    index = floor((scrollView.contentOffset.x-pageW/2)/pageW)+1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
