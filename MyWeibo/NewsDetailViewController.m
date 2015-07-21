@@ -13,10 +13,11 @@
 #import "ImageScrollView.h"
 
 @interface NewsDetailViewController ()<ImageScrollViewDelegate,UIScrollViewDelegate>{
-    UIView *blankView;
-    UIView *markView;
+    CGRect tableViewContentRect;
+    UIView *blankView; //背景层
+    UIView *markView; // 渐变层
     UIScrollView *myScrollView;
-    NSInteger index;
+    NSInteger index; // 所点击图片的index
     ImageScrollView *lastImageScrollView;
 }
 
@@ -35,26 +36,30 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)setView{
-    blankView = [[UIView alloc]initWithFrame:self.view.frame];
-    blankView.backgroundColor = [UIColor clearColor];
-    blankView.alpha = 0;
-    [self.view addSubview:blankView];
+- (void)setView{                         // 图片点击放大图层
     
+    tableViewContentRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-self.navigationController.navigationBar.frame.size.height-self.tabBarController.tabBar.frame.size.height-[[UIApplication sharedApplication]statusBarFrame].size.height);
+    // 背景层
+    blankView = [[UIView alloc]initWithFrame:tableViewContentRect];
+    blankView.backgroundColor = [UIColor clearColor];
+    blankView.alpha = 1;
+    [self.view addSubview:blankView];
+    // 渐变层
     markView = [[UIView alloc]initWithFrame:blankView.frame];
     markView.backgroundColor = [UIColor blackColor];
-    markView.alpha = 0;
+    markView.alpha = 1;
     [blankView addSubview:markView];
-    
-    myScrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+    // scrollView层
+    myScrollView = [[UIScrollView alloc]initWithFrame:tableViewContentRect];
+    myScrollView.backgroundColor = [UIColor clearColor];
     [blankView addSubview:myScrollView];
     myScrollView.pagingEnabled = YES;
     myScrollView.delegate = self;
     CGSize contentSize = myScrollView.contentSize;
-    contentSize.height = self.view.bounds.size.height;
-    contentSize.width = self.view.bounds.size.width*3;
+    contentSize.height = tableViewContentRect.size.height;
+    contentSize.width = tableViewContentRect.size.width*newsModel.images.count;
     myScrollView.contentSize = contentSize;
-    
+//    NSLog(@"%@",NSStringFromCGRect([[UIApplication sharedApplication]statusBarFrame]));
     
 }
 
@@ -83,9 +88,8 @@
             }
             UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH/2, imageH)];
             imageView.userInteractionEnabled = YES;
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapped:)];
-            imageView.tag = i+1;
-//            NSLog(@"%ld",(long)imageView.tag);
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tappedWithObject:)];
+            imageView.tag = i+100;
             [imageView addGestureRecognizer:tap];
             [imageViews addObject:imageView];
             [cell.contentView addSubview:imageView];
@@ -102,42 +106,34 @@
         return cell;
     }else{
         UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentCell"];
-//        cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
 }
 
-- (void)tapped:(UIGestureRecognizer *)gestureRecognizer{
-    NSLog(@"tapped");
-    if ([self respondsToSelector:@selector(tappedWithObject:)]) {
-        [self tappedWithObject:gestureRecognizer.view];
-       index = gestureRecognizer.view.tag;
-    }
-}
-
-- (void) tappedWithObject:(id)sender{
-    NSLog(@"tappedWithObject");
+- (void) tappedWithObject:(UIGestureRecognizer *)sender{
     [self.view bringSubviewToFront:blankView];
     blankView.alpha = 1;
-    UIImageView *imageView = sender;
+    UIImageView *imageView = (id)sender.view;
+    index = imageView.tag-100;
+    // 转化后的rect
     CGRect convertRext = [[imageView superview] convertRect:imageView.frame toView:self.view];
     CGPoint contentOffset = myScrollView.contentOffset;
-    contentOffset.x = index*self.view.bounds.size.width;
+    contentOffset.x = index*tableViewContentRect.size.width;
     myScrollView.contentOffset = contentOffset;
-
-    [self addSubImageView:(UIImageView *)imageView];
-    NSLog(@"1");
-    ImageScrollView *tmpImgScrollView = [[ImageScrollView alloc]initWithFrame:(CGRect){contentOffset, myScrollView.bounds.size}];
-    [tmpImgScrollView setContentWithFrame:convertRext];
-    [tmpImgScrollView setImage:imageView.image];
-    [myScrollView addSubview:tmpImgScrollView];
-    tmpImgScrollView.i_delegate = self;
-    [self performSelector:@selector(setOriginFrame:) withObject:tmpImgScrollView afterDelay:0.1];
+    
+    // 添加
+    [self addSubImageView:imageView];
+    
+    lastImageScrollView = [[ImageScrollView alloc]initWithFrame:(CGRect){contentOffset, myScrollView.bounds.size}];
+    [lastImageScrollView setContentWithFrame:convertRext];
+    [lastImageScrollView setImage:imageView.image];
+    [myScrollView addSubview:lastImageScrollView];
+    lastImageScrollView.i_delegate = self;
+    [self performSelector:@selector(setOriginFrame:) withObject:lastImageScrollView afterDelay:0.1];
 }
 
 - (void) setOriginFrame:(ImageScrollView *)sender{
-    NSLog(@"setOriginFrame");
     [UIView animateWithDuration:0.4 animations:^{
         [sender setAnimationRect];
         markView.alpha = 1;
@@ -145,30 +141,31 @@
 }
 
 - (void) addSubImageView:(UIImageView *)imageView{
-    NSLog(@"addSubImageView");
     for (UIView *tmpView in myScrollView.subviews) {
         [tmpView removeFromSuperview];
     }
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < newsModel.images.count; i++) {
         if (i == index) {
             continue;
         }
-        NSLog(@"index:%ld",(long)index);
-        UIImageView *tmpView = (UIImageView *)[[imageView superview] viewWithTag:i];
         
+        UIImageView *tmpView = (UIImageView *)[[imageView superview] viewWithTag:i+100];
+        
+        // 转化后的rect
         CGRect converRect = [[tmpView superview] convertRect:tmpView.frame toView:self.view];
-        ImageScrollView *tmpImgScrollView = [[ImageScrollView alloc]initWithFrame:CGRectMake(i*myScrollView.bounds.size.width, 0, myScrollView.bounds.size.width, myScrollView.bounds.size.height)];
-        [tmpImgScrollView setContentWithFrame:converRect];
-        [tmpImgScrollView setImage:tmpView.image];
-        [myScrollView addSubview:tmpImgScrollView];
-        tmpImgScrollView.i_delegate = self;
-        [tmpImgScrollView setAnimationRect];
-        NSLog(@"2");
+        lastImageScrollView = [[ImageScrollView alloc]initWithFrame:CGRectMake(i*myScrollView.bounds.size.width, 0, myScrollView.bounds.size.width, myScrollView.bounds.size.height)];
+        [lastImageScrollView setContentWithFrame:converRect];
+        [lastImageScrollView setImage:tmpView.image];
+        [myScrollView addSubview:lastImageScrollView];
+        lastImageScrollView.i_delegate = self;
+        [lastImageScrollView setAnimationRect];
+
     }
+
 }
 
 - (void) tapImageViewTappedWithObject:(id)sender{
-    NSLog(@"tapImageViewTappedWithObject");
+
     ImageScrollView *tmpImgView = sender;
     [UIView animateWithDuration:0.5 animations:^{
         markView.alpha = 0;

@@ -41,38 +41,35 @@
 }
 
 - (void)setContentWithFrame:(CGRect)rect{
-    NSLog(@"setContentWithFrame");
     imageView.frame = rect;
     initRect = rect;
 }
 
 - (void)setAnimationRect{
-    NSLog(@"setAnimationRect");
-    NSLog(@"%@",NSStringFromCGRect(scaleOriginRect));
     imageView.frame = scaleOriginRect;
 }
 
 - (void)rechangeInitRdct{
-    NSLog(@"rechangeInitRdct");
     self.zoomScale = 1.0;
     imageView.frame = initRect;
 }
 
 - (void)setImage:(UIImage *)image{
-    NSLog(@"setImage");
+
     imageView.image = image;
     imgSize = image.size;
-    
+//    NSLog(@"imgSize:%@",NSStringFromCGSize(imgSize));
     float scaleX = self.frame.size.width/imgSize.width;
     float scaleY = self.frame.size.height/imgSize.height;
+//    NSLog(@"scaleX:%f,scaleY:%f",scaleX,scaleY);
     
     if (scaleX > scaleY) {
-//        NSLog(@"a");
+//        NSLog(@"scaleX > scaleY:%@",NSStringFromCGSize(imgSize));
         float imageW = imgSize.width*scaleY;
         self.minimumZoomScale = self.frame.size.width/imageW;
         scaleOriginRect = CGRectMake(self.frame.size.width/2-imageW/2, 0, imageW, self.frame.size.height);
     }else{
-        NSLog(@"%@",NSStringFromCGSize(imgSize));
+//        NSLog(@"scaleY >= scaleX:%@",NSStringFromCGSize(imgSize));
         float imageH = imgSize.height*scaleX;
         self.maximumZoomScale = self.frame.size.height/imageH;
         scaleOriginRect = CGRectMake(0, self.frame.size.height/2-imageH/2, self.frame.size.width, imageH);
