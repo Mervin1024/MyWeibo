@@ -15,4 +15,20 @@
     CGSize retSize =  [self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
     return retSize;
 }
+
+- (CGFloat)hightOfLabelWithFontSize:(NSInteger)size linesNumber:(NSInteger)num{
+    // 根据字体 行数 计算高度
+    UILabel *la = [[UILabel alloc]init];
+    la.font = [UIFont systemFontOfSize:size];
+    la.text = @"啊";
+    la.numberOfLines = 0;
+    CGSize aLineOfText = [la boundingRectWithSize:CGSizeMake(100, 0)];
+    CGFloat laH = aLineOfText.height;
+    for (int i = 1; i < num; i++) {
+        la.text = [la.text stringByAppendingString:@"啊"];
+        CGSize laSize = [la boundingRectWithSize:CGSizeMake(aLineOfText.height, 0)];
+        laH = laSize.height;
+    }
+    return laH;
+}
 @end

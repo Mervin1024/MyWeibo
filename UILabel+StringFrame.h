@@ -10,4 +10,5 @@
 
 @interface UILabel (StringFrame)
 - (CGSize)boundingRectWithSize:(CGSize)size;
+- (CGFloat)hightOfLabelWithFontSize:(NSInteger)size linesNumber:(NSInteger)num;
 @end

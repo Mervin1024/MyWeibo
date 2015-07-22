@@ -45,6 +45,13 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.tabBarController.tabBar.hidden == YES) {
+        self.tabBarController.tabBar.hidden = NO;
+    }
+}
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
 //    NSLog(@"contentSize:%@",NSStringFromCGSize(self.tableView.contentSize));
