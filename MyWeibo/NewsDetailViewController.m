@@ -39,15 +39,17 @@
 - (void)setView{                         // 图片点击放大图层
     
     tableViewContentRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-self.navigationController.navigationBar.frame.size.height-self.tabBarController.tabBar.frame.size.height-[[UIApplication sharedApplication]statusBarFrame].size.height);
+//    NSLog(@"[[UIApplication sharedApplication]statusBarFrame]:%@",NSStringFromCGRect([[UIApplication sharedApplication]statusBarFrame]));
+//    NSLog(@"navigationController.navigationBar.frame:%@",NSStringFromCGRect(self.navigationController.navigationBar.frame));
     // 背景层
     blankView = [[UIView alloc]initWithFrame:tableViewContentRect];
     blankView.backgroundColor = [UIColor clearColor];
-    blankView.alpha = 1;
+    blankView.alpha = 0;
     [self.view addSubview:blankView];
     // 渐变层
     markView = [[UIView alloc]initWithFrame:blankView.frame];
     markView.backgroundColor = [UIColor blackColor];
-    markView.alpha = 1;
+    markView.alpha = 0;
     [blankView addSubview:markView];
     // scrollView层
     myScrollView = [[UIScrollView alloc]initWithFrame:tableViewContentRect];
@@ -60,6 +62,8 @@
     contentSize.width = tableViewContentRect.size.width*newsModel.images.count;
     myScrollView.contentSize = contentSize;
 //    NSLog(@"%@",NSStringFromCGRect([[UIApplication sharedApplication]statusBarFrame]));
+//
+    
     
 }
 
@@ -114,10 +118,17 @@
 - (void) tappedWithObject:(UIGestureRecognizer *)sender{
     [self.view bringSubviewToFront:blankView];
     blankView.alpha = 1;
+    CGRect frame = blankView.frame;
+    frame.origin.y = self.tableView.contentOffset.y+self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
+    blankView.frame = frame;
+//    NSLog(@"%@",NSStringFromCGPoint(self.tableView.contentOffset));
+    self.tableView.scrollEnabled = NO;
     UIImageView *imageView = (id)sender.view;
     index = imageView.tag-100;
     // 转化后的rect
-    CGRect convertRext = [[imageView superview] convertRect:imageView.frame toView:self.view];
+    
+    CGRect convertRect = [[imageView superview] convertRect:imageView.frame toView:self.view];
+    convertRect = (CGRect){convertRect.origin.x,convertRect.origin.y-(self.tableView.contentOffset.y+self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height),convertRect.size};
     CGPoint contentOffset = myScrollView.contentOffset;
     contentOffset.x = index*tableViewContentRect.size.width;
     myScrollView.contentOffset = contentOffset;
@@ -126,7 +137,7 @@
     [self addSubImageView:imageView];
     
     lastImageScrollView = [[ImageScrollView alloc]initWithFrame:(CGRect){contentOffset, myScrollView.bounds.size}];
-    [lastImageScrollView setContentWithFrame:convertRext];
+    [lastImageScrollView setContentWithFrame:convertRect];
     [lastImageScrollView setImage:imageView.image];
     [myScrollView addSubview:lastImageScrollView];
     lastImageScrollView.i_delegate = self;
@@ -152,9 +163,10 @@
         UIImageView *tmpView = (UIImageView *)[[imageView superview] viewWithTag:i+100];
         
         // 转化后的rect
-        CGRect converRect = [[tmpView superview] convertRect:tmpView.frame toView:self.view];
+        CGRect convertRect = [[tmpView superview] convertRect:tmpView.frame toView:self.view];
+        convertRect = (CGRect){convertRect.origin.x,convertRect.origin.y-(self.tableView.contentOffset.y+self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height),convertRect.size};
         lastImageScrollView = [[ImageScrollView alloc]initWithFrame:CGRectMake(i*myScrollView.bounds.size.width, 0, myScrollView.bounds.size.width, myScrollView.bounds.size.height)];
-        [lastImageScrollView setContentWithFrame:converRect];
+        [lastImageScrollView setContentWithFrame:convertRect];
         [lastImageScrollView setImage:tmpView.image];
         [myScrollView addSubview:lastImageScrollView];
         lastImageScrollView.i_delegate = self;
@@ -172,6 +184,7 @@
         [tmpImgView rechangeInitRdct];
     }completion:^(BOOL finished){
         blankView.alpha = 0;
+        self.tableView.scrollEnabled = YES;
     }];
 }
 

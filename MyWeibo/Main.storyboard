@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Item 2-->
+        <!--分享新鲜事-->
         <scene sceneID="y3g-ye-zC0">
             <objects>
-                <viewController id="A5u-2B-yvr" sceneMemberID="viewController">
+                <viewController id="A5u-2B-yvr" userLabel="分享新鲜事" customClass="AddNewsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Mdt-J5-a1V"/>
                         <viewControllerLayoutGuide type="bottom" id="ALk-5O-TFG"/>
@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="88" y="752"/>
         </scene>
-        <!--Item 1-->
+        <!--消息-->
         <scene sceneID="Uf8-VV-2Ok">
             <objects>
-                <viewController id="JqG-zC-tBF" sceneMemberID="viewController">
+                <viewController id="JqG-zC-tBF" userLabel="消息" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="8Dw-GO-1ae"/>
                         <viewControllerLayoutGuide type="bottom" id="UYF-bm-rnW"/>
@@ -72,10 +72,10 @@
             </objects>
             <point key="canvasLocation" x="1172" y="-163"/>
         </scene>
-        <!--News Detail View Controller-->
+        <!--详细信息-->
         <scene sceneID="z1W-CT-VBP">
             <objects>
-                <tableViewController id="soh-B0-hKG" customClass="NewsDetailViewController" sceneMemberID="viewController">
+                <tableViewController id="soh-B0-hKG" userLabel="详细信息" customClass="NewsDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Y05-GV-2Lc">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -115,12 +115,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8p4-O2-9Mz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1855" y="-163"/>
+            <point key="canvasLocation" x="1918" y="-163"/>
         </scene>
-        <!--Item-->
+        <!--发现-->
         <scene sceneID="myG-KO-oxk">
             <objects>
-                <viewController id="EpB-eu-bnM" sceneMemberID="viewController">
+                <viewController id="EpB-eu-bnM" userLabel="发现" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Vu3-AO-Qe0"/>
                         <viewControllerLayoutGuide type="bottom" id="FwW-Bb-yWI"/>
@@ -136,10 +136,10 @@
             </objects>
             <point key="canvasLocation" x="-1184" y="752"/>
         </scene>
-        <!--Item-->
+        <!--我-->
         <scene sceneID="rib-KG-xd0">
             <objects>
-                <viewController id="fvm-s1-ddJ" sceneMemberID="viewController">
+                <viewController id="fvm-s1-ddJ" userLabel="我" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UAH-jS-cyN"/>
                         <viewControllerLayoutGuide type="bottom" id="91y-Oh-Ic4"/>

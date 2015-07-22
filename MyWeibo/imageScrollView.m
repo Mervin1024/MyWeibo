@@ -41,6 +41,9 @@
 }
 
 - (void)setContentWithFrame:(CGRect)rect{
+//    imageView.frame = rect;
+//    rect.origin.y = rect.origin.y-offset.y;
+//    rect.origin.x = rect.origin.x-offset.x;
     imageView.frame = rect;
     initRect = rect;
 }

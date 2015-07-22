@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C92E68EA1B5E4AFA00538F2C /* AddNewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C92E68E91B5E4AFA00538F2C /* AddNewsViewController.m */; };
 		C96DB60E1B4E948B00114622 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB60D1B4E948B00114622 /* ViewController.m */; };
 		C96DB6151B4E951500114622 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C96DB6141B4E951500114622 /* Main.storyboard */; };
 		C96DB62D1B4E964300114622 /* Random.m in Sources */ = {isa = PBXBuildFile; fileRef = C96DB62A1B4E964300114622 /* Random.m */; };
@@ -55,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C92E68E81B5E4AFA00538F2C /* AddNewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddNewsViewController.h; sourceTree = "<group>"; };
+		C92E68E91B5E4AFA00538F2C /* AddNewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddNewsViewController.m; sourceTree = "<group>"; };
 		C96DB60C1B4E948B00114622 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		C96DB60D1B4E948B00114622 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		C96DB6141B4E951500114622 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
@@ -274,6 +277,8 @@
 				C9EF2D371B5289680099983A /* NewsTableViewController.m */,
 				C9EF2D501B5434A50099983A /* NewsDetailViewController.h */,
 				C9EF2D511B5434A50099983A /* NewsDetailViewController.m */,
+				C92E68E81B5E4AFA00538F2C /* AddNewsViewController.h */,
+				C92E68E91B5E4AFA00538F2C /* AddNewsViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -439,6 +444,7 @@
 				C9EF2D381B5289680099983A /* NewsTableViewController.m in Sources */,
 				C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */,
 				C96DB62D1B4E964300114622 /* Random.m in Sources */,
+				C92E68EA1B5E4AFA00538F2C /* AddNewsViewController.m in Sources */,
 				C9F2E55F1B59AB98006DE9C1 /* ImageScrollView.m in Sources */,
 				C9D3F44E1B0B699700313035 /* FMDatabasePool.m in Sources */,
 				C9EF2D321B5281AC0099983A /* MyWeiboData.m in Sources */,
