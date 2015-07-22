@@ -36,11 +36,34 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (self.navigationController.toolbarHidden == YES) {
+        [self.navigationController setToolbarHidden:NO animated:NO];
+    }
+    
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+//    if (self.tabBarController.tabBar.hidden == NO) {
+//        self.tabBarController.tabBar.hidden = YES;
+//    }
+//    NSLog(@"tabBarController:%@",NSStringFromCGRect(self.tabBarController.tabBar.frame));
+//    NSLog(@"contentSize:%@",NSStringFromCGSize(self.tableView.contentSize));
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    if (self.navigationController.toolbarHidden == NO) {
+        [self.navigationController setToolbarHidden:YES animated:NO];
+    }
+    [self.navigationController popViewControllerAnimated:NO];
+}
+
 - (void)setView{                         // 图片点击放大图层
     
-    tableViewContentRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-self.navigationController.navigationBar.frame.size.height-self.tabBarController.tabBar.frame.size.height-[[UIApplication sharedApplication]statusBarFrame].size.height);
-//    NSLog(@"[[UIApplication sharedApplication]statusBarFrame]:%@",NSStringFromCGRect([[UIApplication sharedApplication]statusBarFrame]));
-//    NSLog(@"navigationController.navigationBar.frame:%@",NSStringFromCGRect(self.navigationController.navigationBar.frame));
+    tableViewContentRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-self.navigationController.navigationBar.frame.size.height-self.navigationController.toolbar.frame.size.height-[[UIApplication sharedApplication]statusBarFrame].size.height);
     // 背景层
     blankView = [[UIView alloc]initWithFrame:tableViewContentRect];
     blankView.backgroundColor = [UIColor clearColor];
@@ -201,10 +224,14 @@
     if (indexPath.row == 0) {
         return [NewTableViewCell heighForRowWithStyle:NewsStyleOfDetail model:newsModel];
     }else if (indexPath.row == 1){
-        return 13.0f;
+        return CELL_CONTENT_MARGIN;
     }else{
         return 44.0f;
     }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return CELL_CONTENT_MARGIN;
 }
 
 //- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

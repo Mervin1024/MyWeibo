@@ -38,6 +38,11 @@
     [self setRefreshControl];
 }
 
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+//    NSLog(@"contentSize:%@",NSStringFromCGSize(self.tableView.contentSize));
+}
+
 - (void) initValue{
     dbManager = [MyWeiboData sharedManager].dbManager;
     tableData = [NSMutableArray array];
@@ -200,6 +205,7 @@
     if (indexPath.row %3== 1) {
         long index = tableData.count -1- indexPath.row/3;
         NewsModel *news = tableData[index];
+        
         [self performSegueWithIdentifier:@"ShowDetails" sender:news];
     }
 //    }else{
@@ -211,6 +217,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"ShowDetails"]) {
         NewsDetailViewController *controller = segue.destinationViewController;
+        controller.hidesBottomBarWhenPushed = YES;
         controller.newsModel = sender;
     }
 }
