@@ -9,44 +9,23 @@
 #import "NSDictionary+Assemble.h"
 #import "NSArray+Assemble.h"
 #import "NSString+Format.h"
-//#import "ChecklistsDate.h"
 
 @implementation NSDictionary (Assemble)
-
-- (NSString *) stringByJoinSimplyWithSpaceCharacter:(NSString *)spaceCharacter andBoundary:(NSString *)boundary{
-    NSString *string;
-    NSArray *keys = [self allKeys];
-    NSMutableArray *pairs = [NSMutableArray array];
-    for (NSString *key in keys) {
-        NSString *value = [self objectForKey:key];
-        NSString *assemble = key;
-        assemble = [assemble stringByAppendingFormat:@"%@%@",spaceCharacter,value];
-        [pairs addObject:assemble];
-    }
-    string = [pairs stringByJoinSimplyWithBoundary:boundary];
-    return string;
-}
+#pragma mark - NSDictionary → NSString
 
 - (NSString *) stringByJoinEntireWithSpaceCharacter:(NSString *)spaceCharacter andBoundary:(NSString *)boundary{
     NSString *string;
     NSArray *keys = [self allKeys];
-    NSMutableArray *pairs = [NSMutableArray array];
-    for (NSString *key in keys) {
+    NSArray *pairs = [keys arrayByMap:^(NSString *key){
         NSString *value = [self objectForKey:key];
         NSString *assemble = key;
         assemble = [assemble stringByAppendingFormat:@"%@%@",spaceCharacter,[value stringSwapWithBoundary:@"'"]];
-        [pairs addObject:assemble];
-    }
+        return assemble;
+    }];
     string = [pairs stringByJoinSimplyWithBoundary:boundary];
     return string;
+    // @{a:b,c:de} → @"'a' _boundary 'b' _spaceCharacter 'c' _boundary 'de'"
 }
 
-//- (NSComparisonResult)comparelist:(NSDictionary *)otherObject{
-//    return [[self objectForKey:listsName] localizedStandardCompare:[otherObject objectForKey:listsName]];
-//}
-//
-//- (NSComparisonResult)compareItem:(NSDictionary *)otherObject{
-//    return [[self objectForKey:listItemDueDate] localizedStandardCompare:[otherObject objectForKey:listItemDueDate]];
-//}
 
 @end

@@ -20,7 +20,7 @@
     [super layoutSubviews];
 
 }
-
+#pragma mark - cell 重用
 - (void) prepareForReuse{
     [super prepareForReuse];
     for (UIImageView *view in weiboImages) {
@@ -28,13 +28,13 @@
     }
     
 }
-
+#pragma mark - avatar imageview 圆角
 - (void) setAvatarAsRound
 {
     self.avatar.layer.masksToBounds = YES;
     self.avatar.layer.cornerRadius = self.avatar.bounds.size.width/2;
 }
-
+#pragma mark - 添加微博图片
 - (void)setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle
 {
     for (int i = 0; i < weiboImages.count; i++) {
@@ -49,7 +49,7 @@
         
     }
 }
-
+#pragma mark - 计算 cell 高度
 + (CGFloat) heighForRowWithStyle:(NewsStyle)newsStyle model:(NewsModel *)newsModel{
     if (newsStyle == NewsStyleOfList) {
         CGFloat imageHeight = 0.0f;

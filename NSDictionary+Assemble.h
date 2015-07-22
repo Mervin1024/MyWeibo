@@ -10,9 +10,6 @@
 
 @interface NSDictionary (Assemble)
 
-- (NSString *) stringByJoinSimplyWithSpaceCharacter:(NSString *)spaceCharacter andBoundary:(NSString *)boundary;
 - (NSString *) stringByJoinEntireWithSpaceCharacter:(NSString *)spaceCharacter andBoundary:(NSString *)boundary;
-//- (NSComparisonResult)comparelist:(NSDictionary *)otherObject;
-//- (NSComparisonResult)compareItem:(NSDictionary *)otherObject;
 
 @end

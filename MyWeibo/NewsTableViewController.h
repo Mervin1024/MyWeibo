@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#define TABLE_CONTENT_MARGIN 10.0f
 
 @interface NewsTableViewController : UITableViewController
 

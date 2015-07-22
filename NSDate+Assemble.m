@@ -9,6 +9,7 @@
 #import "NSDate+Assemble.h"
 
 @implementation NSDate (Assemble)
+#pragma mark - NSDate → NSString
 - (NSString *)stringFromDate{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

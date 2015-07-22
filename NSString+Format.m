@@ -9,21 +9,22 @@
 #import "NSString+Format.h"
 
 @implementation NSString (Format)
-
+#pragma mark - NSString → NSString
 - (NSString *) stringSwapWithBoundary:(NSString *)boundary{
     NSString *string = boundary;
     string = [string stringByAppendingString:self];
     string = [string stringByAppendingString:boundary];
     return string;
+    // @"A" → @"_boundary A _boundary"
 }
-
+#pragma mark - NSString → BOOL
 - (BOOL) isYes{
     if ([self isEqualToString:@"YES"]) {
         return YES;
     }else
         return NO;
 }
-
+#pragma mark - NSString → NSDate
 - (NSDate *)dateFromString{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];

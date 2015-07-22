@@ -10,25 +10,19 @@
 
 @implementation DocumentAccess
 
-+ (float) proportionOfHeigthToWidth:(CGSize)size{
-    return size.height/size.width;
-}
+
 
 + (NSString *) stringOfFilePathForName:(NSString *)name{
     NSString *filePath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:name];
     return filePath;
+    // Documents 文件夹路径
 }
 
 + (void) saveImage:(UIImage *)image withImageName:(NSString *)imageName{
     NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
     NSString *imageFilePath = [DocumentAccess stringOfFilePathForName:imageName];
-//    NSLog(@"imageFilePath:%@",imageFilePath);
     [imageData writeToFile:imageFilePath atomically:YES];
+    // 将图片存至Documents
 }
-
-//+ (NSString *) stringOfInsertSQLWithTableName:(NSString *)tableName columns:(NSDictionary *)columns{
-//    NSString *insertSql = @"";
-//    return insertSql;
-//}
 
 @end

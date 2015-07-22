@@ -13,11 +13,11 @@
 @implementation ImagesModel{
     DBManager *dbManager;
 }
-//@synthesize images;
 @synthesize image_id;
 @synthesize image_name;
 @synthesize news_id;
 
+#pragma mark - init 方法
 - (ImagesModel *)init{
     self = [super init];
     if (self) {
@@ -35,7 +35,7 @@
     }
     return self;
 }
-
+#pragma mark - 数据库查询
 + (int) countOfImagesWithNewsID:(NSInteger)newsId{
     return [[MyWeiboData sharedManager].dbManager countOfItemsNumberInTable:imagesTable where:@{newsID:[NSString stringWithFormat:@"%ld",(long)newsId]}];
 }
@@ -50,18 +50,16 @@
 }
 
 + (NSArray *) arrayAllBySelectedWhere:(NSDictionary *)condition{
-//    NSArray *arr = [[MyWeiboData sharedManager].dbManager arrayBySelect:[ImagesModel arrayOfProperties] fromTable:imagesTable where:condition orderBy:nil from:0 to:0];
-//    NSLog(@"allImageCount:%lu",(unsigned long)arr.count);
     return [[MyWeiboData sharedManager].dbManager arrayBySelect:[ImagesModel arrayOfProperties] fromTable:imagesTable where:condition orderBy:nil from:0 to:0];
 }
-
+#pragma mark - 字典形式返回对象属性
 - (NSDictionary *) dictionaryOfData{
     if (image_id) {
         return [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%ld",image_id],image_name,[NSString stringWithFormat:@"%ld",news_id]] forKeys:@[imageID,imageName,newsID]];
     }
     return [NSDictionary dictionaryWithObjects:@[image_name,[NSString stringWithFormat:@"%ld",news_id]] forKeys:@[imageName,newsID]];
 }
-
+#pragma mark - 单条目插入数据库
 - (void) insertItemToTable{
     [dbManager insertItemsToTableName:imagesTable columns:[self dictionaryOfData]];
 }

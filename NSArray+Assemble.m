@@ -10,7 +10,7 @@
 #import "NSString+Format.h"
 
 @implementation NSArray (Assemble)
-
+#pragma mark - NSArray → NSString
 - (NSString *) stringByJoinSimplyWithBoundary:(NSString *)boundary{
     NSString *string = @"";
     for (int i = 0; i < self.count; i++) {
@@ -20,6 +20,7 @@
         }
     }
     return string;
+    // @[a,b,cd] → @"a,b,cd"
 }
 
 - (NSString *) stringByJoinEntireWithBoundary:(NSString *)boundary{
@@ -31,8 +32,9 @@
         }
     }
     return string;
+//     @[a,b,cd] → @"'a','b','cd'"
 }
-
+#pragma mark - NSArry 遍历操作
 - (NSArray *) arrayByMap:(id (^)(id))map{
     NSMutableArray *arr = [NSMutableArray array];
     for (int i = 0; i < self.count; i++) {

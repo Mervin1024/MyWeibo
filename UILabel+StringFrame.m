@@ -9,6 +9,7 @@
 #import "UILabel+StringFrame.h"
 
 @implementation UILabel (StringFrame)
+#pragma mark - 计算文本内容 Size
 - (CGSize)boundingRectWithSize:(CGSize)size{
     NSDictionary *attribute = @{NSFontAttributeName:self.font};
     CGSize retSize =  [self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;

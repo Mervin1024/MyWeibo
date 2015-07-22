@@ -20,6 +20,7 @@
 @synthesize news_text;
 @synthesize user;
 
+#pragma mark - init 方法
 - (NewsModel *)init{
     self = [super init];
     if (self) {
@@ -46,7 +47,6 @@
 - (NewsModel *)initWithDictionary:(NSDictionary *)data{
     self = [super init];
     if (self) {
-//        NSLog(@"[data allKeys].count:%lu",(unsigned long)[data allKeys].count);
         if ([data allKeys].count == 3) {
             news_id = [[data objectForKey:newsID] intValue];
         }
@@ -58,7 +58,7 @@
     }
     return self;
 }
-
+#pragma mark - 数据库查询
 + (int) countOfNews{
     return [[MyWeiboData sharedManager].dbManager countOfItemsNumberInTable:newsTable where:nil];
 }
@@ -78,8 +78,6 @@
 
 - (NSArray *) arrayAllImagesBySelected{
     NSArray *data = [ImagesModel arrayAllBySelectedWhere:@{newsID:[NSString stringWithFormat:@"%ld",news_id]}];
-//    NSLog(@"news_id:%@",[NSString stringWithFormat:@"%ld",news_id]);
-//    NSLog(@"images:%lu",(unsigned long)data.count);
     NSMutableArray *imageNames = [NSMutableArray array];
     for (NSDictionary *image in data) {
         [imageNames addObject:[image objectForKey:imageName]];
@@ -95,14 +93,14 @@
     }
     return data;
 }
-
+#pragma mark - 字典形式返回对象属性
 - (NSDictionary *) dictionaryOfData{
     if (news_id) {
         return [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%ld",(long)news_id],user_id,news_text] forKeys:[NewsModel arrayOfProperties]];
     }
     return [NSDictionary dictionaryWithObjects:@[user_id,news_text] forKeys:@[userID,newsText]];
 }
-
+#pragma mark - 从数据库删除条目
 - (void) deleteNewFromTable{
     [dbManager deleteFromTableName:newsTable where:@{newsID:[NSString stringWithFormat:@"%ld",(long)news_id]}];
     [self deleteImagesFromTable];
@@ -111,7 +109,7 @@
 - (void) deleteImagesFromTable{
     [dbManager deleteFromTableName:imagesTable where:@{newsID:[NSString stringWithFormat:@"%ld",(long)news_id]}];
 }
-
+#pragma mark - 单条目插入数据库
 - (void) insertItemToTable{
     [dbManager insertItemsToTableName:newsTable columns:[self dictionaryOfData]];
     if (self.news_id) {
@@ -127,7 +125,7 @@
         [image insertItemToTable];
     }
 }
-
+#pragma mark - 数据库建表
 + (void) creatTableFromSql{
     [[MyWeiboData sharedManager].dbManager createTableName:newsTable columns:[NewsModel dictionaryOfPropertiesAndTypes]];
     [[MyWeiboData sharedManager].dbManager createTableName:userTable columns:[UserModel dictionaryOfPropertiesAndTypes]];

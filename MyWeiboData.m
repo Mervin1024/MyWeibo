@@ -35,7 +35,7 @@ NSString *const userDesc = @"description";
     }
     return self;
 }
-
+// 获取单例
 + (MyWeiboData *) sharedManager{
     static MyWeiboData *sharedAccountManagerInstance = nil;
     static dispatch_once_t predicate;

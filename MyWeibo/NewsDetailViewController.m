@@ -11,6 +11,7 @@
 #import "DocumentAccess.h"
 #import "UILabel+StringFrame.h"
 #import "ImageScrollView.h"
+#import "NSArray+Assemble.h"
 
 @interface NewsDetailViewController ()<ImageScrollViewDelegate,UIScrollViewDelegate>{
     CGRect tableViewContentRect;
@@ -26,6 +27,7 @@
 @implementation NewsDetailViewController
 @synthesize newsModel;
 
+#pragma mark - view 视图初始化
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setView];
@@ -33,7 +35,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -46,11 +47,7 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-//    if (self.tabBarController.tabBar.hidden == NO) {
-//        self.tabBarController.tabBar.hidden = YES;
-//    }
-//    NSLog(@"tabBarController:%@",NSStringFromCGRect(self.tabBarController.tabBar.frame));
-//    NSLog(@"contentSize:%@",NSStringFromCGSize(self.tableView.contentSize));
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -60,7 +57,7 @@
     }
     [self.navigationController popViewControllerAnimated:NO];
 }
-
+#pragma mark - 设置点击放大图层
 - (void)setView{                         // 图片点击放大图层
     
     tableViewContentRect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-self.navigationController.navigationBar.frame.size.height-self.navigationController.toolbar.frame.size.height-[[UIApplication sharedApplication]statusBarFrame].size.height);
@@ -84,14 +81,29 @@
     contentSize.height = tableViewContentRect.size.height;
     contentSize.width = tableViewContentRect.size.width*newsModel.images.count;
     myScrollView.contentSize = contentSize;
-//    NSLog(@"%@",NSStringFromCGRect([[UIApplication sharedApplication]statusBarFrame]));
 //
     
     
 }
 
-#pragma mark - Table view data source
+#pragma mark - Table view data source 协议
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return TABLE_CONTENT_MARGIN;
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 0) {
+        return [NewTableViewCell heighForRowWithStyle:NewsStyleOfDetail model:newsModel];
+    }else if (indexPath.row == 1){
+        return TABLE_CONTENT_MARGIN;
+    }else{
+        return 44.0f;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return TABLE_CONTENT_MARGIN;
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
@@ -137,7 +149,7 @@
         return cell;
     }
 }
-
+#pragma mark - 点击图片放大事件 GestureRecognizer
 - (void) tappedWithObject:(UIGestureRecognizer *)sender{
     [self.view bringSubviewToFront:blankView];
     blankView.alpha = 1;
@@ -175,9 +187,9 @@
 }
 
 - (void) addSubImageView:(UIImageView *)imageView{
-    for (UIView *tmpView in myScrollView.subviews) {
+    [myScrollView.subviews excetueEach:^(UIView *tmpView){
         [tmpView removeFromSuperview];
-    }
+    }];
     for (int i = 0; i < newsModel.images.count; i++) {
         if (i == index) {
             continue;
@@ -198,7 +210,7 @@
     }
 
 }
-
+#pragma mark - Image Scroll View Delegate 协议
 - (void) tapImageViewTappedWithObject:(id)sender{
 
     ImageScrollView *tmpImgView = sender;
@@ -210,33 +222,11 @@
         self.tableView.scrollEnabled = YES;
     }];
 }
-
+#pragma mark - scroll view delegate 协议
 - (void) scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     CGFloat pageW = scrollView.frame.size.width;
     index = floor((scrollView.contentOffset.x-pageW/2)/pageW)+1;
 }
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-        return CELL_CONTENT_MARGIN;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        return [NewTableViewCell heighForRowWithStyle:NewsStyleOfDetail model:newsModel];
-    }else if (indexPath.row == 1){
-        return CELL_CONTENT_MARGIN;
-    }else{
-        return 44.0f;
-    }
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return CELL_CONTENT_MARGIN;
-}
-
-//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-//}
 
 
 @end

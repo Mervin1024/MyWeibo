@@ -30,6 +30,8 @@
 @implementation NewsTableViewController
 @synthesize count;
 @synthesize aRefreshController;
+
+#pragma mark - view 视图初始化
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initValue];
@@ -38,11 +40,16 @@
     [self setRefreshControl];
 }
 
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
 //    NSLog(@"contentSize:%@",NSStringFromCGSize(self.tableView.contentSize));
 }
-
+#pragma mark - 读取数据库
 - (void) initValue{
     dbManager = [MyWeiboData sharedManager].dbManager;
     tableData = [NSMutableArray array];
@@ -52,20 +59,19 @@
 
 - (void) initDB{
     [NewsModel creatTableFromSql];
+    // 添加虚拟数据
     [InitialNews insertUserModel];
     [InitialNews insertNewsModel];
 }
 
 - (void) setTableData{
     self.count = tableData.count;
-//    NSLog(@"count1:%ld,count2:%ld",(long)self.count,self.count+sizeOfRefresh);
-    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:self.count to:self.count+sizeOfRefresh]];
-    
-//    NSLog(@"count3:%ld",tableData.count);
-}
 
+    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:self.count to:self.count+sizeOfRefresh]];
+
+}
+#pragma mark - 添加下拉刷新控件 UIRefreshControl
 - (void) setRefreshControl{
-//    self.refreshControl = [[UIRefreshControl alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 10)];
     aRefreshController = [[UIRefreshControl alloc]init];
     [self changeRefreshingTitle];
     [aRefreshController addTarget:self action:@selector(refreshControlWillRefreshing) forControlEvents:UIControlEventValueChanged];
@@ -106,33 +112,27 @@
     aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"下拉刷新"];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - Table view data source 协议
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return tableData.count;
 }
-
-#pragma mark - Table view data source
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-////    NSLog(@"section:%ld",tableData.count);
-//    return tableData.count;
-//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-//    return tableData.count;
-    return tableData.count*3;
+    return 2;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row %3 == 1) {
+    if (indexPath.row  == 0) {
         NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewCell"];
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil] lastObject];
         }
-        long index = tableData.count -1- indexPath.row/3;
-//         NSLog(@"indexPath.section:%ld  index:%ld",indexPath.section,index);
+        // 数据逆向显示
+        long index = tableData.count -1- indexPath.section;
+        
         NewsModel *new = tableData[index];
         
         cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
@@ -143,6 +143,7 @@
         }else{
             cell.name.text = new.user.user_ID;
         }
+        // 动态加载 imageview
         NSMutableArray *imageViews = [NSMutableArray array];
         for (int i = 0; i < 3; i++) {
             CGFloat floatX = CELL_CONTENT_MARGIN * (i+1) + CELL_IMAGE_HIGHT * i;
@@ -156,19 +157,11 @@
         cell.weiboImages = [NSArray arrayWithArray:imageViews];
         [cell setImages:new.images withStyle:NewsStyleOfList];
         return cell;
-    }else if (indexPath.row %3 == 2){
+    }else{
         CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    }else{
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"grey"];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"grey"];
-        }
-        cell.backgroundColor = [UIColor groupTableViewBackgroundColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -176,44 +169,36 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-//    if (section == 0) {
-//        return 0;
-//    }else{
-        return 0;
-//    }
-    
+    return TABLE_CONTENT_MARGIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row %3 == 1) {
-        long index = tableData.count -1- indexPath.row/3;
+    if (indexPath.row  == 0) {
+        // 计算 cell 高度
+        long index = tableData.count -1- indexPath.section;
         NewsModel *new = tableData[index];
         
         return [NewTableViewCell heighForRowWithStyle:NewsStyleOfList model:new];
-    }else if (indexPath.row %3 == 2){
-        return 30.0f;
     }else{
-        return CELL_CONTENT_MARGIN;
+        return 30.0f;
     }
+
 }
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-//    return @" ";
-//}
-
+#pragma mark - cell 点击事件
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row %3== 1) {
-        long index = tableData.count -1- indexPath.row/3;
+    if (indexPath.row == 0) {
+        long index = tableData.count -1- indexPath.section;
         NewsModel *news = tableData[index];
         
         [self performSegueWithIdentifier:@"ShowDetails" sender:news];
     }
-//    }else{
-//        [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    }
     
 }
-
+#pragma mark - segue 跳转
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"ShowDetails"]) {
         NewsDetailViewController *controller = segue.destinationViewController;

@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "FMDatabase.h"
-#import "FMDatabaseQueue.h"
-#import "FMDatabaseAdditions.h"
+#import "FMDB.h"
 
 @interface DBManager : NSObject
 - (void) connectDB;

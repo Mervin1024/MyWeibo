@@ -9,9 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface DocumentAccess : NSObject
-+ (float) proportionOfHeigthToWidth:(CGSize)size;
+
 + (void) saveImage:(UIImage *)image withImageName:(NSString *)imageName;
 + (NSString *) stringOfFilePathForName:(NSString *)name;
-//+ (NSString *) stringOfInsertSQLWithTableName:(NSString *)tableName columns:(NSDictionary *)columns;
 
 @end

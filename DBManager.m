@@ -14,7 +14,7 @@
 @implementation DBManager{
     FMDatabaseQueue *dBQueue;
 }
-#pragma mark - Supporting Utils
+#pragma mark - 构建 SQL 文件
 - (NSString *)dbPath:(NSString *)name{
     NSArray *documentsPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *databaseFilePath = [[documentsPaths objectAtIndex:0] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@_Mervin.sql",name]];
@@ -33,7 +33,7 @@
     NSString *string = [pairs stringByJoinSimplyWithBoundary:@","];
     return string;
 }
-#pragma mark - init
+#pragma mark - init 方法
 - (id)init{
     self = [super init];
     if (self) {
@@ -54,7 +54,7 @@
     }];
     return YES;
 }
-#pragma mark - Query
+#pragma mark - Query 查询
 - (NSArray *) arrayBySelect:(NSArray *)columns fromTable:(NSString *)name where:(NSDictionary *)conditions orderBy:(NSArray *)order from:(long)from to:(long)to{
     __block NSMutableArray *data = [NSMutableArray array];
     NSString *sql = [NSString stringWithFormat:@"SELECT * FROM '%@'",name];
@@ -105,7 +105,7 @@
 //    NSLog(@"countOf%@:%d",name,itemsCount);
     return itemsCount;
 }
-#pragma mark - insert
+#pragma mark - insert Items
 - (BOOL) insertItemsToTableName:(NSString *)name columns:(NSDictionary *)columns{
     NSArray *keys = [columns allKeys];
     NSArray *values = [columns allValues];
@@ -116,7 +116,7 @@
     }];
     return YES;
 }
-#pragma mark - updateItems
+#pragma mark - update Items
 - (BOOL) updateItemsTableName:(NSString *)name set:(NSDictionary *)columns where:(NSDictionary *)conditions{
     NSString *sql = [NSString stringWithFormat:@"UPDATE '%@' SET %@ WHERE %@",name,[columns stringByJoinEntireWithSpaceCharacter:@" = " andBoundary:@" AND "],[conditions stringByJoinEntireWithSpaceCharacter:@" = " andBoundary:@" AND "]];
     [dBQueue inDatabase:^(FMDatabase *db){
@@ -124,7 +124,7 @@
     }];
     return YES;
 }
-#pragma mark - delete
+#pragma mark - delete Items
 - (BOOL) deleteFromTableName:(NSString *)name where:(NSDictionary *)conditions{
     NSString *sql = [NSString stringWithFormat:@"DELETE FROM '%@' WHERE %@",name,[conditions stringByJoinEntireWithSpaceCharacter:@" = " andBoundary:@" AND "]];
     [dBQueue inDatabase:^(FMDatabase *db){
@@ -132,7 +132,7 @@
     }];
     return YES;
 }
-
+#pragma mark - delete table
 - (BOOL) dropTableName:(NSString *)name{
     NSString *sql = [NSString stringWithFormat:@"DROP TABLE '%@'",name];
     [dBQueue inDatabase:^(FMDatabase *db){
@@ -140,7 +140,7 @@
     }];
     return YES;
 }
-#pragma mark - alter
+#pragma mark - alter table name
 - (BOOL) alterTableName:(NSString *)name toNewName:(NSString *)newName{
     NSString *sql = [NSString stringWithFormat:@"ALTER TABLE '%@' RENAME TO '%@'",name,newName];
     [dBQueue inDatabase:^(FMDatabase *db){
@@ -149,7 +149,7 @@
     return YES;
 }
 
-#pragma mark - executeUpdate
+#pragma mark - execute sqlString
 - (BOOL) excuteSQLs:(NSArray *)sqls{
     [dBQueue inDatabase:^(FMDatabase *db){
         for (NSString *sql in sqls) {

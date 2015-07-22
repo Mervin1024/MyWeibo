@@ -22,7 +22,7 @@
 @end
 
 @implementation ImageScrollView
-
+#pragma mark - init 方法
 - (ImageScrollView *)initWithFrame:(CGRect)frame{
     if ((self = [super initWithFrame:frame])) {
         self.showsHorizontalScrollIndicator = NO;
@@ -39,15 +39,12 @@
     }
     return self;
 }
-
+#pragma mark - 设置图片初始位置及 rect
 - (void)setContentWithFrame:(CGRect)rect{
-//    imageView.frame = rect;
-//    rect.origin.y = rect.origin.y-offset.y;
-//    rect.origin.x = rect.origin.x-offset.x;
     imageView.frame = rect;
     initRect = rect;
 }
-
+#pragma mark - 图片放大后的 rect
 - (void)setAnimationRect{
     imageView.frame = scaleOriginRect;
 }
@@ -56,29 +53,27 @@
     self.zoomScale = 1.0;
     imageView.frame = initRect;
 }
-
+#pragma mark - 放大图片
 - (void)setImage:(UIImage *)image{
 
     imageView.image = image;
     imgSize = image.size;
-//    NSLog(@"imgSize:%@",NSStringFromCGSize(imgSize));
+
     float scaleX = self.frame.size.width/imgSize.width;
     float scaleY = self.frame.size.height/imgSize.height;
-//    NSLog(@"scaleX:%f,scaleY:%f",scaleX,scaleY);
+
     
     if (scaleX > scaleY) {
-//        NSLog(@"scaleX > scaleY:%@",NSStringFromCGSize(imgSize));
         float imageW = imgSize.width*scaleY;
         self.minimumZoomScale = self.frame.size.width/imageW;
         scaleOriginRect = CGRectMake(self.frame.size.width/2-imageW/2, 0, imageW, self.frame.size.height);
     }else{
-//        NSLog(@"scaleY >= scaleX:%@",NSStringFromCGSize(imgSize));
         float imageH = imgSize.height*scaleX;
         self.maximumZoomScale = self.frame.size.height/imageH;
         scaleOriginRect = CGRectMake(0, self.frame.size.height/2-imageH/2, self.frame.size.width, imageH);
     }
 }
-// scroll delegate
+#pragma mark -  scroll delegate 协议
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
     return imageView;
 }

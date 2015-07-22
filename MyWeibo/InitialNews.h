@@ -16,3 +16,10 @@
 + (void) insertNewsModel;
 + (void) insertUserModel;
 @end
+
+
+/*
+ 
+    虚拟数据
+ 
+*/
