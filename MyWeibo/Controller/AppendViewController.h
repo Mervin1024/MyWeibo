@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "AddNewsViewController.h"
 
-@interface AppendViewController : UIViewController<AddNewsViewControllerDelegate>
+@interface AppendViewController : UIViewController
 
 - (IBAction)text:(id)sender;
 - (IBAction)image:(id)sender;

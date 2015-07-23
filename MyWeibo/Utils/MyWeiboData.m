@@ -28,6 +28,12 @@ NSString *const avatarName = @"avatar";
 NSString *const userName = @"user_name";
 NSString *const userDesc = @"description";
 
+NSString *const personalName = @"personalName";
+NSString *const personalAvatar = @"personalAvatar";
+NSString *const personalDesc = @"personalDesc";
+NSString *const personalID = @"personalID";
+NSString *const personalPassword = @"personalPassword";
+
 - (MyWeiboData *)init{
     self = [super init];
     if (self) {

@@ -15,7 +15,7 @@
 + (NSDictionary *) dictionaryOfPropertiesAndTypes;
 + (NSArray *) arrayAllBySelectedWhere:(NSDictionary *)condition;
 - (NSDictionary *) dictionaryOfData;
-- (void) insertItemToTable;
+- (BOOL) insertItemToTable;
 
 //@property (strong, nonatomic) NSArray *images;
 @property (assign, nonatomic) NSInteger image_id;

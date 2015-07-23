@@ -43,15 +43,12 @@
     if ([segue.identifier isEqualToString:@"AddText"]) {
         addNewsViewController = segue.destinationViewController;
         addNewsViewController.addNewsType = AddNewsTypeOfText;
-        addNewsViewController.delegate = self;
     }else if ([segue.identifier isEqualToString:@"AddImage"]){
         addNewsViewController = segue.destinationViewController;
         addNewsViewController.addNewsType = AddNEwsTypeOfImage;
-        addNewsViewController.delegate = self;
     }else if ([segue.identifier isEqualToString:@"AddPhoto"]){
         addNewsViewController = segue.destinationViewController;
         addNewsViewController.addNewsType = AddNewsTypeOfPhoto;
-        addNewsViewController.delegate = self;
     }
 }
 
@@ -61,8 +58,5 @@
 //    
 //}
 
-- (void)AddNewsViewController:(AddNewsViewController *)controller DidFinishPublish:(NewsModel *)news{
-    NSLog(@"发表");
-}
 
 @end

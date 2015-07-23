@@ -53,7 +53,7 @@
 + (CGFloat) heighForRowWithStyle:(NewsStyle)newsStyle model:(NewsModel *)newsModel{
     if (newsStyle == NewsStyleOfList) {
         CGFloat imageHeight = 0.0f;
-        if (newsModel.images.count > 0) {
+        if (newsModel.imagesName.count > 0) {
             imageHeight += CELL_IMAGE_HIGHT + CELL_CONTENT_MARGIN;
         }
         UILabel *label = [UILabel new];
@@ -65,8 +65,8 @@
         return cellHeight;
     }else if (newsStyle == NewsStyleOfDetail){
         CGFloat imageHeight = 0.0f;
-        for (int i = 0; i < newsModel.images.count; i++) {
-            UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.images[i]]];
+        for (int i = 0; i < newsModel.imagesName.count; i++) {
+            UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.imagesName[i]]];
             CGFloat imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH/2;
             imageHeight += CELL_CONTENT_MARGIN+imageH;
         }

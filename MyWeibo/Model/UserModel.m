@@ -78,13 +78,19 @@
     return data[0];
 }
 
-- (void) insertItemToTable{
-    [dbManager insertItemsToTableName:userTable columns:[self dictionaryOfDate]];
+- (BOOL) insertItemToTable{
+    if ([dbManager insertItemsToTableName:userTable columns:[self dictionaryOfDate]]) {
+        return YES;
+    }
+    return NO;
 }
 
-- (void) updateItemFromTable{
-    [dbManager updateItemsTableName:userTable set:@{avatarName:avatar} where:@{userID:user_ID}];
-    [dbManager updateItemsTableName:userTable set:@{userName:name} where:@{userID:user_ID}];
+- (BOOL) updateItemFromTable{
+    if ([dbManager updateItemsTableName:userTable set:@{avatarName:avatar} where:@{userID:user_ID}] && [dbManager updateItemsTableName:userTable set:@{userName:name} where:@{userID:user_ID}] && [dbManager updateItemsTableName:userTable set:@{userDesc:desc} where:@{userID:user_ID}]) {
+        return YES;
+    }
+    return NO;
+    
 }
 
 @end

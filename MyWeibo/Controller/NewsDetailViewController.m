@@ -79,7 +79,7 @@
     myScrollView.delegate = self;
     CGSize contentSize = myScrollView.contentSize;
     contentSize.height = tableViewContentRect.size.height;
-    contentSize.width = tableViewContentRect.size.width*newsModel.images.count;
+    contentSize.width = tableViewContentRect.size.width*newsModel.imagesName.count;
     myScrollView.contentSize = contentSize;
 //
     
@@ -121,8 +121,8 @@
         CGFloat floatX = CELL_CONTENT_MARGIN;
         CGFloat imageH = 0;
         for (int i = 0; i < 3; i++) {
-            if (i < newsModel.images.count) {
-                UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.images[i]]];
+            if (i < newsModel.imagesName.count) {
+                UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.imagesName[i]]];
                 imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH/2;
             }
             UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH/2, imageH)];
@@ -135,7 +135,7 @@
             floatY +=imageH+CELL_CONTENT_MARGIN;
         }
         cell.weiboImages = [NSArray arrayWithArray:imageViews];
-        [cell setImages:newsModel.images withStyle:NewsStyleOfDetail];
+        [cell setImages:newsModel.imagesName withStyle:NewsStyleOfDetail];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else if (indexPath.row == 1){
@@ -190,7 +190,7 @@
     [myScrollView.subviews excetueEach:^(UIView *tmpView){
         [tmpView removeFromSuperview];
     }];
-    for (int i = 0; i < newsModel.images.count; i++) {
+    for (int i = 0; i < newsModel.imagesName.count; i++) {
         if (i == index) {
             continue;
         }

@@ -12,6 +12,7 @@
 #import "UserModel.h"
 #import "Random.h"
 #import "DocumentAccess.h"
+#import "PersonalModel.h"
 
 @implementation InitialNews
 
@@ -34,23 +35,26 @@
         int a = [random4[i] intValue];
         [image addObject:images[a]];
     }
-    NewsModel *new = [[NewsModel alloc]initWithNewsID:0 userID:userIDs[random1] text:texts[random2] images:image];
+    NewsModel *new = [[NewsModel alloc]initWithNewsID:0 userID:userIDs[random1] text:texts[random2] imagesName:image];
     return new;
 }
 
-+ (void) insertNewsModel{
++ (BOOL) insertNewsModel{
     if ([NewsModel countOfNews] < 20) {
         for (int i = 0; i < 20; i++) {
             NewsModel *new = [InitialNews randomNewsModel];
             [new insertItemToTable];
-            for (int i = 0; i < new.images.count; i++) {
-                [DocumentAccess saveImage:[UIImage imageNamed:new.images[i]] withImageName:new.images[i]];
+            for (int i = 0; i < new.imagesName.count; i++) {
+                [DocumentAccess saveImage:[UIImage imageNamed:new.imagesName[i]] withImageName:new.imagesName[i]];
             }
         }
+        NSLog(@"添加虚拟微博");
+        return YES;
     }
+    return NO;
 }
 
-+ (void) insertUserModel{
++ (BOOL) insertUserModel{
     NSArray *userIDs = @[@"Mervin",@"Bob",@"Nancy"];
     NSArray *userNames = @[@"赵日天",@"鲍俊杰",@"嫖断屌"];
     NSArray *avatars = @[@"yin",@"yuan",@"cindy"];
@@ -62,7 +66,24 @@
             [user insertItemToTable];
             [DocumentAccess saveImage:[UIImage imageNamed:avatars[i]] withImageName:avatars[i]];
         }
+        NSLog(@"添加虚拟粉丝");
+        return YES;
     }
+    return NO;
+}
+
++ (BOOL) savePersonalInformation{
+    PersonalModel *person = [[PersonalModel alloc]initWithUserID:@"Taddy" password:@"123456" name:@"咣咣加" avatar:@"莲妈" description:@"苦逼"];
+    if ([PersonalModel personalIDfromUserDefaults]) {
+        return NO;
+        
+    }else{
+        [person savePersonalInformation];
+        [person insertItemToTable];
+        NSLog(@"添加虚拟用户");
+        return YES;
+    }
+    
 }
 
 @end

@@ -17,12 +17,18 @@
 #import "UILabel+StringFrame.h"
 #import "NewsDetailViewController.h"
 #import "CommentCell.h"
+#import "PersonalModel.h"
+#import "SVProgressHUD.h"
+#import "AddNewsViewController.h"
 
 @interface NewsTableViewController (){
     NSMutableArray *tableData;
     NSInteger sizeOfRefresh;
     DBManager *dbManager;
-    NewsModel *newsModel;
+//    NewsModel *newsModel;
+    NSInteger mark;
+    float to;
+    float from;
 }
 
 @end
@@ -35,14 +41,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initValue];
-    [self initDB];
-    [self setTableData];
     [self setRefreshControl];
+    // 注册通知
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishPublish:) name:@"AddNewsNotification" object:nil];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    // 注销通知
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -54,7 +61,12 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-//    NSLog(@"contentSize:%@",NSStringFromCGSize(self.tableView.contentSize));
+    if (mark == 0) {
+        [SVProgressHUD showWithStatus:@"正在加载。。"];
+        [self performSelector:@selector(setTableData) withObject:nil afterDelay:0.5];
+        mark = 1;
+    }
+    
 }
 #pragma mark - 读取数据库
 - (void) initValue{
@@ -62,6 +74,9 @@
     tableData = [NSMutableArray array];
     sizeOfRefresh = 10;
     self.count = 0;
+    mark = 0;
+    from = 0;
+    to = 0;
 }
 
 - (void) initDB{
@@ -69,12 +84,26 @@
     // 添加虚拟数据
     [InitialNews insertUserModel];
     [InitialNews insertNewsModel];
+    [InitialNews savePersonalInformation];
 }
 
 - (void) setTableData{
-    self.count = tableData.count;
-
-    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:self.count to:self.count+sizeOfRefresh]];
+    if ([NewsModel countOfNews] == 0) {
+        [self initDB];
+    }
+//    [self initDB];
+//    self.count = tableData.count;
+    from = to;
+    to = [NewsModel countOfNews];
+    if ((to - from)<= sizeOfRefresh) {
+    }else{
+        tableData = [NSMutableArray array];
+        from = to - sizeOfRefresh;
+    }
+    
+    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:from to:to]];
+    [SVProgressHUD dismiss];
+    [self.tableView reloadData];
 
 }
 #pragma mark - 添加下拉刷新控件 UIRefreshControl
@@ -94,11 +123,10 @@
 
 - (void) refreshControlDidRefreshing{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self setTableData];
-        if (tableData.count > self.count) {
+        if ([NewsModel countOfNews] > to) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新成功"];
-                [self.tableView reloadData];
+                [self setTableData];
                 [self performSelector:@selector(didFinishRefreshing) withObject:nil afterDelay:0.5];
             });
         }else{
@@ -112,7 +140,7 @@
 
 - (void) didFinishRefreshing{
     [aRefreshController endRefreshing];
-    [self performSelector:@selector(changeRefreshingTitle) withObject:nil afterDelay:1];
+    [self performSelector:@selector(changeRefreshingTitle) withObject:nil afterDelay:0.5];
 }
 
 - (void) changeRefreshingTitle{
@@ -162,7 +190,7 @@
             [cell.contentView addSubview:imageView];
         }
         cell.weiboImages = [NSArray arrayWithArray:imageViews];
-        [cell setImages:new.images withStyle:NewsStyleOfList];
+        [cell setImages:new.imagesName withStyle:NewsStyleOfList];
         return cell;
     }else{
         CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
@@ -195,6 +223,18 @@
     }
 
 }
+#pragma mark - AddNewsNotification 方法
+- (void)didFinishPublish:(NSNotification *)notification{
+    NSDictionary *dic = [notification userInfo];
+    if (dic != nil) {
+        NewsModel *newsModel = [dic objectForKey:@"news"];
+//        [tableData addObject:newsModel];
+        [newsModel insertItemToTable];
+        [self setTableData];
+        [self.tableView reloadData];
+    }
+}
+
 #pragma mark - cell 点击事件
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {

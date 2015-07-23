@@ -12,12 +12,16 @@
 #import "DocumentAccess.h"
 #import "NSDate+Assemble.h"
 #import "NSArray+Assemble.h"
+#import "NewsModel.h"
+#import "MyWeiboData.h"
+#import "PersonalModel.h"
 
-@interface AddNewsViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
+@interface AddNewsViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate>{
     UILabel *label;
     UIButton *addImage;
     UIActionSheet *actionSheet;
     NSMutableArray *images;
+    NSMutableArray *imagesName;
     NSMutableArray *imageViews;
     CGFloat buttonHight;
 }
@@ -27,10 +31,12 @@
 @implementation AddNewsViewController
 @synthesize addNewsType;
 CGFloat const buttonMargin = 7.0f;
+CGFloat const viewMargin = 16.0f;
 - (void)viewDidLoad {
     [super viewDidLoad];
     images = [NSMutableArray array];
     imageViews = [NSMutableArray array];
+    imagesName = [NSMutableArray array];
     [self setView];
 }
 
@@ -41,31 +47,33 @@ CGFloat const buttonMargin = 7.0f;
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if (self.view.frame.size.width > self.textView.frame.size.width) {
-        [self setImageAndButton];
-    }
+    [self setImageAndButton];
     switch (addNewsType) {
         case AddNewsTypeOfPhoto:
             addNewsType = AddNewsTypeNone;
+
             [self takePhoto];
             break;
         case AddNEwsTypeOfImage:
             addNewsType = AddNewsTypeNone;
+
             [self localPhoto];
             break;
         case AddNewsTypeOfText:
             addNewsType = AddNewsTypeNone;
+            [self.textView becomeFirstResponder];
             addImage.hidden = YES;
             break;
         default:
+            [self.textView becomeFirstResponder];
             break;
     }
-    [self.textView becomeFirstResponder];
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self setImageAndButton];
+//    [self setImageAndButton];
 }
 
 - (void)setView{
@@ -75,7 +83,7 @@ CGFloat const buttonMargin = 7.0f;
     label.enabled = NO;
     label.text = @"分享新鲜事...";
     label.textColor = [UIColor lightGrayColor];
-    label.frame = CGRectMake(buttonMargin, buttonMargin, self.textView.bounds.size.width, [label hightOfLabelWithFontSize:15 linesNumber:1]);
+    label.frame = CGRectMake(buttonMargin, buttonMargin, self.view.bounds.size.width-viewMargin*2, [label hightOfLabelWithFontSize:15 linesNumber:1]);
     label.numberOfLines = 0;
     [self.textView addSubview:label];
     
@@ -85,7 +93,7 @@ CGFloat const buttonMargin = 7.0f;
 
 - (void)setImageAndButton{
     if (images.count == 0 && addImage == nil) {
-        buttonHight = (self.textView.bounds.size.width-buttonMargin*4)/3.0;
+        buttonHight = (self.view.bounds.size.width-viewMargin*2-buttonMargin*4)/3.0;
         addImage = [UIButton buttonWithType:UIButtonTypeCustom];
         addImage.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y+[label hightOfLabelWithFontSize:15 linesNumber:3]+buttonMargin, buttonHight, buttonHight);
         addImage.backgroundColor = [UIColor clearColor];
@@ -95,7 +103,6 @@ CGFloat const buttonMargin = 7.0f;
         [self.textView addSubview:addImage];
         
     }
-    
     if (images.count > imageViews.count) {
         // button
         CGRect buttom = addImage.frame;
@@ -119,13 +126,16 @@ CGFloat const buttonMargin = 7.0f;
 - (void)addImage:(id)sender{
     actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:@"打开相机",@"从相册中添加", nil];
     [actionSheet showInView:self.view];
+    [self.textView resignFirstResponder];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void)actionSheet:(UIActionSheet *)mactionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
     if (buttonIndex == 0) {
         [self takePhoto];
     }else if (buttonIndex == 1){
         [self localPhoto];
+    }else if (buttonIndex == actionSheet.cancelButtonIndex){
+        [self.textView becomeFirstResponder];
     }
 }
 
@@ -140,6 +150,9 @@ CGFloat const buttonMargin = 7.0f;
         [self presentViewController:picker animated:YES completion:nil];
     }else{
         [SVProgressHUD showErrorWithStatus:@"设备不支持相机" maskType:SVProgressHUDMaskTypeBlack];
+        
+//        [self.textView becomeFirstResponder];
+        [self.textView performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:1.0];
     }
 }
 
@@ -156,9 +169,11 @@ CGFloat const buttonMargin = 7.0f;
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
     if ([type isEqualToString:@"public.image"]) {
         UIImage *image = [info objectForKey:@"UIImagePickerControllerOriginalImage"];
-//        NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
-//        [DocumentAccess saveImage:image withImageName:[date stringFromDate]];
+        NSDate *date = [NSDate dateWithTimeIntervalSinceNow:0];
+        NSString *imageName = [date stringFromDate];
         [images addObject:image];
+        [imagesName addObject:imageName];
+        
         [picker dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -170,19 +185,27 @@ CGFloat const buttonMargin = 7.0f;
 - (void)textViewDidChange:(UITextView *)textView{
     if ([textView.text length] == 0) {
         label.hidden = NO;
+        self.publishBarButton.enabled = NO;
     }else{
         label.hidden = YES;
+        self.publishBarButton.enabled = YES;
     }
 }
 
 - (IBAction)cancel:(id)sender {
-//    [self.delegate AddNewsViewControllerDidCancel:self];
-    [self.tabBarController setSelectedIndex:0];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)publish:(id)sender {
-    [self.delegate AddNewsViewController:self DidFinishPublish:nil];
+    NewsModel *news = [[NewsModel alloc]initWithNewsID:0 userID:[PersonalModel personalIDfromUserDefaults] text:self.textView.text imagesName:imagesName];
+    NSDictionary *dic = @{@"news":news};
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"AddNewsNotification" object:self userInfo:dic];
+    for (int i = 0; i < images.count && i < imagesName.count; i++) {
+        [DocumentAccess saveImage:images[i] withImageName:imagesName[i]];
+    }
+    
+    [self.tabBarController setSelectedIndex:0];
+    [self.navigationController popViewControllerAnimated:YES];
     
 }
 @end

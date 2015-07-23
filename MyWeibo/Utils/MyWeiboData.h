@@ -31,4 +31,10 @@ extern NSString *const userID;
 extern NSString *const avatarName;
 extern NSString *const userName;
 extern NSString *const userDesc;
+
+extern NSString *const personalName;
+extern NSString *const personalAvatar;
+extern NSString *const personalDesc;
+extern NSString *const personalID;
+extern NSString *const personalPassword;
 @end

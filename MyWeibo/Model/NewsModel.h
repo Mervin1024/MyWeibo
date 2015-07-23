@@ -10,21 +10,21 @@
 #import "UserModel.h"
 
 @interface NewsModel : NSObject
-+ (void) creatTableFromSql;
-- (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text images:(NSArray *)image;
++ (BOOL) creatTableFromSql;
+- (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text imagesName:(NSArray *)image;
 - (NewsModel *)initWithDictionary:(NSDictionary *)data;
 + (int) countOfNews;
-- (int) countOfImages;
+- (int) countOfImagesName;
 + (NSArray *) arrayOfProperties;
 + (NSDictionary *) dictionaryOfPropertiesAndTypes;
-- (void) deleteNewFromTable;
+- (BOOL) deleteNewFromTable;
 + (NSArray *) arrayBySelectedWhere:(NSDictionary *)condition from:(long)from to:(long)to;
-- (void) insertItemToTable;
+- (BOOL) insertItemToTable;
 - (NSDictionary *) dictionaryOfData;
 
 @property (assign, nonatomic) NSInteger news_id;
 @property (copy, nonatomic) NSString *user_id;
-@property (strong, nonatomic) NSArray *images;
+@property (strong, nonatomic) NSArray *imagesName;
 @property (copy, nonatomic) NSString *news_text;
 @property (strong, nonatomic) UserModel *user;
 @end

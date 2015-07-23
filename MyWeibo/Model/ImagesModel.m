@@ -19,16 +19,16 @@
 
 #pragma mark - init 方法
 - (ImagesModel *)init{
-    self = [super init];
-    if (self) {
+
+    if ((self = [super init])) {
         dbManager = [MyWeiboData sharedManager].dbManager;
     }
     return self;
 }
 
 - (ImagesModel *)initWithImage:(NSString *)imageName newsID:(NSInteger)newsId{
-    self = [super init];
-    if (self) {
+    
+    if ((self = [super init])) {
         dbManager = [MyWeiboData sharedManager].dbManager;
         image_name = imageName;
         news_id = newsId;
@@ -54,14 +54,17 @@
 }
 #pragma mark - 字典形式返回对象属性
 - (NSDictionary *) dictionaryOfData{
-    if (image_id) {
+    if (image_id > 0) {
         return [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%ld",image_id],image_name,[NSString stringWithFormat:@"%ld",news_id]] forKeys:@[imageID,imageName,newsID]];
     }
     return [NSDictionary dictionaryWithObjects:@[image_name,[NSString stringWithFormat:@"%ld",news_id]] forKeys:@[imageName,newsID]];
 }
 #pragma mark - 单条目插入数据库
-- (void) insertItemToTable{
-    [dbManager insertItemsToTableName:imagesTable columns:[self dictionaryOfData]];
+- (BOOL) insertItemToTable{
+    if ([dbManager insertItemsToTableName:imagesTable columns:[self dictionaryOfData]]) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

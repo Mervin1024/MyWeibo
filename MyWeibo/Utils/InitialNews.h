@@ -13,8 +13,9 @@
 
 @interface InitialNews : NSObject
 + (NewsModel *) randomNewsModel;
-+ (void) insertNewsModel;
-+ (void) insertUserModel;
++ (BOOL) insertNewsModel;
++ (BOOL) insertUserModel;
++ (BOOL) savePersonalInformation;
 @end
 
 

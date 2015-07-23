@@ -10,7 +10,7 @@
 @class NewsModel;
 @class AddNewsViewController;
 typedef enum {
-    AddNewsTypeNone,
+    AddNewsTypeNone = 0,
     AddNewsTypeOfText,
     AddNEwsTypeOfImage,
     AddNewsTypeOfPhoto
@@ -18,7 +18,6 @@ typedef enum {
 
 @protocol AddNewsViewControllerDelegate <NSObject>
 
-//- (void)AddNewsViewControllerDidCancel:(AddNewsViewController *)controller;
 - (void)AddNewsViewController:(AddNewsViewController *)controller DidFinishPublish:(NewsModel *)news;
 
 @end
@@ -26,6 +25,7 @@ typedef enum {
 
 @interface AddNewsViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *publishBarButton;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (assign, nonatomic) AddNewsType addNewsType;
 @property (weak, nonatomic) id<AddNewsViewControllerDelegate> delegate;

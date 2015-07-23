@@ -6,8 +6,14 @@
 //  Copyright (c) 2015年 NJUPT. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "UserModel.h"
 
-@interface PersonalModel : NSObject
+@interface PersonalModel : UserModel
 
+- (PersonalModel *)initWithUserDefaults;
+- (PersonalModel *)initWithUserID:(NSString *)userId password:(NSString *)passwords name:(NSString *)names avatar:(NSString *)avatars description:(NSString *)descr;
+- (BOOL)savePersonalInformation;
++ (NSString *)personalIDfromUserDefaults;
+
+@property (copy, nonatomic) NSString *password;
 @end

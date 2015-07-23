@@ -16,7 +16,7 @@
 }
 @synthesize news_id;
 @synthesize user_id;
-@synthesize images;
+@synthesize imagesName;
 @synthesize news_text;
 @synthesize user;
 
@@ -29,12 +29,12 @@
     return self;
 }
 
-- (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text images:(NSArray *)image{
+- (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text imagesName:(NSArray *)image{
     self = [super init];
     if (self) {
         dbManager = [MyWeiboData sharedManager].dbManager;
         user_id = userId;
-        images = image;
+        imagesName = image;
         news_text = text;
         if (newsId > 0) {
             news_id = newsId;
@@ -53,7 +53,7 @@
         dbManager = [MyWeiboData sharedManager].dbManager;
         user_id = [data objectForKey:userID];
         news_text = [data objectForKey:newsText];
-        images = [self arrayAllImagesBySelected];
+        imagesName = [self arrayAllImagesNameBySelected];
         user = [UserModel selectedByUserID:user_id];
     }
     return self;
@@ -63,7 +63,7 @@
     return [[MyWeiboData sharedManager].dbManager countOfItemsNumberInTable:newsTable where:nil];
 }
 
-- (int) countOfImages{
+- (int) countOfImagesName{
     return [ImagesModel countOfImagesWithNewsID:news_id];
 }
 
@@ -76,7 +76,7 @@
     return [NSDictionary dictionaryWithObjects:types forKeys:[NewsModel arrayOfProperties]];
 }
 
-- (NSArray *) arrayAllImagesBySelected{
+- (NSArray *) arrayAllImagesNameBySelected{
     NSArray *data = [ImagesModel arrayAllBySelectedWhere:@{newsID:[NSString stringWithFormat:@"%ld",news_id]}];
     NSMutableArray *imageNames = [NSMutableArray array];
     for (NSDictionary *image in data) {
@@ -95,40 +95,51 @@
 }
 #pragma mark - 字典形式返回对象属性
 - (NSDictionary *) dictionaryOfData{
-    if (news_id) {
+    if (news_id > 0) {
         return [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%ld",(long)news_id],user_id,news_text] forKeys:[NewsModel arrayOfProperties]];
     }
     return [NSDictionary dictionaryWithObjects:@[user_id,news_text] forKeys:@[userID,newsText]];
 }
 #pragma mark - 从数据库删除条目
-- (void) deleteNewFromTable{
-    [dbManager deleteFromTableName:newsTable where:@{newsID:[NSString stringWithFormat:@"%ld",(long)news_id]}];
-    [self deleteImagesFromTable];
+- (BOOL) deleteNewFromTable{
+    if ([dbManager deleteFromTableName:newsTable where:@{newsID:[NSString stringWithFormat:@"%ld",(long)news_id]}] && [self deleteImagesFromTable]) {
+        return YES;
+    }
+    return NO;
+    
 }
 
-- (void) deleteImagesFromTable{
-    [dbManager deleteFromTableName:imagesTable where:@{newsID:[NSString stringWithFormat:@"%ld",(long)news_id]}];
+- (BOOL) deleteImagesFromTable{
+    if ([dbManager deleteFromTableName:imagesTable where:@{newsID:[NSString stringWithFormat:@"%ld",(long)news_id]}]) {
+        return YES;
+    }
+    return NO;
 }
 #pragma mark - 单条目插入数据库
-- (void) insertItemToTable{
-    [dbManager insertItemsToTableName:newsTable columns:[self dictionaryOfData]];
-    if (self.news_id) {
-    }else{
-        int count = [NewsModel countOfNews];
-        NSArray *news = [dbManager arrayBySelect:[NewsModel arrayOfProperties] fromTable:newsTable where:nil orderBy:nil from:count-1 to:count];
-//        NSLog(@"news.count:%lu",(unsigned long)news.count);
-        self.news_id = [[news[0] objectForKey:newsID] intValue];
+- (BOOL) insertItemToTable{
+    if ([dbManager insertItemsToTableName:newsTable columns:[self dictionaryOfData]]) {
+        if (self.news_id) {
+        }else{
+            int count = [NewsModel countOfNews];
+            NSArray *news = [dbManager arrayBySelect:[NewsModel arrayOfProperties] fromTable:newsTable where:nil orderBy:nil from:count-1 to:count];
+            self.news_id = [[news[0] objectForKey:newsID] intValue];
+        }
+        
+        for (int i = 0; i < imagesName.count; i++) {
+            ImagesModel *image = [[ImagesModel alloc]initWithImage:imagesName[i] newsID:news_id];
+            [image insertItemToTable];
+        }
+        return YES;
     }
+    return NO;
     
-    for (int i = 0; i < images.count; i++) {
-        ImagesModel *image = [[ImagesModel alloc]initWithImage:images[i] newsID:news_id];
-        [image insertItemToTable];
-    }
+    
 }
 #pragma mark - 数据库建表
-+ (void) creatTableFromSql{
++ (BOOL) creatTableFromSql{
     [[MyWeiboData sharedManager].dbManager createTableName:newsTable columns:[NewsModel dictionaryOfPropertiesAndTypes]];
     [[MyWeiboData sharedManager].dbManager createTableName:userTable columns:[UserModel dictionaryOfPropertiesAndTypes]];
     [[MyWeiboData sharedManager].dbManager createTableName:imagesTable columns:[ImagesModel dictionaryOfPropertiesAndTypes]];
+    return YES;
 }
 @end

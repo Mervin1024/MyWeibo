@@ -16,8 +16,8 @@
 + (NSDictionary *) dictionaryOfPropertiesAndTypes;
 - (NSDictionary *) dictionaryOfDate;
 - (NSDictionary *) dictionaryBySelected;
-- (void) insertItemToTable;
-- (void) updateItemFromTable;
+- (BOOL) insertItemToTable;
+- (BOOL) updateItemFromTable;
 
 @property (copy, nonatomic) NSString *user_ID;
 @property (copy, nonatomic) NSString *name;
