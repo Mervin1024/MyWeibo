@@ -93,7 +93,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        return [NewTableViewCell heighForRowWithStyle:NewsStyleOfDetail model:newsModel];
+        return [NewTableViewCell heighForRowWithCellContentWidth:(TABLE_CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN*2) Style:NewsStyleOfDetail model:newsModel];
     }else if (indexPath.row == 1){
         return TABLE_CONTENT_MARGIN;
     }else{
@@ -116,26 +116,25 @@
         }else{
             cell.name.text = newsModel.user.user_ID;
         }
-        NSMutableArray *imageViews = [NSMutableArray array];
-        CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
-        CGFloat floatX = CELL_CONTENT_MARGIN;
-        CGFloat imageH = 0;
-        for (int i = 0; i < 3; i++) {
-            if (i < newsModel.imagesName.count) {
-                UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.imagesName[i]]];
-                imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH/2;
-            }
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH/2, imageH)];
-            imageView.userInteractionEnabled = YES;
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tappedWithObject:)];
-            imageView.tag = i+100;
-            [imageView addGestureRecognizer:tap];
-            [imageViews addObject:imageView];
-            [cell.contentView addSubview:imageView];
-            floatY +=imageH+CELL_CONTENT_MARGIN;
-        }
-        cell.weiboImages = [NSArray arrayWithArray:imageViews];
-        [cell setImages:newsModel.imagesName withStyle:NewsStyleOfDetail];
+//        NSMutableArray *imageViews = [NSMutableArray array];
+//        CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
+//        CGFloat floatX = CELL_CONTENT_MARGIN;
+//        CGFloat imageH = 0;
+//        for (int i = 0; i < 3; i++) {
+//            if (i < newsModel.imagesName.count) {
+//                UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.imagesName[i]]];
+//                imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH/2;
+//            }
+//            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH/2, imageH)];
+//            imageView.userInteractionEnabled = YES;
+//            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tappedWithObject:)];
+//            imageView.tag = i+100;
+//            [imageView addGestureRecognizer:tap];
+//            [imageViews addObject:imageView];
+//            [cell.contentView addSubview:imageView];
+//            floatY +=imageH+CELL_CONTENT_MARGIN;
+//        }
+        [self tableViewCell:cell setImages:newsModel.imagesName withStyle:NewsStyleOfDetail];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else if (indexPath.row == 1){
@@ -149,6 +148,31 @@
         return cell;
     }
 }
+#pragma mark - 动态加载 imageview
+- (void)tableViewCell:(NewTableViewCell *)cell setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle
+{
+    CGFloat imageWidth = [cell imageWidthAtBlankViewWithImagesCount:images.count style:newsStyle];
+    if (imageWidth != 0) {
+        
+        for (int i = 0; i < images.count; i++) {
+            UIImageView *imageView = [[UIImageView alloc]init];
+            if (images.count == 4) {
+                imageView.frame = CGRectMake((i%2)*(imageWidth+CELL_BLANKVIEW_MARGIN), (i/2)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, imageWidth, imageWidth);
+            }else{
+                imageView.frame = CGRectMake((i%3)*(imageWidth+CELL_BLANKVIEW_MARGIN), (i/3)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, imageWidth, imageWidth);
+            }
+            imageView.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.clipsToBounds = YES;
+            [cell.blankView addSubview:imageView];
+            imageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tappedWithObject:)];
+            imageView.tag = i+100;
+            [imageView addGestureRecognizer:tap];
+        }
+    }
+}
+
 #pragma mark - 点击图片放大事件 GestureRecognizer
 - (void) tappedWithObject:(UIGestureRecognizer *)sender{
     [self.view bringSubviewToFront:blankView];

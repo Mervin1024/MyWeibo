@@ -3,12 +3,14 @@
 #import <UIKit/UIKit.h>
 #import "NewsModel.h"
 
-#define CELL_CONTENT_WIDTH 375.0f
+
+//#define CELL_IMAGE_HIGHT 100.0f
+#define CELL_BLANKVIEW_MARGIN 3.0f
+#define CELL_CONTENT_WIDTH (self.frame.size.width)
 #define CELL_CONTENT_MARGIN 13.0f
-#define CELL_TEXT_WIDTH 349.0f
+#define CELL_TEXT_WIDTH (self.frame.size.width-2*13)
 #define CELL_AVATAR_HIGHT 30.0f
 #define FONT_SIZE 15.0f
-#define CELL_IMAGE_HIGHT 100.0f
 
 typedef enum {
     NewsStyleOfDetail,
@@ -23,8 +25,10 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UILabel *name;
 @property (weak, nonatomic) IBOutlet UILabel *description;
 @property (weak, nonatomic) IBOutlet UILabel *weibo;
-@property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *weiboImages;
+@property (strong, nonatomic) UIImageView *blankView;
 - (void) setAvatarAsRound;
-- (void) setImages:(NSArray *) images withStyle:(NewsStyle)newsStyle;
-+ (CGFloat) heighForRowWithStyle:(NewsStyle)newsStyle model:(NewsModel *)newsModel;
+
+- (CGFloat)imageWidthAtBlankViewWithImagesCount:(long)count style:(NewsStyle)newsStyle;
++ (CGFloat) imageWidthWithCellContentWidth:(CGFloat)width ImagesCount:(long)count style:(NewsStyle)style;
++ (CGFloat) heighForRowWithCellContentWidth:(CGFloat)width Style:(NewsStyle)newsStyle model:(NewsModel *)newsModel;
 @end

@@ -223,13 +223,19 @@ CGFloat const viewMargin = 16.0f;
 }
 
 - (IBAction)publish:(id)sender {
+    [SVProgressHUD showWithStatus:@"正在发送^_^"];
+    [self performSelector:@selector(publishNews) withObject:nil afterDelay:0.5];
+}
+
+- (void)publishNews{
     NewsModel *news = [[NewsModel alloc]initWithNewsID:0 userID:[PersonalModel personalIDfromUserDefaults] text:self.textView.text imagesName:imagesName];
     NSDictionary *dic = @{@"news":news};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AddNewsNotification" object:self userInfo:dic];
+    
     for (int i = 0; i < images.count && i < imagesName.count; i++) {
         [DocumentAccess saveImage:images[i] withImageName:imagesName[i]];
     }
-    
+    [SVProgressHUD dismiss];
     [self.tabBarController setSelectedIndex:0];
     [self.navigationController popViewControllerAnimated:YES];
     

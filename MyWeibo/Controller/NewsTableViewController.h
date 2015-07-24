@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #define TABLE_CONTENT_MARGIN 10.0f
+#define TABLE_CELL_CONTENT_WIDTH (self.view.frame.size.width)
+
 
 @interface NewsTableViewController : UITableViewController
 

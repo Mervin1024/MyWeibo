@@ -91,8 +91,6 @@
     if ([NewsModel countOfNews] == 0) {
         [self initDB];
     }
-//    [self initDB];
-//    self.count = tableData.count;
     from = to;
     to = [NewsModel countOfNews];
     if ((to - from)<= sizeOfRefresh) {
@@ -179,25 +177,15 @@
             cell.name.text = new.user.user_ID;
         }
         // 动态加载 imageview
-        NSMutableArray *imageViews = [NSMutableArray array];
-        for (int i = 0; i < 3; i++) {
-            CGFloat floatX = CELL_CONTENT_MARGIN * (i+1) + CELL_IMAGE_HIGHT * i;
-            CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
-            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_IMAGE_HIGHT, CELL_IMAGE_HIGHT)];
-            imageView.contentMode = UIViewContentModeScaleAspectFill;
-            imageView.clipsToBounds = YES;
-            [imageViews addObject:imageView];
-            [cell.contentView addSubview:imageView];
-        }
-        cell.weiboImages = [NSArray arrayWithArray:imageViews];
-        [cell setImages:new.imagesName withStyle:NewsStyleOfList];
+        [self tableViewCell:(NewTableViewCell *)cell setImages:new.imagesName withStyle:NewsStyleOfList];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else{
         CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
     
@@ -216,19 +204,39 @@
         // 计算 cell 高度
         long index = tableData.count -1- indexPath.section;
         NewsModel *new = tableData[index];
-        
-        return [NewTableViewCell heighForRowWithStyle:NewsStyleOfList model:new];
+        CGFloat width = TABLE_CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN*2;
+        return [NewTableViewCell heighForRowWithCellContentWidth:width Style:NewsStyleOfList model:new];
     }else{
         return 30.0f;
     }
 
 }
+#pragma mark - 动态加载 imageview
+- (void)tableViewCell:(NewTableViewCell *)cell setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle
+{
+    CGFloat imageWidth = [cell imageWidthAtBlankViewWithImagesCount:images.count style:newsStyle];
+    if (imageWidth != 0) {
+        
+        for (int i = 0; i < images.count; i++) {
+            UIImageView *imageView = [[UIImageView alloc]init];
+            if (images.count == 4) {
+                imageView.frame = CGRectMake((i%2)*(imageWidth+CELL_BLANKVIEW_MARGIN), (i/2)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, imageWidth, imageWidth);
+            }else{
+                imageView.frame = CGRectMake((i%3)*(imageWidth+CELL_BLANKVIEW_MARGIN), (i/3)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, imageWidth, imageWidth);
+            }
+            imageView.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
+            imageView.contentMode = UIViewContentModeScaleAspectFill;
+            imageView.clipsToBounds = YES;
+            [cell.blankView addSubview:imageView];
+        }
+    }
+}
+
 #pragma mark - AddNewsNotification 方法
 - (void)didFinishPublish:(NSNotification *)notification{
     NSDictionary *dic = [notification userInfo];
     if (dic != nil) {
         NewsModel *newsModel = [dic objectForKey:@"news"];
-//        [tableData addObject:newsModel];
         [newsModel insertItemToTable];
         [self setTableData];
         [self.tableView reloadData];
@@ -243,6 +251,7 @@
         
         [self performSegueWithIdentifier:@"ShowDetails" sender:news];
     }
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 #pragma mark - segue 跳转
