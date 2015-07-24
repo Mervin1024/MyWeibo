@@ -185,7 +185,7 @@
             CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
             UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_IMAGE_HIGHT, CELL_IMAGE_HIGHT)];
             imageView.contentMode = UIViewContentModeScaleAspectFill;
-            imageView.clipsToBounds = self;
+            imageView.clipsToBounds = YES;
             [imageViews addObject:imageView];
             [cell.contentView addSubview:imageView];
         }

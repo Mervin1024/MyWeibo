@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C95EDCDE1B61DB5200A21A04 /* AddingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C95EDCDD1B61DB5200A21A04 /* AddingImageView.m */; };
 		C967E0AD1B60FB1800A04653 /* NSArray+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0831B60FB1800A04653 /* NSArray+Assemble.m */; };
 		C967E0AE1B60FB1800A04653 /* NSDate+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0851B60FB1800A04653 /* NSDate+Assemble.m */; };
 		C967E0AF1B60FB1800A04653 /* NSDictionary+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0871B60FB1800A04653 /* NSDictionary+Assemble.m */; };
@@ -61,6 +62,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C95EDCDC1B61DB5200A21A04 /* AddingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddingImageView.h; sourceTree = "<group>"; };
+		C95EDCDD1B61DB5200A21A04 /* AddingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddingImageView.m; sourceTree = "<group>"; };
 		C967E0821B60FB1800A04653 /* NSArray+Assemble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Assemble.h"; sourceTree = "<group>"; };
 		C967E0831B60FB1800A04653 /* NSArray+Assemble.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Assemble.m"; sourceTree = "<group>"; };
 		C967E0841B60FB1800A04653 /* NSDate+Assemble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Assemble.h"; sourceTree = "<group>"; };
@@ -252,6 +255,8 @@
 				C967E0F41B61495C00A04653 /* Cell */,
 				C967E0C51B60FBAD00A04653 /* ImageScrollView.h */,
 				C967E0C61B60FBAD00A04653 /* ImageScrollView.m */,
+				C95EDCDC1B61DB5200A21A04 /* AddingImageView.h */,
+				C95EDCDD1B61DB5200A21A04 /* AddingImageView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -482,6 +487,7 @@
 			files = (
 				C967E0B31B60FB1800A04653 /* DBManager.m in Sources */,
 				C967E0BD1B60FB1800A04653 /* MyWeiboData.m in Sources */,
+				C95EDCDE1B61DB5200A21A04 /* AddingImageView.m in Sources */,
 				C967E0AE1B60FB1800A04653 /* NSDate+Assemble.m in Sources */,
 				C967E0F21B61183000A04653 /* PersonalModel.m in Sources */,
 				C967E0CE1B60FBAD00A04653 /* ImageScrollView.m in Sources */,

@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-@class NewsModel;
-@class AddNewsViewController;
+#import "AddingImageView.h"
+
 typedef enum {
     AddNewsTypeNone = 0,
     AddNewsTypeOfText,
@@ -16,19 +16,11 @@ typedef enum {
     AddNewsTypeOfPhoto
 }AddNewsType;
 
-@protocol AddNewsViewControllerDelegate <NSObject>
-
-- (void)AddNewsViewController:(AddNewsViewController *)controller DidFinishPublish:(NewsModel *)news;
-
-@end
-
-
-@interface AddNewsViewController : UIViewController
+@interface AddNewsViewController : UIViewController<AddingImageViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *publishBarButton;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @property (assign, nonatomic) AddNewsType addNewsType;
-@property (weak, nonatomic) id<AddNewsViewControllerDelegate> delegate;
 - (IBAction)cancel:(id)sender;
 - (IBAction)publish:(id)sender;
 @end

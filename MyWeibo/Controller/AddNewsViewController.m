@@ -15,6 +15,7 @@
 #import "NewsModel.h"
 #import "MyWeiboData.h"
 #import "PersonalModel.h"
+#import "AddingImageView.h"
 
 @interface AddNewsViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate>{
     UILabel *label;
@@ -110,16 +111,16 @@ CGFloat const viewMargin = 16.0f;
         buttom.origin.y = images.count / 3 * (buttonHight + buttonMargin) + label.frame.origin.y+[label hightOfLabelWithFontSize:15 linesNumber:3] + buttonMargin;
         addImage.frame = buttom;
         
-        // imageView
-        UIImageView *imageView = [[UIImageView alloc]init];
-        imageView.frame = CGRectMake((imageViews.count % 3) * (buttonHight + buttonMargin) + buttonMargin, imageViews.count / 3 * (buttonHight + buttonMargin) + label.frame.origin.y+[label hightOfLabelWithFontSize:15 linesNumber:3] + buttonMargin, buttonHight, buttonHight);
+       // imageView
+        AddingImageView *imageView = [[AddingImageView alloc]initWithFrame:CGRectMake((imageViews.count % 3) * (buttonHight + buttonMargin) + buttonMargin, imageViews.count / 3 * (buttonHight + buttonMargin) + label.frame.origin.y+[label hightOfLabelWithFontSize:15 linesNumber:3] + buttonMargin, buttonHight, buttonHight)];
         imageView.image = [images lastObject];
+        imageView.m_delegate = self;
+        imageView.tag = imageViews.count+10;
         [self.textView addSubview:imageView];
         [imageViews addObject:imageView];
-        
-        if (imageViews.count == 6) {
-            [addImage removeFromSuperview];
-        }
+    }
+    if (imageViews.count == 6) {
+        addImage.hidden = YES;
     }
 }
 
@@ -151,7 +152,6 @@ CGFloat const viewMargin = 16.0f;
     }else{
         [SVProgressHUD showErrorWithStatus:@"设备不支持相机" maskType:SVProgressHUDMaskTypeBlack];
         
-//        [self.textView becomeFirstResponder];
         [self.textView performSelector:@selector(becomeFirstResponder) withObject:nil afterDelay:1.0];
     }
 }
@@ -189,6 +189,32 @@ CGFloat const viewMargin = 16.0f;
     }else{
         label.hidden = YES;
         self.publishBarButton.enabled = YES;
+    }
+}
+
+- (void)AddingImageView:(AddingImageView *)imageView didSelectDeleteButton:(id)sender{
+    __block CGRect butFrame;
+    [imageViews excetueEach:^(AddingImageView *image){
+        CGRect imgFrame;
+        if (image.tag < imageView.tag) {
+            
+        }else if (image.tag == imageView.tag){
+            imgFrame = imageView.frame;
+            [imageView removeFromSuperview];
+            [images removeObject:image.image];
+            butFrame = imgFrame;
+        }else{
+            image.tag -= 1;
+            CGRect imageFrame = image.frame;
+            image.frame = imgFrame;
+            imgFrame = imageFrame;
+            butFrame = imageFrame;
+        }
+    }];
+    [imageViews removeObject:imageView];
+    addImage.frame = butFrame;
+    if (imageViews.count < 6) {
+        addImage.hidden = NO;
     }
 }
 
