@@ -16,7 +16,7 @@
     return retSize;
 }
 
-- (CGFloat)hightOfLabelWithFontSize:(NSInteger)size linesNumber:(NSInteger)num{
++ (CGFloat)hightOfLabelWithFontSize:(NSInteger)size linesNumber:(NSInteger)num{
     // 根据字体 行数 计算高度
     UILabel *la = [[UILabel alloc]init];
     la.font = [UIFont systemFontOfSize:size];

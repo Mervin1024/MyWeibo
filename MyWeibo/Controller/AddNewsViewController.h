@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "AddingImageView.h"
-
+#import "AddingTextView.h"
 typedef enum {
     AddNewsTypeNone = 0,
     AddNewsTypeOfText,
@@ -16,10 +16,10 @@ typedef enum {
     AddNewsTypeOfPhoto
 }AddNewsType;
 
-@interface AddNewsViewController : UIViewController<AddingImageViewDelegate>
+@interface AddNewsViewController : UIViewController<AddingImageViewDelegate,AddingTextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *publishBarButton;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (strong, nonatomic) AddingTextView *textView;
 @property (assign, nonatomic) AddNewsType addNewsType;
 - (IBAction)cancel:(id)sender;
 - (IBAction)publish:(id)sender;

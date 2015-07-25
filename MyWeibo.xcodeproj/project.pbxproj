@@ -48,6 +48,7 @@
 		C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4231B0B681100313035 /* AppDelegate.m */; };
 		C9D3F43F1B0B68F500313035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F43E1B0B68F500313035 /* main.m */; };
 		C9D3F4541B0B742200313035 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D3F4531B0B742200313035 /* libsqlite3.dylib */; };
+		C9EC4D6F1B63E293007FEAB7 /* AddingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4D6E1B63E293007FEAB7 /* AddingTextView.m */; };
 		C9F2E55C1B5991AF006DE9C1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9D3F3A21B0B459900313035 /* Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -140,6 +141,8 @@
 		C9D3F4291B0B681100313035 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C9D3F43E1B0B68F500313035 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C9D3F4531B0B742200313035 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		C9EC4D6D1B63E293007FEAB7 /* AddingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddingTextView.h; sourceTree = "<group>"; };
+		C9EC4D6E1B63E293007FEAB7 /* AddingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddingTextView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +260,8 @@
 				C967E0C61B60FBAD00A04653 /* ImageScrollView.m */,
 				C95EDCDC1B61DB5200A21A04 /* AddingImageView.h */,
 				C95EDCDD1B61DB5200A21A04 /* AddingImageView.m */,
+				C9EC4D6D1B63E293007FEAB7 /* AddingTextView.h */,
+				C9EC4D6E1B63E293007FEAB7 /* AddingTextView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -499,6 +504,7 @@
 				C967E0BE1B60FB1800A04653 /* SVIndefiniteAnimatedView.m in Sources */,
 				C967E0ED1B60FC2C00A04653 /* NewsModel.m in Sources */,
 				C967E0B41B60FB1800A04653 /* FMDatabase.m in Sources */,
+				C9EC4D6F1B63E293007FEAB7 /* AddingTextView.m in Sources */,
 				C967E0CC1B60FBAD00A04653 /* CommentCell.m in Sources */,
 				C967E0B71B60FB1800A04653 /* FMDatabaseQueue.m in Sources */,
 				C967E0B51B60FB1800A04653 /* FMDatabaseAdditions.m in Sources */,

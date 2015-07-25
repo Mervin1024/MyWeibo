@@ -98,24 +98,7 @@
                     <view key="view" contentMode="scaleToFill" id="zM3-rU-fv7">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XFh-ma-7Wu">
-                                <rect key="frame" x="16" y="9" width="568" height="576"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="15"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <connections>
-                                    <outlet property="delegate" destination="8PB-RE-w7E" id="MIh-i7-DTv"/>
-                                </connections>
-                            </textView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="XFh-ma-7Wu" firstAttribute="leading" secondItem="zM3-rU-fv7" secondAttribute="leading" constant="16" id="9QW-wV-0Lt"/>
-                            <constraint firstItem="XFh-ma-7Wu" firstAttribute="trailing" secondItem="zM3-rU-fv7" secondAttribute="trailing" constant="-16" id="Soq-Gm-qPx"/>
-                            <constraint firstItem="k4g-F6-but" firstAttribute="top" secondItem="XFh-ma-7Wu" secondAttribute="bottom" constant="-34" id="USz-1f-rkn"/>
-                            <constraint firstItem="XFh-ma-7Wu" firstAttribute="top" secondItem="9Vi-Hq-10j" secondAttribute="bottom" constant="-55" id="xa5-x2-Ly8"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="发微博" id="bOR-RM-SJH">
                         <barButtonItem key="leftBarButtonItem" title="取消" id="i3D-JC-991">
@@ -131,7 +114,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="publishBarButton" destination="NDx-oN-bCo" id="85u-6U-8NR"/>
-                        <outlet property="textView" destination="XFh-ma-7Wu" id="IQE-0B-oap"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nho-0k-JSy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -338,6 +320,6 @@
         <image name="相机" width="58" height="58"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="UZu-lu-sXf"/>
+        <segue reference="eYQ-2o-ZAK"/>
     </inferredMetricsTieBreakers>
 </document>
