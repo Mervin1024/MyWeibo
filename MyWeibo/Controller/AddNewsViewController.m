@@ -119,7 +119,7 @@ CGFloat const viewMargin = 16.0f;
         [self.textView addSubview:imageView];
         [imageViews addObject:imageView];
     }
-    if (imageViews.count == 6) {
+    if (imageViews.count == 9) {
         addImage.hidden = YES;
     }
 }

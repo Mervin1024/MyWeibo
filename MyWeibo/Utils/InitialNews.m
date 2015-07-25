@@ -28,7 +28,7 @@
 //    NSLog(@"userIDs.count-1:%lu",userIDs.count-1);
 //    NSLog(@"random1:%d",random1);
     int random2 = [Random randZeroToNum:(int)texts.count];
-    int random3 = [Random randZeroToNum:4];
+    int random3 = [Random randZeroToNum:6];
     NSArray *random4 = [Random randNum:random3 inZeroToNum:(int)images.count];
     NSMutableArray *image = [NSMutableArray array];
     for (int i = 0;i < random4.count ;i++) {
