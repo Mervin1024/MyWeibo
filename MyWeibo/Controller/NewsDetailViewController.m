@@ -116,24 +116,6 @@
         }else{
             cell.name.text = newsModel.user.user_ID;
         }
-//        NSMutableArray *imageViews = [NSMutableArray array];
-//        CGFloat floatY = CELL_CONTENT_MARGIN * 3 + CELL_AVATAR_HIGHT+[cell.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height;
-//        CGFloat floatX = CELL_CONTENT_MARGIN;
-//        CGFloat imageH = 0;
-//        for (int i = 0; i < 3; i++) {
-//            if (i < newsModel.imagesName.count) {
-//                UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.imagesName[i]]];
-//                imageH = image.size.height/image.size.width*CELL_TEXT_WIDTH/2;
-//            }
-//            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(floatX, floatY, CELL_TEXT_WIDTH/2, imageH)];
-//            imageView.userInteractionEnabled = YES;
-//            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tappedWithObject:)];
-//            imageView.tag = i+100;
-//            [imageView addGestureRecognizer:tap];
-//            [imageViews addObject:imageView];
-//            [cell.contentView addSubview:imageView];
-//            floatY +=imageH+CELL_CONTENT_MARGIN;
-//        }
         [self tableViewCell:cell setImages:newsModel.imagesName withStyle:NewsStyleOfDetail];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -180,7 +162,6 @@
     CGRect frame = blankView.frame;
     frame.origin.y = self.tableView.contentOffset.y+self.navigationController.navigationBar.frame.origin.y+self.navigationController.navigationBar.frame.size.height;
     blankView.frame = frame;
-//    NSLog(@"%@",NSStringFromCGPoint(self.tableView.contentOffset));
     self.tableView.scrollEnabled = NO;
     UIImageView *imageView = (id)sender.view;
     index = imageView.tag-100;
@@ -232,7 +213,6 @@
         [lastImageScrollView setAnimationRect];
 
     }
-
 }
 #pragma mark - Image Scroll View Delegate 协议
 - (void) tapImageViewTappedWithObject:(id)sender{

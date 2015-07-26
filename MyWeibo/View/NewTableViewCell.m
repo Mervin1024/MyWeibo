@@ -55,8 +55,6 @@
         if (count > 0 && count < 10) {
             if (row == 1 && column == 1) {
                 imageWidth = imageBound;
-            }else if (row == 3){
-                imageWidth = imageBound/3;
             }else{
                 imageWidth = imageBound/2;
             }

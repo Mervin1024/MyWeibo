@@ -17,14 +17,17 @@
 #import "PersonalModel.h"
 
 
-@interface AddNewsViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate>{
+@interface AddNewsViewController ()<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UITextViewDelegate,UIScrollViewDelegate>{
     UILabel *label;
     UIButton *addImageButton;
     UIActionSheet *actionSheet;
+    UIScrollView *scrollView;
     NSMutableArray *images;             // UIImage
     NSMutableArray *imagesName;         // NSString
     NSMutableArray *imageViews;         // UIImageView
-    
+//    NSInteger rowOfTextContent; // textView.text --- row
+    CGFloat addImageButtonHight;   // addImageButton
+//    float textContentHightChange;   // textView.text --- heightChange
     
 }
 
@@ -32,11 +35,10 @@
 
 @implementation AddNewsViewController
 @synthesize addNewsType;
-NSInteger rowOfTextContent = 1; // textView.text --- row
-CGFloat addImageButtonHight;   // addImageButton
-float textContentHightChange;   // textView.text --- heightChange
+
 CGFloat const buttonMargin = 7.0f;
 CGFloat const viewMargin = 16.0f;
+CGFloat const aRowOfText = 18.0f;
 
 #pragma mark - 初始化
 - (void)viewDidLoad {
@@ -44,6 +46,9 @@ CGFloat const viewMargin = 16.0f;
     images = [NSMutableArray array];
     imageViews = [NSMutableArray array];
     imagesName = [NSMutableArray array];
+//    rowOfTextContent = 1;
+    addImageButtonHight = 0.0f;
+//    textContentHightChange = 0.0f;
     [self setView];
     
     
@@ -97,12 +102,17 @@ CGFloat const viewMargin = 16.0f;
 }
 #pragma mark - textView
 - (void)setView{
+    scrollView = [[UIScrollView alloc]initWithFrame:self.view.frame];
+    scrollView.showsHorizontalScrollIndicator = NO;
+    
     // textView
-    self.textView = [[AddingTextView alloc]initWithFrame:CGRectMake(viewMargin, viewMargin, self.view.frame.size.width-viewMargin*2, self.view.frame.size.height-viewMargin*2)];
-    self.textView.contentSize = CGSizeMake(self.view.frame.size.width-viewMargin*2, [UILabel hightOfLabelWithFontSize:15 linesNumber:3]);
+    self.textView = [[AddingTextView alloc]initWithFrame:CGRectMake(viewMargin, viewMargin, self.view.frame.size.width-viewMargin*2, 0)];
     self.textView.font = [UIFont systemFontOfSize:15];
     self.textView.delegate = self;
-    [self.view addSubview:self.textView];
+    
+    scrollView.contentSize = CGSizeMake(scrollView.frame.size.width, self.textView.frame.size.height);
+    [self.view addSubview:scrollView];
+    [scrollView addSubview:self.textView];
     
     // label 提示标签
     label = [[UILabel alloc]init];
@@ -110,8 +120,8 @@ CGFloat const viewMargin = 16.0f;
     label.enabled = NO;
     label.text = @"分享新鲜事...";
     label.textColor = [UIColor lightGrayColor];
-    label.frame = CGRectMake(buttonMargin, buttonMargin, self.view.bounds.size.width-viewMargin*2, [UILabel hightOfLabelWithFontSize:15 linesNumber:1]);
-    label.numberOfLines = 0;
+    label.frame = CGRectMake(buttonMargin, buttonMargin, self.view.bounds.size.width-viewMargin*2, [label boundingRectWithSize:CGSizeMake(self.view.bounds.size.width-viewMargin*2, 0)].height);
+    label.numberOfLines = 1;
     [self.textView addSubview:label];
     if ([self.textView.text length] != 0) {
         label.hidden = YES;
@@ -120,34 +130,45 @@ CGFloat const viewMargin = 16.0f;
 #pragma mark - ImageView and Button
 - (void)setImageAndButton{
     
-    // 初始化 button
-    if (images.count == 0 && addImageButton == nil) {
-        addImageButtonHight = (self.view.bounds.size.width-viewMargin*2-buttonMargin*4)/3.0;
-        addImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        addImageButton.frame = CGRectMake(label.frame.origin.x, label.frame.origin.y+[UILabel hightOfLabelWithFontSize:15 linesNumber:3]+buttonMargin, addImageButtonHight, addImageButtonHight);
-        addImageButton.backgroundColor = [UIColor clearColor];
-        [addImageButton setBackgroundImage:[UIImage imageNamed:@"添加"] forState:UIControlStateNormal];
-        addImageButton.adjustsImageWhenHighlighted = NO;
-        [addImageButton addTarget:self action:@selector(addImage:) forControlEvents:UIControlEventTouchUpInside];
-        [self.textView addSubview:addImageButton];
-//        NSLog(@"%f",(CGFloat)[UILabel hightOfLabelWithFontSize:15 linesNumber:3]/3);
-    }
-    
     // 有 image 更新
     if (images.count > imageViews.count) {
         // 更新 button 位置
         CGRect buttom = addImageButton.frame;
-        buttom.origin.x = (images.count % 3) * (addImageButtonHight + buttonMargin) + buttonMargin;
-        buttom.origin.y = images.count / 3 * (addImageButtonHight + buttonMargin) + label.frame.origin.y+[UILabel hightOfLabelWithFontSize:15 linesNumber:3] + buttonMargin + textContentHightChange;
+        buttom.origin.x = (images.count % 3) * (addImageButtonHight+buttonMargin) + self.textView.frame.origin.x;
+        buttom.origin.y = images.count / 3 * (addImageButtonHight + buttonMargin) + self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
         addImageButton.frame = buttom;
         
        // 添加新 imageView
-        AddingImageView *imageView = [[AddingImageView alloc]initWithFrame:CGRectMake((imageViews.count % 3) * (addImageButtonHight + buttonMargin) + buttonMargin, imageViews.count / 3 * (addImageButtonHight + buttonMargin) + label.frame.origin.y+[UILabel hightOfLabelWithFontSize:15 linesNumber:3] + buttonMargin + textContentHightChange, addImageButtonHight, addImageButtonHight)];
+        AddingImageView *imageView = [[AddingImageView alloc]initWithFrame:CGRectMake((imageViews.count % 3) * (addImageButtonHight + buttonMargin) + self.textView.frame.origin.x, imageViews.count / 3 * (addImageButtonHight + buttonMargin) + self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin, addImageButtonHight, addImageButtonHight)];
         imageView.image = [images lastObject];
         imageView.m_delegate = self;
         imageView.tag = imageViews.count+10;
-        [self.textView addSubview:imageView];
+        [scrollView addSubview:imageView];
         [imageViews addObject:imageView];
+    }else{
+        // 更新 imageView 位置
+        CGRect buttom = addImageButton.frame;
+        buttom.origin.y = self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
+        addImageButton.frame = buttom;
+        
+        [imageViews excetueEach:^(UIImageView *imageView){
+            CGRect frame = imageView.frame;
+            frame.origin.y = self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
+            imageView.frame = frame;
+        }];
+        
+    }
+    
+    // 初始化 button
+    if (images.count == 0 && addImageButton == nil) {
+        addImageButtonHight = (self.view.bounds.size.width-viewMargin*2-buttonMargin*4)/3.0;
+        addImageButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        addImageButton.frame = CGRectMake(self.textView.frame.origin.x, self.textView.frame.origin.y+viewMargin+buttonMargin+[UILabel hightOfLabelWithFontSize:15 linesNumber:1], addImageButtonHight, addImageButtonHight);
+        addImageButton.backgroundColor = [UIColor clearColor];
+        [addImageButton setBackgroundImage:[UIImage imageNamed:@"添加"] forState:UIControlStateNormal];
+        addImageButton.adjustsImageWhenHighlighted = NO;
+        [addImageButton addTarget:self action:@selector(addImage:) forControlEvents:UIControlEventTouchUpInside];
+        [scrollView addSubview:addImageButton];
     }
     // 限制添加图片数量
     if (imageViews.count == 9) {
@@ -224,6 +245,13 @@ CGFloat const viewMargin = 16.0f;
         label.hidden = YES;
         self.publishBarButton.enabled = YES;
     }
+//    NSLog(@"%lu",(unsigned long)textView.text.length);
+    if ([textView.text length] >= 200) {
+        [SVProgressHUD showErrorWithStatus:@"请将字符控制在200以内"];
+        self.publishBarButton.enabled = NO;
+    }else{
+        self.publishBarButton.enabled = YES;
+    }
 }
 #pragma mark - AddingImageView 协议方法
 - (void)AddingImageView:(AddingImageView *)imageView didSelectDeleteButton:(id)sender{
@@ -237,6 +265,7 @@ CGFloat const viewMargin = 16.0f;
             imgFrame = imageView.frame;
             [imageView removeFromSuperview];
             [images removeObject:image.image];
+            [imagesName removeObjectAtIndex:image.tag-10];
             butFrame = imgFrame;
         }else{
             image.tag -= 1;
@@ -248,49 +277,55 @@ CGFloat const viewMargin = 16.0f;
     }];
     [imageViews removeObject:imageView];
     addImageButton.frame = butFrame;
-    if (imageViews.count < 6) {
+    if (imageViews.count < 9) {
         addImageButton.hidden = NO;
     }
 }
 #pragma mark - AddingTextView 协议方法
 - (void)textView:(AddingTextView *)textView heightChange:(CGFloat)height{
-    if (height > 0) {
-        rowOfTextContent += 1;
-    }else if (height < 0){
-        rowOfTextContent -= 1;
-    }
-    if (rowOfTextContent > 3 || (rowOfTextContent == 3 && height < 0)) {
-        textContentHightChange += height;
-    }
-    [self changeHeightOfImageAndButton:height];
+//    long row = rowOfTextContent;
+//    rowOfTextContent += height/aRowOfText;
+//    CGFloat heightChange = (rowOfTextContent - MAX(row, 3))*aRowOfText;
+////    [self changeHeightOfImageAndButton:heightChange];
+//    
+//    textContentHightChange += heightChange;
+     //******************//
+     //*                *//
+     //*  全选删除有bug   *//
+     //*                *//
+     //******************//
+    [self setImageAndButton];
 }
 
-- (void)changeHeightOfImageAndButton:(CGFloat)height{
-    CGFloat hightChange = 0;
-    if (rowOfTextContent > 3 || (rowOfTextContent == 3 && height < 0)) {
-        hightChange = height;
-    }
-    if (hightChange != 0) {
-        NSLog(@"改变:%f",hightChange);
-        [imageViews excetueEach:^(UIImageView *imageView){
-            CGRect frame = imageView.frame;
-            frame.origin.y += hightChange;
-            imageView.frame = frame;
-        }];
-        CGRect frame = addImageButton.frame;
-        frame.origin.y += hightChange;
-        addImageButton.frame = frame;
-    }
-}
+//- (void)changeHeightOfImageAndButton:(CGFloat)height{
+//    // image 和 button 需要变化的距离
+//    CGFloat hightChange = 0;
+//    if (rowOfTextContent > 3 || (rowOfTextContent == 3 && height < 0)) {
+//        hightChange = height;
+//    }
+//    if (hightChange != 0) {
+//        [imageViews excetueEach:^(UIImageView *imageView){
+//            CGRect frame = imageView.frame;
+//            frame.origin.y += hightChange;
+//            imageView.frame = frame;
+//        }];
+//        CGRect frame = addImageButton.frame;
+//        frame.origin.y += hightChange;
+//        addImageButton.frame = frame;
+//    }
+//}
 #pragma mark - 键盘通知事件
 - (void)keyboardDidShow:(NSNotification *)notification{
     NSDictionary *info = [notification userInfo];
     NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGSize keyboardSize = [aValue CGRectValue].size;
     
-    CGRect viewFrame = self.view.frame;
-    viewFrame.size.height -= keyboardSize.height;
-    self.view.frame = viewFrame;
+//    CGSize contentSize = scrollView.contentSize;
+//    contentSize.height += keyboardSize.height;
+//    scrollView.contentSize = contentSize;
+    CGRect frame = scrollView.frame;
+    frame.size.height -= keyboardSize.height;
+    scrollView.frame = frame;
 }
 
 - (void)keyboardDidHide:(NSNotification *)notification{
@@ -298,9 +333,12 @@ CGFloat const viewMargin = 16.0f;
     NSValue *aValue = [info objectForKey:UIKeyboardFrameEndUserInfoKey];
     CGSize keyboardSize = [aValue CGRectValue].size;
     
-    CGRect viewFrame = self.view.frame;
-    viewFrame.size.height += keyboardSize.height;
-    self.view.frame = viewFrame;
+//    CGSize contentSize = scrollView.contentSize;
+//    contentSize.height -= keyboardSize.height;
+//    scrollView.contentSize = contentSize;
+    CGRect frame = scrollView.frame;
+    frame.size.height += keyboardSize.height;
+    scrollView.frame = frame;
 }
 #pragma mark - BarButton 点击事件
 - (IBAction)cancel:(id)sender {

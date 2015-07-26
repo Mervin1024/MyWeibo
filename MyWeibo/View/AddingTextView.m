@@ -15,6 +15,9 @@
     CGSize oriSize = self.contentSize;
     [super setContentSize:contentSize];
     if (oriSize.height != self.contentSize.height) {
+        CGRect frame = self.frame;
+        frame.size.height = self.contentSize.height;
+        self.frame = frame;
         if (self.text.length == 0) {
         }else{
             if ([self.delegate respondsToSelector:@selector(textView:heightChange:)]) {
