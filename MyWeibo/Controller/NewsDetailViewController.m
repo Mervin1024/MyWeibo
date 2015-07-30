@@ -12,6 +12,7 @@
 #import "UILabel+StringFrame.h"
 #import "ImageScrollView.h"
 #import "NSArray+Assemble.h"
+#import "CommentCell.h"
 
 @interface NewsDetailViewController ()<ImageScrollViewDelegate,UIScrollViewDelegate>{
     CGRect tableViewContentRect;
@@ -97,7 +98,7 @@
     }else if (indexPath.row == 1){
         return TABLE_CONTENT_MARGIN;
     }else{
-        return 44.0f;
+        return 35.0f;
     }
 }
 
@@ -125,7 +126,10 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else{
-        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"CommentCell"];
+        CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
+        if (cell == nil) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -133,15 +137,19 @@
 #pragma mark - 动态加载 imageview
 - (void)tableViewCell:(NewTableViewCell *)cell setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle
 {
-    CGFloat imageWidth = [cell imageWidthAtBlankViewWithImagesCount:images.count style:newsStyle];
+    CGFloat imageWidth = [cell imageWidthAtBlankViewWithCellContentWidth:TABLE_CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN*2 Images:images style:newsStyle];
     if (imageWidth != 0) {
         
         for (int i = 0; i < images.count; i++) {
             UIImageView *imageView = [[UIImageView alloc]init];
-            if (images.count == 4) {
-                imageView.frame = CGRectMake((i%2)*(imageWidth+CELL_BLANKVIEW_MARGIN), (i/2)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, imageWidth, imageWidth);
+            if (images.count == 1) {
+                UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
+                CGFloat imageHeight = image.size.height/image.size.width*imageWidth;
+                imageView.frame = CGRectMake(0+CELL_BLANKVIEW_MARGIN, 0+CELL_BLANKVIEW_MARGIN, imageWidth, imageHeight);
+            }else if (images.count == 4) {
+                imageView.frame = CGRectMake((i%2)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, (i/2)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, imageWidth, imageWidth);
             }else{
-                imageView.frame = CGRectMake((i%3)*(imageWidth+CELL_BLANKVIEW_MARGIN), (i/3)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, imageWidth, imageWidth);
+                imageView.frame = CGRectMake((i%3)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, (i/3)*(imageWidth+CELL_BLANKVIEW_MARGIN)+CELL_BLANKVIEW_MARGIN, imageWidth, imageWidth);
             }
             imageView.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[i]]];
             imageView.contentMode = UIViewContentModeScaleAspectFill;

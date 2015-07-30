@@ -1,5 +1,6 @@
 
 
+//#import <QuartzCore/QuartzCore.h>
 #import "NewTableViewCell.h"
 #import "DocumentAccess.h"
 #import "MyWeiboData.h"
@@ -33,12 +34,21 @@
     self.avatar.layer.cornerRadius = self.avatar.bounds.size.width/2;
 }
 #pragma mark - 添加微博图片区域图层
-- (CGFloat)imageWidthAtBlankViewWithImagesCount:(long)count style:(NewsStyle)newsStyle{
+- (CGFloat)imageWidthAtBlankViewWithCellContentWidth:(CGFloat)width Images:(NSArray *)images style:(NewsStyle)newsStyle{
     CGFloat imageWidth = 0.0f;
-    if (count > 0) {
-        imageWidth = [NewTableViewCell imageWidthWithCellContentWidth:CELL_TEXT_WIDTH ImagesCount:count style:newsStyle];
-        blankView = [[UIImageView alloc]initWithFrame:CGRectMake(CELL_CONTENT_MARGIN, CELL_CONTENT_MARGIN*3+CELL_AVATAR_HIGHT+[self.weibo boundingRectWithSize:CGSizeMake(CELL_TEXT_WIDTH, 0)].height, CELL_CONTENT_WIDTH, (CELL_BLANKVIEW_MARGIN+(count-1)/3+1)*(imageWidth+CELL_BLANKVIEW_MARGIN))];
+    if (images.count > 0) {
+        imageWidth = [NewTableViewCell imageWidthWithCellContentWidth:width ImagesCount:images.count style:newsStyle];
+        CGFloat imageHeight = imageWidth;
+        if (images.count == 1 && newsStyle == NewsStyleOfDetail) {
+            UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:images[0]]];
+            imageHeight = image.size.height/image.size.width*imageWidth;
+        }
+        CGFloat blankViewHight = CELL_BLANKVIEW_MARGIN+((images.count-1)/3+1)*(imageHeight+CELL_BLANKVIEW_MARGIN);
+        blankView = [[UIImageView alloc]initWithFrame:CGRectMake(CELL_CONTENT_MARGIN, CELL_CONTENT_MARGIN*3+CELL_AVATAR_HIGHT+[self.weibo boundingRectWithSize:CGSizeMake(width, 0)].height, width, blankViewHight)];
         blankView.userInteractionEnabled = YES;
+        blankView.backgroundColor = UIColor.whiteColor;
+//        blankView.layer.borderColor = UIColor.grayColor.CGColor;
+//        blankView.layer.borderWidth = 5;
         [self addSubview:blankView];
     }
     return imageWidth;
@@ -51,25 +61,25 @@
     CGFloat imageWidth = 0.0;
     CGFloat imageBound = 0.0;
     if (style == NewsStyleOfList) {
-        imageBound = width/2;
+        imageBound = (width-CELL_BLANKVIEW_MARGIN*3)/2;
         if (count > 0 && count < 10) {
             if (row == 1 && column == 1) {
                 imageWidth = imageBound;
             }else{
-                imageWidth = imageBound/2;
+                imageWidth = (imageBound-CELL_BLANKVIEW_MARGIN)/2;
             }
         }
     }else if (style == NewsStyleOfDetail){
-        imageBound = width;
+        imageBound = width-CELL_BLANKVIEW_MARGIN*2;
         if (count > 0 && count < 10) {
             if (row == 1 && column == 1) {
                 imageWidth = imageBound;
             }else if (row == 1 && column == 2){
-                imageWidth = imageBound/2;
+                imageWidth = (imageBound-CELL_BLANKVIEW_MARGIN)/2;
             }else if (row == 2 && column == 1){
-                imageWidth = imageBound/2;
+                imageWidth = (imageBound-CELL_BLANKVIEW_MARGIN)/2;
             }else{
-                imageWidth = imageBound/3;
+                imageWidth = (imageBound-CELL_BLANKVIEW_MARGIN*2)/3;
             }
         }
         
@@ -81,7 +91,12 @@
     CGFloat blankViewHeigh = 0.0f;
     if (newsModel.imagesName.count != 0) {
         CGFloat imageWidth = [self imageWidthWithCellContentWidth:width ImagesCount:newsModel.imagesName.count style:newsStyle];
-        blankViewHeigh = CELL_BLANKVIEW_MARGIN+((newsModel.imagesName.count-1)/3+1) * (imageWidth+CELL_BLANKVIEW_MARGIN);
+        CGFloat imageHeight = imageWidth;
+        if (newsModel.imagesName.count == 1 && newsStyle == NewsStyleOfDetail) {
+            UIImage *image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.imagesName[0]]];
+            imageHeight = image.size.height/image.size.width*imageWidth;
+        }
+        blankViewHeigh = CELL_BLANKVIEW_MARGIN+((newsModel.imagesName.count-1)/3+1) * (imageHeight+CELL_BLANKVIEW_MARGIN);
     }
     
     
