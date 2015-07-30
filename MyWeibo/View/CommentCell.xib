@@ -12,6 +12,42 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6di-SM-AeA">
+                        <rect key="frame" x="0.0" y="-1" width="125" height="30"/>
+                        <state key="normal" title="转发">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RqV-oq-9Wh">
+                        <rect key="frame" x="250" y="-1" width="125" height="30"/>
+                        <state key="normal" title="点赞">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSt-mG-kTQ">
+                        <rect key="frame" x="125" y="0.0" width="125" height="28"/>
+                        <state key="normal" title="评论">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="6di-SM-AeA" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="1Ux-5y-opD"/>
+                    <constraint firstAttribute="centerY" secondItem="kSt-mG-kTQ" secondAttribute="centerY" id="4N9-ar-4Sf"/>
+                    <constraint firstAttribute="centerX" secondItem="kSt-mG-kTQ" secondAttribute="centerX" id="Enx-Cd-WC6"/>
+                    <constraint firstItem="kSt-mG-kTQ" firstAttribute="centerY" secondItem="6di-SM-AeA" secondAttribute="centerY" id="IPk-3c-ce9"/>
+                    <constraint firstItem="kSt-mG-kTQ" firstAttribute="width" secondItem="RqV-oq-9Wh" secondAttribute="width" id="IVk-Ps-Z8N"/>
+                    <constraint firstItem="kSt-mG-kTQ" firstAttribute="leading" secondItem="6di-SM-AeA" secondAttribute="trailing" id="SBN-XW-q9e"/>
+                    <constraint firstAttribute="trailing" secondItem="RqV-oq-9Wh" secondAttribute="trailing" id="f34-GR-DoJ"/>
+                    <constraint firstItem="kSt-mG-kTQ" firstAttribute="width" secondItem="6di-SM-AeA" secondAttribute="width" id="fE6-rL-Y65"/>
+                    <constraint firstItem="RqV-oq-9Wh" firstAttribute="leading" secondItem="kSt-mG-kTQ" secondAttribute="trailing" id="hJi-ww-GmV"/>
+                    <constraint firstItem="kSt-mG-kTQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="m8T-ro-fAA"/>
+                    <constraint firstItem="kSt-mG-kTQ" firstAttribute="centerY" secondItem="RqV-oq-9Wh" secondAttribute="centerY" id="n8o-Ys-lBu"/>
+                </constraints>
             </tableViewCellContentView>
         </tableViewCell>
     </objects>
