@@ -28,6 +28,14 @@
     
 }
 #pragma mark - avatar imageview 圆角
+- (IBAction)dropDown:(id)sender {
+    DropDownView *dropDownList = [[DropDownView alloc]initWithFrame:CGRectMake(10, 10, 140, 100)];
+    dropDownList.tableList = @[@"删除",@"置顶",@"转发",@"分享"];
+    dropDownList.showList = YES;
+    [self addSubview:dropDownList];
+    NSLog(@"drop");
+}
+
 - (void) setAvatarAsRound
 {
     self.avatar.layer.masksToBounds = YES;

@@ -42,6 +42,12 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MpE-Gq-iiO">
+                        <rect key="frame" x="345" y="8" width="22" height="22"/>
+                        <connections>
+                            <action selector="dropDown:" destination="YQI-yS-BxT" eventType="touchUpInside" id="ZIw-Tt-eVM"/>
+                        </connections>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="Zs2-fq-Y7d" firstAttribute="leading" secondItem="ihs-Mb-yD9" secondAttribute="trailing" constant="13" id="5Gd-cc-VOD"/>
@@ -51,6 +57,8 @@
                     <constraint firstItem="rFo-vN-7FX" firstAttribute="leading" secondItem="ihs-Mb-yD9" secondAttribute="leading" id="UZ8-Cn-5pk"/>
                     <constraint firstItem="rFo-vN-7FX" firstAttribute="trailing" secondItem="Zs2-fq-Y7d" secondAttribute="trailing" id="WMW-Bf-ifz"/>
                     <constraint firstAttribute="bottomMargin" secondItem="rFo-vN-7FX" secondAttribute="bottom" constant="146" id="WjL-AJ-YXb"/>
+                    <constraint firstItem="MpE-Gq-iiO" firstAttribute="trailing" secondItem="UOf-xv-0xp" secondAttribute="trailingMargin" id="Xqs-gC-BNm"/>
+                    <constraint firstItem="MpE-Gq-iiO" firstAttribute="top" secondItem="UOf-xv-0xp" secondAttribute="topMargin" id="aTC-qw-15l"/>
                     <constraint firstItem="Zs2-fq-Y7d" firstAttribute="top" secondItem="UOf-xv-0xp" secondAttribute="topMargin" constant="5" id="eML-bM-g9w"/>
                     <constraint firstItem="ihs-Mb-yD9" firstAttribute="leading" secondItem="UOf-xv-0xp" secondAttribute="leadingMargin" constant="5" id="ejm-W5-GeN"/>
                     <constraint firstItem="rFo-vN-7FX" firstAttribute="centerX" secondItem="UOf-xv-0xp" secondAttribute="centerX" id="mor-Ae-MQY"/>

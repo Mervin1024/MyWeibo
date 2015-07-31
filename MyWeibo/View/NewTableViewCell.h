@@ -2,13 +2,11 @@
 
 #import <UIKit/UIKit.h>
 #import "NewsModel.h"
+#import "DropDownView.h"
 
 
-//#define CELL_IMAGE_HIGHT 100.0f
 #define CELL_BLANKVIEW_MARGIN 3.0f
-//#define CELL_CONTENT_WIDTH (self.frame.size.width)
 #define CELL_CONTENT_MARGIN 13.0f
-//#define CELL_TEXT_WIDTH (self.frame.size.width-2*13)
 #define CELL_AVATAR_HIGHT 30.0f
 #define FONT_SIZE 15.0f
 
@@ -26,6 +24,7 @@ typedef enum {
 @property (weak, nonatomic) IBOutlet UILabel *description;
 @property (weak, nonatomic) IBOutlet UILabel *weibo;
 @property (strong, nonatomic) UIImageView *blankView;
+- (IBAction)dropDown:(id)sender;
 - (void) setAvatarAsRound;
 
 - (CGFloat)imageWidthAtBlankViewWithCellContentWidth:(CGFloat)width Images:(NSArray *)images style:(NewsStyle)newsStyle;
