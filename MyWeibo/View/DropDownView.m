@@ -9,9 +9,9 @@
 #import "DropDownView.h"
 
 @implementation DropDownView
-@synthesize tableList,myTableView,showList;
+@synthesize tableList,myTableView,showList,myButton;
 
-- (id) initWithFrame:(CGRect)frame{
+- (id) initWithButton:(UIButton *)button frame:(CGRect)frame list:(NSArray *)array{
     if (frame.size.height < 200) {
         frameHeight = 200;
     }else{
@@ -22,16 +22,29 @@
     if ((self = [super initWithFrame:frame])) {
         showList = NO;
         
+        myButton = button;
+//        [myButton targetForAction:@selector(buttonChecked:) withSender:nil];
+        showList = array;
         myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 30, frame.size.width, 0)];
         myTableView.delegate = self;
         myTableView.dataSource = self;
         myTableView.backgroundColor = [UIColor grayColor];
         myTableView.separatorColor = [UIColor lightGrayColor];
         myTableView.hidden = YES;
+        
+        
+        self.frame = (CGRect){frame.origin,frame.size.width,myButton.frame.size.height};
+        myTableView.frame = (CGRect){frame.origin,frame.size.width,myButton.frame.size.height};
+        
+        [myButton.superview addSubview:self];
         [self addSubview:myTableView];
     }
     return self;
 }
+
+//- (void)buttonChecked:(id)sender{
+//    NSLog(@"dropButton");
+//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -62,6 +75,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     showList = NO;
     self.myTableView.hidden = YES;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    [myButton setTitle:cell.textLabel.text forState:UIControlStateNormal];
+    NSLog(@"dropButton");
 }
 
 

@@ -14,7 +14,10 @@
     CGFloat frameHeight;
 }
 
+- (id) initWithButton:(UIButton *)button frame:(CGRect)frame list:(NSArray *)array;
+
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) NSArray *tableList;
 @property (assign, nonatomic) BOOL showList;
+@property (strong, nonatomic) UIButton *myButton;
 @end
