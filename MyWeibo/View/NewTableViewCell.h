@@ -19,7 +19,7 @@ typedef enum {
 @protocol NewTableViewCellDelegate <NSObject>
 - (CGRect)frameOfSuperView;
 - (UserType)userTypeOfNewTableViewCell:(NewTableViewCell *)cell;
-- (void)deleteNewsFromNewTableViewCell:(NewTableViewCell *)cell withUserType:(UserType)userType;
+- (void)didSelectedItem:(NSString *)item FromTableViewCell:(NewTableViewCell *)cell;
 @optional
 - (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button;
 - (void)dismissFromNewTableViewCell:(NewTableViewCell *)cell;
@@ -38,7 +38,7 @@ typedef enum {
 @property (weak, nonatomic) id<NewTableViewCellDelegate> delegate;
 @property (strong, nonatomic) MarkView *myMarkView;
 @property (strong, nonatomic) DropDownView *dropDown;
-
+@property (assign, nonatomic) UserType userType;
 - (IBAction)dropDown:(id)sender;
 - (void) setAvatarAsRound;
 

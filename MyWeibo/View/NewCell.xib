@@ -85,7 +85,6 @@
             <connections>
                 <outlet property="avatar" destination="ihs-Mb-yD9" id="BSG-34-Qed"/>
                 <outlet property="desc" destination="U8H-O7-jLa" id="aAS-Ya-9RG"/>
-                <outlet property="description" destination="U8H-O7-jLa" id="UFu-rU-3DG"/>
                 <outlet property="name" destination="Zs2-fq-Y7d" id="ka9-xh-sad"/>
                 <outlet property="weibo" destination="rFo-vN-7FX" id="RAo-ac-8R8"/>
             </connections>

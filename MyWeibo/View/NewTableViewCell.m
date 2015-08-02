@@ -14,14 +14,10 @@
     MarkView *myMarkView;
     DropDownView *dropDown;
     NSArray *dropList;
-    UserType userType;
 }
 
-@synthesize avatar;
-@synthesize name;
-@synthesize description;
-@synthesize weibo;
-@synthesize blankView,myMarkView,dropDown;
+@synthesize avatar,name,desc,weibo;
+@synthesize blankView,myMarkView,dropDown,userType;
 
 - (void) layoutSubviews{
     [super layoutSubviews];
@@ -65,42 +61,10 @@
 }
 
 - (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (userType == UserTypeFans) {
-        if ([dropDownView.dropList[indexPath.row] isEqualToString:@"屏蔽"]) {
-            [self.delegate deleteNewsFromNewTableViewCell:self withUserType:UserTypeFans];
-            [SVProgressHUD showSuccessWithStatus:@"我不听我不听我不听\nヽ(｀ Д ´ )ﾉ"];
-            
-        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"收藏"]){
-            [SVProgressHUD showSuccessWithStatus:@"这条微博我承包了\n(｀・ω・´)"];
-            
-        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"帮上头条"]){
-            [SVProgressHUD showSuccessWithStatus:@"我只能帮你到这儿了\n(￣3￣)"];
-            
-        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"取消关注"]){
-            [SVProgressHUD showSuccessWithStatus:@"别让我再看见你\n(￣ε(#￣) Σ"];
-            
-        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"举报"]){
-            [SVProgressHUD showSuccessWithStatus:@"警察叔叔就是这个人\nΣ(ﾟдﾟ;)"];
-            
-        }
-    }else if (userType == UserTypePersonal){
-        if ([dropDownView.dropList[indexPath.row] isEqualToString:@"删除"]) {
-            [self.delegate deleteNewsFromNewTableViewCell:self withUserType:UserTypePersonal];
-            [SVProgressHUD showSuccessWithStatus:@"这条是我表弟刚才写的\n←_←"];
-            
-        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"收藏"]){
-            [SVProgressHUD showSuccessWithStatus:@"我说的真有道理\n╮(￣▽￣)╭"];
-            
-        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"置顶"]){
-            [SVProgressHUD showSuccessWithStatus:@"给我去最上面\n(╯°口°)╯"];
-            
-        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"推广"]){
-            [SVProgressHUD showSuccessWithStatus:@"(一条五毛,括号删掉)\n(^・ω・^ )"];
-            
-        }
+    NSString *item = dropDownView.dropList[indexPath.row];
 
-    }
-        [self.delegate dismissFromNewTableViewCell:self];
+    [self.delegate didSelectedItem:item FromTableViewCell:self];
+    [self.delegate dismissFromNewTableViewCell:self];
 }
 
 //- (void)dismiss:(id)sender{
