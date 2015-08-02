@@ -50,6 +50,7 @@
 		C9D3F43F1B0B68F500313035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F43E1B0B68F500313035 /* main.m */; };
 		C9D3F4541B0B742200313035 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = C9D3F4531B0B742200313035 /* libsqlite3.dylib */; };
 		C9EC4D6F1B63E293007FEAB7 /* AddingTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EC4D6E1B63E293007FEAB7 /* AddingTextView.m */; };
+		C9EE8DC51B6E098400B5F917 /* MarkView.m in Sources */ = {isa = PBXBuildFile; fileRef = C9EE8DC41B6E098400B5F917 /* MarkView.m */; };
 		C9F2E55C1B5991AF006DE9C1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C9D3F3A21B0B459900313035 /* Info.plist */; };
 /* End PBXBuildFile section */
 
@@ -146,6 +147,8 @@
 		C9D3F4531B0B742200313035 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		C9EC4D6D1B63E293007FEAB7 /* AddingTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddingTextView.h; sourceTree = "<group>"; };
 		C9EC4D6E1B63E293007FEAB7 /* AddingTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddingTextView.m; sourceTree = "<group>"; };
+		C9EE8DC31B6E098400B5F917 /* MarkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkView.h; sourceTree = "<group>"; };
+		C9EE8DC41B6E098400B5F917 /* MarkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MarkView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +270,8 @@
 				C9EC4D6E1B63E293007FEAB7 /* AddingTextView.m */,
 				C92E857E1B6DC87B00785163 /* DropDownView.h */,
 				C92E857F1B6DC87B00785163 /* DropDownView.m */,
+				C9EE8DC31B6E098400B5F917 /* MarkView.h */,
+				C9EE8DC41B6E098400B5F917 /* MarkView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -502,6 +507,7 @@
 				C967E0AE1B60FB1800A04653 /* NSDate+Assemble.m in Sources */,
 				C967E0F21B61183000A04653 /* PersonalModel.m in Sources */,
 				C967E0CE1B60FBAD00A04653 /* ImageScrollView.m in Sources */,
+				C9EE8DC51B6E098400B5F917 /* MarkView.m in Sources */,
 				C967E0B21B60FB1800A04653 /* UILabel+StringFrame.m in Sources */,
 				C967E0B11B60FB1800A04653 /* UIImage+ImageFrame.m in Sources */,
 				C967E0B81B60FB1800A04653 /* FMResultSet.m in Sources */,

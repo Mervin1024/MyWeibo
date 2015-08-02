@@ -115,7 +115,7 @@
         
         cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.user.avatar]];
         cell.weibo.text = newsModel.news_text;
-        cell.description.text = newsModel.user.desc;
+        cell.desc.text = newsModel.user.desc;
         if (newsModel.user.name) {
             cell.name.text = newsModel.user.name;
         }else{

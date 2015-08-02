@@ -7,7 +7,6 @@
 //
 
 #import "NewsTableViewController.h"
-#import "NewTableViewCell.h"
 #import "DBManager.h"
 #import "MyWeiboData.h"
 #import "NewsModel.h"
@@ -163,6 +162,7 @@
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil] lastObject];
         }
+        cell.delegate = self;
         // 数据逆向显示
         long index = tableData.count -1- indexPath.section;
         
@@ -170,7 +170,7 @@
         
         cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
         cell.weibo.text = new.news_text;
-        cell.description.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)index]];
+        cell.desc.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)index]];
         if (new.user.name) {
             cell.name.text = new.user.name;
         }else{
@@ -213,6 +213,23 @@
         return 30.0f;
     }
 
+}
+#pragma mark - NewTableView 协议方法
+- (CGRect)frameOfSuperView{
+    CGRect frame = self.view.frame;
+    frame.origin = self.tableView.contentOffset;
+    return frame;
+}
+
+- (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button{
+    self.tableView.scrollEnabled = NO;
+}
+
+- (void)newTableViewCell:(NewTableViewCell *)cell didSelectMarkView:(MarkView *)markView{
+    [cell.myMarkView removeFromSuperview];
+    [cell.dropDown removeFromSuperview];
+    
+    self.tableView.scrollEnabled = YES;
 }
 #pragma mark - 动态加载 imageview
 - (void)tableViewCell:(NewTableViewCell *)cell setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle

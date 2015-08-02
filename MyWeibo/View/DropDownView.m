@@ -10,19 +10,22 @@
 
 @interface DropDownView()<UITableViewDataSource,UITableViewDelegate>{
     UITableView *myTableView;
-    NSArray *dropList;
+    
 }
 @end
 
 @implementation DropDownView
-
+@synthesize dropList;
 - (id)initWithFrame:(CGRect)frame dropList:(NSArray *)array{
+    frame.size.height = array.count * DROPDOWN_CELL_HEIGHT;
     if ((self = [super initWithFrame:frame])) {
         dropList = array;
-        myTableView = [[UITableView alloc]initWithFrame:frame style:UITableViewStylePlain];
+        myTableView = [[UITableView alloc]initWithFrame:(CGRect){0,0,frame.size} style:UITableViewStylePlain];
         myTableView.delegate = self;
         myTableView.dataSource = self;
-        
+        myTableView.scrollEnabled = NO;
+//        myTableView.layer.masksToBounds = YES;
+//        myTableView.layer.cornerRadius = myTableView.frame.size.height/2;
         [self addSubview:myTableView];
     }
     return self;
@@ -46,8 +49,12 @@
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return DROPDOWN_CELL_HEIGHT;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%@",dropList[indexPath.row]);
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.delegate dropDownView:self didSelectRowAtIndexPath:indexPath];
 }
 @end

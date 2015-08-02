@@ -42,8 +42,13 @@
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MpE-Gq-iiO">
-                        <rect key="frame" x="345" y="8" width="22" height="22"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MpE-Gq-iiO">
+                        <rect key="frame" x="347" y="13" width="15" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="15" id="Edi-wp-MIC"/>
+                            <constraint firstAttribute="height" constant="10" id="lS4-ph-UIV"/>
+                        </constraints>
+                        <state key="normal" backgroundImage="下拉按钮"/>
                         <connections>
                             <action selector="dropDown:" destination="YQI-yS-BxT" eventType="touchUpInside" id="ZIw-Tt-eVM"/>
                         </connections>
@@ -52,18 +57,18 @@
                 <constraints>
                     <constraint firstItem="Zs2-fq-Y7d" firstAttribute="leading" secondItem="ihs-Mb-yD9" secondAttribute="trailing" constant="13" id="5Gd-cc-VOD"/>
                     <constraint firstItem="rFo-vN-7FX" firstAttribute="top" secondItem="U8H-O7-jLa" secondAttribute="bottom" constant="15" id="5aZ-vk-NZe"/>
+                    <constraint firstItem="rFo-vN-7FX" firstAttribute="trailing" secondItem="MpE-Gq-iiO" secondAttribute="trailing" id="6qt-7b-dNs"/>
                     <constraint firstItem="U8H-O7-jLa" firstAttribute="leading" secondItem="Zs2-fq-Y7d" secondAttribute="leading" id="Dr1-4P-qcc"/>
                     <constraint firstItem="Zs2-fq-Y7d" firstAttribute="top" secondItem="ihs-Mb-yD9" secondAttribute="top" id="FGJ-jE-HGJ"/>
                     <constraint firstItem="rFo-vN-7FX" firstAttribute="leading" secondItem="ihs-Mb-yD9" secondAttribute="leading" id="UZ8-Cn-5pk"/>
                     <constraint firstItem="rFo-vN-7FX" firstAttribute="trailing" secondItem="Zs2-fq-Y7d" secondAttribute="trailing" id="WMW-Bf-ifz"/>
                     <constraint firstAttribute="bottomMargin" secondItem="rFo-vN-7FX" secondAttribute="bottom" constant="146" id="WjL-AJ-YXb"/>
-                    <constraint firstItem="MpE-Gq-iiO" firstAttribute="trailing" secondItem="UOf-xv-0xp" secondAttribute="trailingMargin" id="Xqs-gC-BNm"/>
-                    <constraint firstItem="MpE-Gq-iiO" firstAttribute="top" secondItem="UOf-xv-0xp" secondAttribute="topMargin" id="aTC-qw-15l"/>
                     <constraint firstItem="Zs2-fq-Y7d" firstAttribute="top" secondItem="UOf-xv-0xp" secondAttribute="topMargin" constant="5" id="eML-bM-g9w"/>
                     <constraint firstItem="ihs-Mb-yD9" firstAttribute="leading" secondItem="UOf-xv-0xp" secondAttribute="leadingMargin" constant="5" id="ejm-W5-GeN"/>
                     <constraint firstItem="rFo-vN-7FX" firstAttribute="centerX" secondItem="UOf-xv-0xp" secondAttribute="centerX" id="mor-Ae-MQY"/>
                     <constraint firstItem="ihs-Mb-yD9" firstAttribute="top" secondItem="UOf-xv-0xp" secondAttribute="topMargin" constant="5" id="qZ5-K6-XiH"/>
                     <constraint firstItem="U8H-O7-jLa" firstAttribute="top" secondItem="Zs2-fq-Y7d" secondAttribute="bottom" constant="3" id="vaR-kw-z0M"/>
+                    <constraint firstItem="ihs-Mb-yD9" firstAttribute="top" secondItem="MpE-Gq-iiO" secondAttribute="top" id="vqt-H3-TWK"/>
                     <constraint firstItem="rFo-vN-7FX" firstAttribute="top" secondItem="ihs-Mb-yD9" secondAttribute="bottom" constant="13" id="wqo-dV-VEb"/>
                     <constraint firstItem="U8H-O7-jLa" firstAttribute="trailing" secondItem="UOf-xv-0xp" secondAttribute="trailingMargin" constant="5" id="xNE-Cm-jyZ"/>
                     <constraint firstItem="U8H-O7-jLa" firstAttribute="trailing" secondItem="UOf-xv-0xp" secondAttribute="trailingMargin" id="z77-TF-hNz"/>
@@ -79,6 +84,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="avatar" destination="ihs-Mb-yD9" id="BSG-34-Qed"/>
+                <outlet property="desc" destination="U8H-O7-jLa" id="aAS-Ya-9RG"/>
                 <outlet property="description" destination="U8H-O7-jLa" id="UFu-rU-3DG"/>
                 <outlet property="name" destination="Zs2-fq-Y7d" id="ka9-xh-sad"/>
                 <outlet property="weibo" destination="rFo-vN-7FX" id="RAo-ac-8R8"/>
@@ -86,4 +92,7 @@
             <point key="canvasLocation" x="462.5" y="293.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="下拉按钮" width="40" height="24"/>
+    </resources>
 </document>

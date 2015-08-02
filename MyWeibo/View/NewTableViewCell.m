@@ -7,15 +7,18 @@
 #import "UIImage+ImageFrame.h"
 #import "UILabel+StringFrame.h"
 #import "NewsTableViewController.h"
+#import "MarkView.h"
 
 @implementation NewTableViewCell{
+    MarkView *myMarkView;
+    DropDownView *dropDown;
 }
 
 @synthesize avatar;
 @synthesize name;
 @synthesize description;
 @synthesize weibo;
-@synthesize blankView;
+@synthesize blankView,myMarkView,dropDown;
 
 - (void) layoutSubviews{
     [super layoutSubviews];
@@ -29,9 +32,32 @@
 }
 
 - (IBAction)dropDown:(id)sender {
-    DropDownView *dropDown = [[DropDownView alloc]initWithFrame:CGRectMake(10, 10, 200, 200) dropList:@[@"点击"]];
+    [self.delegate newTableViewCell:self didSelectButton:sender];
+    CGRect frame = [self.delegate frameOfSuperView];
+    myMarkView = [[MarkView alloc]initWithFrame:frame];
+    myMarkView.backgroundColor = [UIColor blackColor];
+    myMarkView.alpha = 0.5;
+    myMarkView.delegate = self;
+    [self.superview addSubview:myMarkView];
+    NSArray *dropList = @[@"点击1",@"点击2",@"点击3",@"",@""];
+    CGRect dropDownFrame;
+    dropDownFrame.size.width = 300;
+    dropDownFrame.size.height = dropList.count*DROPDOWN_CELL_HEIGHT;
+    dropDownFrame.origin.x = frame.size.width/2-dropDownFrame.size.width/2;
+    dropDownFrame.origin.y = frame.size.height/2-dropDownFrame.size.height/2+frame.origin.y;
+    dropDown = [[DropDownView alloc]initWithFrame:dropDownFrame dropList:dropList];
+    dropDown.backgroundColor = [UIColor whiteColor];
     [self.superview addSubview:dropDown];
+    dropDown.delegate = self;
     
+}
+
+- (void)markView:(MarkView *)markView touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.delegate newTableViewCell:self didSelectMarkView:markView];
+}
+
+- (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"%@",dropDownView.dropList[indexPath.row]);
 }
 #pragma mark - avatar imageview 圆角
 - (void) setAvatarAsRound
