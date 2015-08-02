@@ -10,13 +10,13 @@
 
 @interface DropDownView()<UITableViewDataSource,UITableViewDelegate>{
     UITableView *myTableView;
-    
+    UserType userType;
 }
 @end
 
 @implementation DropDownView
 @synthesize dropList;
-- (id)initWithFrame:(CGRect)frame dropList:(NSArray *)array{
+- (id)initWithFrame:(CGRect)frame dropList:(NSArray *)array userType:(UserType)type{
     frame.size.height = array.count * DROPDOWN_CELL_HEIGHT;
     if ((self = [super initWithFrame:frame])) {
         dropList = array;
@@ -27,6 +27,7 @@
 //        myTableView.layer.masksToBounds = YES;
 //        myTableView.layer.cornerRadius = myTableView.frame.size.height/2;
         [self addSubview:myTableView];
+        userType = type;
     }
     return self;
 }
@@ -46,6 +47,9 @@
     }
     
     cell.textLabel.text = dropList[indexPath.row];
+    if (userType == UserTypePersonal && [cell.textLabel.text isEqualToString:@"删除"]) {
+        cell.textLabel.textColor = [UIColor redColor];
+    }
     return cell;
 }
 

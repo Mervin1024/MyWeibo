@@ -9,6 +9,7 @@
 #define DROPDOWN_CELL_HEIGHT 44.0f
 
 #import <UIKit/UIKit.h>
+#import "PersonalModel.h"
 @class DropDownView;
 @protocol DropDownViewDelegate <NSObject>
 
@@ -19,7 +20,7 @@
 
 @interface DropDownView : UIView
 
-- (id)initWithFrame:(CGRect)frame dropList:(NSArray *)array;
+- (id)initWithFrame:(CGRect)frame dropList:(NSArray *)array userType:(UserType)type;
 @property (weak, nonatomic) id<DropDownViewDelegate> delegate;
 @property (strong, nonatomic) NSArray *dropList;
 @end

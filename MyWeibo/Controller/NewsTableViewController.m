@@ -221,8 +221,19 @@
     return frame;
 }
 
+- (UserType)userTypeOfNewTableViewCell:(NewTableViewCell *)cell{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    long index = tableData.count - 1 - indexPath.section;
+    NewsModel *news = tableData[index];
+    if ([news.user_id isEqualToString:[PersonalModel personalIDfromUserDefaults]]) {
+        return UserTypePersonal;
+    }
+    return UserTypeFans;
+}
+
 - (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button{
     self.tableView.scrollEnabled = NO;
+    cell.dropDown.delegate = self;
 }
 
 - (void)newTableViewCell:(NewTableViewCell *)cell didSelectMarkView:(MarkView *)markView{
@@ -230,6 +241,10 @@
     [cell.dropDown removeFromSuperview];
     
     self.tableView.scrollEnabled = YES;
+}
+
+- (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"%@",dropDownView.dropList[indexPath.row]);
 }
 #pragma mark - 动态加载 imageview
 - (void)tableViewCell:(NewTableViewCell *)cell setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle

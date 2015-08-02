@@ -159,6 +159,9 @@ CGFloat const aRowOfText = 18.0f;
         
     }
     
+    CGFloat contentHeight = addImageButton.frame.origin.y+addImageButton.frame.size.height+buttonMargin;
+    [scrollView setContentSize:CGSizeMake(scrollView.contentSize.width, contentHeight)];
+    
     // 初始化 button
     if (images.count == 0 && addImageButton == nil) {
         addImageButtonHight = (self.view.bounds.size.width-viewMargin*2-buttonMargin*4)/3.0;
@@ -241,6 +244,7 @@ CGFloat const aRowOfText = 18.0f;
     if ([textView.text length] == 0) {
         label.hidden = NO;
         self.publishBarButton.enabled = NO;
+        [self setImageAndButton];
     }else{
         label.hidden = YES;
         self.publishBarButton.enabled = YES;
@@ -283,37 +287,10 @@ CGFloat const aRowOfText = 18.0f;
 }
 #pragma mark - AddingTextView 协议方法
 - (void)textView:(AddingTextView *)textView heightChange:(CGFloat)height{
-//    long row = rowOfTextContent;
-//    rowOfTextContent += height/aRowOfText;
-//    CGFloat heightChange = (rowOfTextContent - MAX(row, 3))*aRowOfText;
-////    [self changeHeightOfImageAndButton:heightChange];
-//    
-//    textContentHightChange += heightChange;
-     //******************//
-     //*                *//
-     //*  全选删除有bug   *//
-     //*                *//
-     //******************//
+
     [self setImageAndButton];
 }
 
-//- (void)changeHeightOfImageAndButton:(CGFloat)height{
-//    // image 和 button 需要变化的距离
-//    CGFloat hightChange = 0;
-//    if (rowOfTextContent > 3 || (rowOfTextContent == 3 && height < 0)) {
-//        hightChange = height;
-//    }
-//    if (hightChange != 0) {
-//        [imageViews excetueEach:^(UIImageView *imageView){
-//            CGRect frame = imageView.frame;
-//            frame.origin.y += hightChange;
-//            imageView.frame = frame;
-//        }];
-//        CGRect frame = addImageButton.frame;
-//        frame.origin.y += hightChange;
-//        addImageButton.frame = frame;
-//    }
-//}
 #pragma mark - 键盘通知事件
 - (void)keyboardDidShow:(NSNotification *)notification{
     NSDictionary *info = [notification userInfo];

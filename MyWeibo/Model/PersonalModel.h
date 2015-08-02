@@ -7,6 +7,10 @@
 //
 
 #import "UserModel.h"
+typedef enum {
+    UserTypeFans,
+    UserTypePersonal
+}UserType;
 
 @interface PersonalModel : UserModel
 

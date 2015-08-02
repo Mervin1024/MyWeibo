@@ -4,6 +4,7 @@
 #import "NewsModel.h"
 #import "DropDownView.h"
 #import "MarkView.h"
+#import "PersonalModel.h"
 
 #define CELL_BLANKVIEW_MARGIN 3.0f
 #define CELL_CONTENT_MARGIN 13.0f
@@ -17,13 +18,14 @@ typedef enum {
 @class NewTableViewCell;
 @protocol NewTableViewCellDelegate <NSObject>
 - (CGRect)frameOfSuperView;
+- (UserType)userTypeOfNewTableViewCell:(NewTableViewCell *)cell;
 - (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button;
 @optional
 - (void)newTableViewCell:(NewTableViewCell *)cell didSelectMarkView:(MarkView *)markView;
 
 @end
 
-@interface NewTableViewCell : UITableViewCell<DropDownViewDelegate,MarkViewDelegate>{
+@interface NewTableViewCell : UITableViewCell<MarkViewDelegate>{
 //    NSArray *dropList;
 }
 

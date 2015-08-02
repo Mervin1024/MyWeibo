@@ -10,6 +10,6 @@
 #import "NewsModel.h"
 #import "NewsTableViewController.h"
 
-@interface NewsDetailViewController : UITableViewController
+@interface NewsDetailViewController : UITableViewController<NewTableViewCellDelegate>
 @property (strong, nonatomic) NewsModel *newsModel;
 @end

@@ -112,7 +112,7 @@
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil]lastObject];
         }
-        
+        cell.delegate = self;
         cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:newsModel.user.avatar]];
         cell.weibo.text = newsModel.news_text;
         cell.desc.text = newsModel.user.desc;
@@ -138,6 +138,31 @@
         return cell;
     }
 }
+#pragma mark - NewTableViewCell 协议方法
+- (CGRect)frameOfSuperView{
+    CGRect frame = self.view.frame;
+    frame.origin = self.tableView.contentOffset;
+    return frame;
+}
+
+- (UserType)userTypeOfNewTableViewCell:(NewTableViewCell *)cell{
+    if ([newsModel.user_id isEqualToString:[PersonalModel personalIDfromUserDefaults]]) {
+        return UserTypePersonal;
+    }
+    return UserTypeFans;
+}
+
+- (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button{
+    self.tableView.scrollEnabled = NO;
+}
+
+- (void)newTableViewCell:(NewTableViewCell *)cell didSelectMarkView:(MarkView *)markView{
+    [cell.myMarkView removeFromSuperview];
+    [cell.dropDown removeFromSuperview];
+    
+    self.tableView.scrollEnabled = YES;
+}
+
 #pragma mark - 动态加载 imageview
 - (void)tableViewCell:(NewTableViewCell *)cell setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle
 {

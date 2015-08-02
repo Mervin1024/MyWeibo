@@ -12,6 +12,8 @@
 @implementation NewTableViewCell{
     MarkView *myMarkView;
     DropDownView *dropDown;
+    NSArray *dropList;
+    UserType userType;
 }
 
 @synthesize avatar;
@@ -33,22 +35,27 @@
 
 - (IBAction)dropDown:(id)sender {
     [self.delegate newTableViewCell:self didSelectButton:sender];
+    userType = [self.delegate userTypeOfNewTableViewCell:self];
     CGRect frame = [self.delegate frameOfSuperView];
     myMarkView = [[MarkView alloc]initWithFrame:frame];
     myMarkView.backgroundColor = [UIColor blackColor];
     myMarkView.alpha = 0.5;
     myMarkView.delegate = self;
     [self.superview addSubview:myMarkView];
-    NSArray *dropList = @[@"点击1",@"点击2",@"点击3",@"",@""];
+    if (userType == UserTypePersonal) {
+        dropList = @[@"收藏",@"置顶",@"推广",@"删除"];
+    }else{
+        dropList = @[@"收藏",@"帮上头条",@"取消关注",@"屏蔽",@"举报"];
+    }
     CGRect dropDownFrame;
     dropDownFrame.size.width = 300;
     dropDownFrame.size.height = dropList.count*DROPDOWN_CELL_HEIGHT;
     dropDownFrame.origin.x = frame.size.width/2-dropDownFrame.size.width/2;
     dropDownFrame.origin.y = frame.size.height/2-dropDownFrame.size.height/2+frame.origin.y;
-    dropDown = [[DropDownView alloc]initWithFrame:dropDownFrame dropList:dropList];
+    dropDown = [[DropDownView alloc]initWithFrame:dropDownFrame dropList:dropList userType:userType];
     dropDown.backgroundColor = [UIColor whiteColor];
     [self.superview addSubview:dropDown];
-    dropDown.delegate = self;
+//    dropDown.delegate = self;
     
 }
 
@@ -56,9 +63,9 @@
     [self.delegate newTableViewCell:self didSelectMarkView:markView];
 }
 
-- (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%@",dropDownView.dropList[indexPath.row]);
-}
+//- (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"%@",dropDownView.dropList[indexPath.row]);
+//}
 #pragma mark - avatar imageview 圆角
 - (void) setAvatarAsRound
 {
