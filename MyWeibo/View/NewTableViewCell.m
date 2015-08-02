@@ -27,15 +27,13 @@
     [blankView removeFromSuperview];
     
 }
-#pragma mark - avatar imageview 圆角
-- (IBAction)dropDown:(id)sender {
-    DropDownView *dropDownList = [[DropDownView alloc]initWithButton:sender frame:CGRectMake(10, 10, 140, 100) list:@[@"删除",@"置顶",@"转发",@"分享"]];
-//    dropDownList.tableList = @[@"删除",@"置顶",@"转发",@"分享"];
-    dropDownList.showList = YES;
-//    [self addSubview:dropDownList];
-    NSLog(@"drop");
-}
 
+- (IBAction)dropDown:(id)sender {
+    DropDownView *dropDown = [[DropDownView alloc]initWithFrame:CGRectMake(10, 10, 200, 200) dropList:@[@"点击"]];
+    [self.superview addSubview:dropDown];
+    
+}
+#pragma mark - avatar imageview 圆角
 - (void) setAvatarAsRound
 {
     self.avatar.layer.masksToBounds = YES;

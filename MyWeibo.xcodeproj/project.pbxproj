@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C92E857D1B6BB94500785163 /* DropDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = C92E857C1B6BB94500785163 /* DropDownView.m */; };
+		C92E85801B6DC87B00785163 /* DropDownView.m in Sources */ = {isa = PBXBuildFile; fileRef = C92E857F1B6DC87B00785163 /* DropDownView.m */; };
 		C95EDCDE1B61DB5200A21A04 /* AddingImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = C95EDCDD1B61DB5200A21A04 /* AddingImageView.m */; };
 		C967E0AD1B60FB1800A04653 /* NSArray+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0831B60FB1800A04653 /* NSArray+Assemble.m */; };
 		C967E0AE1B60FB1800A04653 /* NSDate+Assemble.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0851B60FB1800A04653 /* NSDate+Assemble.m */; };
@@ -64,8 +64,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		C92E857B1B6BB94500785163 /* DropDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownView.h; sourceTree = "<group>"; };
-		C92E857C1B6BB94500785163 /* DropDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownView.m; sourceTree = "<group>"; };
+		C92E857E1B6DC87B00785163 /* DropDownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DropDownView.h; sourceTree = "<group>"; };
+		C92E857F1B6DC87B00785163 /* DropDownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DropDownView.m; sourceTree = "<group>"; };
 		C95EDCDC1B61DB5200A21A04 /* AddingImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddingImageView.h; sourceTree = "<group>"; };
 		C95EDCDD1B61DB5200A21A04 /* AddingImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddingImageView.m; sourceTree = "<group>"; };
 		C967E0821B60FB1800A04653 /* NSArray+Assemble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Assemble.h"; sourceTree = "<group>"; };
@@ -265,8 +265,8 @@
 				C95EDCDD1B61DB5200A21A04 /* AddingImageView.m */,
 				C9EC4D6D1B63E293007FEAB7 /* AddingTextView.h */,
 				C9EC4D6E1B63E293007FEAB7 /* AddingTextView.m */,
-				C92E857B1B6BB94500785163 /* DropDownView.h */,
-				C92E857C1B6BB94500785163 /* DropDownView.m */,
+				C92E857E1B6DC87B00785163 /* DropDownView.h */,
+				C92E857F1B6DC87B00785163 /* DropDownView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -495,7 +495,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C92E857D1B6BB94500785163 /* DropDownView.m in Sources */,
+				C92E85801B6DC87B00785163 /* DropDownView.m in Sources */,
 				C967E0B31B60FB1800A04653 /* DBManager.m in Sources */,
 				C967E0BD1B60FB1800A04653 /* MyWeiboData.m in Sources */,
 				C95EDCDE1B61DB5200A21A04 /* AddingImageView.m in Sources */,

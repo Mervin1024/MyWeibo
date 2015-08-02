@@ -2,84 +2,52 @@
 //  DropDownView.m
 //  MyWeibo
 //
-//  Created by 马遥 on 15/7/31.
+//  Created by 马遥 on 15/8/2.
 //  Copyright (c) 2015年 NJUPT. All rights reserved.
 //
 
 #import "DropDownView.h"
 
-@implementation DropDownView
-@synthesize tableList,myTableView,showList,myButton;
+@interface DropDownView()<UITableViewDataSource,UITableViewDelegate>{
+    UITableView *myTableView;
+    NSArray *dropList;
+}
+@end
 
-- (id) initWithButton:(UIButton *)button frame:(CGRect)frame list:(NSArray *)array{
-    if (frame.size.height < 200) {
-        frameHeight = 200;
-    }else{
-        frameHeight = frame.size.height;
-    }
-    tableHeight = frameHeight-30;
-    frame.size.height = 30;
+@implementation DropDownView
+
+- (id)initWithFrame:(CGRect)frame dropList:(NSArray *)array{
     if ((self = [super initWithFrame:frame])) {
-        showList = NO;
-        
-        myButton = button;
-//        [myButton targetForAction:@selector(buttonChecked:) withSender:nil];
-        showList = array;
-        myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 30, frame.size.width, 0)];
+        dropList = array;
+        myTableView = [[UITableView alloc]initWithFrame:frame style:UITableViewStylePlain];
         myTableView.delegate = self;
         myTableView.dataSource = self;
-        myTableView.backgroundColor = [UIColor grayColor];
-        myTableView.separatorColor = [UIColor lightGrayColor];
-        myTableView.hidden = YES;
         
-        
-        self.frame = (CGRect){frame.origin,frame.size.width,myButton.frame.size.height};
-        myTableView.frame = (CGRect){frame.origin,frame.size.width,myButton.frame.size.height};
-        
-        [myButton.superview addSubview:self];
         [self addSubview:myTableView];
     }
     return self;
 }
-
-//- (void)buttonChecked:(id)sender{
-//    NSLog(@"dropButton");
-//}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return tableList.count;
+    return dropList.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"dropCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"dropCell"];
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
     }
     
-    cell.textLabel.text = [tableList objectAtIndex:indexPath.row];
-    cell.textLabel.font = [UIFont systemFontOfSize:15];
-    cell.accessoryType = UITableViewCellAccessoryNone;
-    cell.selectionStyle = UITableViewCellSelectionStyleGray;
-    
+    cell.textLabel.text = dropList[indexPath.row];
     return cell;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 35;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    showList = NO;
-    self.myTableView.hidden = YES;
-    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    [myButton setTitle:cell.textLabel.text forState:UIControlStateNormal];
-    NSLog(@"dropButton");
+    NSLog(@"%@",dropList[indexPath.row]);
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-
-
-
 @end
