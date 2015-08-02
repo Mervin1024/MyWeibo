@@ -8,6 +8,7 @@
 #import "UILabel+StringFrame.h"
 #import "NewsTableViewController.h"
 #import "MarkView.h"
+#import "SVProgressHUD.h"
 
 @implementation NewTableViewCell{
     MarkView *myMarkView;
@@ -55,17 +56,57 @@
     dropDown = [[DropDownView alloc]initWithFrame:dropDownFrame dropList:dropList userType:userType];
     dropDown.backgroundColor = [UIColor whiteColor];
     [self.superview addSubview:dropDown];
-//    dropDown.delegate = self;
+    dropDown.delegate = self;
     
 }
 
-- (void)markView:(MarkView *)markView touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.delegate newTableViewCell:self didSelectMarkView:markView];
+- (void)markView:(MarkView *)markView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.delegate dismissFromNewTableViewCell:self];
 }
 
-//- (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    NSLog(@"%@",dropDownView.dropList[indexPath.row]);
+- (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (userType == UserTypeFans) {
+        if ([dropDownView.dropList[indexPath.row] isEqualToString:@"屏蔽"]) {
+            [self.delegate deleteNewsFromNewTableViewCell:self withUserType:UserTypeFans];
+            [SVProgressHUD showSuccessWithStatus:@"我不听我不听我不听\nヽ(｀ Д ´ )ﾉ"];
+            
+        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"收藏"]){
+            [SVProgressHUD showSuccessWithStatus:@"这条微博我承包了\n(｀・ω・´)"];
+            
+        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"帮上头条"]){
+            [SVProgressHUD showSuccessWithStatus:@"我只能帮你到这儿了\n(￣3￣)"];
+            
+        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"取消关注"]){
+            [SVProgressHUD showSuccessWithStatus:@"别让我再看见你\n(￣ε(#￣) Σ"];
+            
+        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"举报"]){
+            [SVProgressHUD showSuccessWithStatus:@"警察叔叔就是这个人\nΣ(ﾟдﾟ;)"];
+            
+        }
+    }else if (userType == UserTypePersonal){
+        if ([dropDownView.dropList[indexPath.row] isEqualToString:@"删除"]) {
+            [self.delegate deleteNewsFromNewTableViewCell:self withUserType:UserTypePersonal];
+            [SVProgressHUD showSuccessWithStatus:@"这条是我表弟刚才写的\n←_←"];
+            
+        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"收藏"]){
+            [SVProgressHUD showSuccessWithStatus:@"我说的真有道理\n╮(￣▽￣)╭"];
+            
+        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"置顶"]){
+            [SVProgressHUD showSuccessWithStatus:@"给我去最上面\n(╯°口°)╯"];
+            
+        }else if ([dropDownView.dropList[indexPath.row] isEqualToString:@"推广"]){
+            [SVProgressHUD showSuccessWithStatus:@"(一条五毛,括号删掉)\n(^・ω・^ )"];
+            
+        }
+
+    }
+        [self.delegate dismissFromNewTableViewCell:self];
+}
+
+//- (void)dismiss:(id)sender{
+//    [SVProgressHUD dismiss];
 //}
+
 #pragma mark - avatar imageview 圆角
 - (void) setAvatarAsRound
 {

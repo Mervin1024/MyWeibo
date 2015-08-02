@@ -19,13 +19,13 @@ typedef enum {
 @protocol NewTableViewCellDelegate <NSObject>
 - (CGRect)frameOfSuperView;
 - (UserType)userTypeOfNewTableViewCell:(NewTableViewCell *)cell;
-- (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button;
+- (void)deleteNewsFromNewTableViewCell:(NewTableViewCell *)cell withUserType:(UserType)userType;
 @optional
-- (void)newTableViewCell:(NewTableViewCell *)cell didSelectMarkView:(MarkView *)markView;
-
+- (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button;
+- (void)dismissFromNewTableViewCell:(NewTableViewCell *)cell;
 @end
 
-@interface NewTableViewCell : UITableViewCell<MarkViewDelegate>{
+@interface NewTableViewCell : UITableViewCell<MarkViewDelegate,DropDownViewDelegate>{
 //    NSArray *dropList;
 }
 

@@ -156,11 +156,16 @@
     self.tableView.scrollEnabled = NO;
 }
 
-- (void)newTableViewCell:(NewTableViewCell *)cell didSelectMarkView:(MarkView *)markView{
-    [cell.myMarkView removeFromSuperview];
+- (void)dismissFromNewTableViewCell:(NewTableViewCell *)cell{
     [cell.dropDown removeFromSuperview];
-    
+    [cell.myMarkView removeFromSuperview];
     self.tableView.scrollEnabled = YES;
+}
+
+- (void)deleteNewsFromNewTableViewCell:(NewTableViewCell *)cell withUserType:(UserType)userType{
+//    [self newTableViewCell:cell didSelectMarkView:nil];
+    [self.delegate deleteNews:newsModel];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - 动态加载 imageview

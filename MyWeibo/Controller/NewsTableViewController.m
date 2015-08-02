@@ -14,13 +14,12 @@
 #import "DocumentAccess.h"
 #import "UIImage+ImageFrame.h"
 #import "UILabel+StringFrame.h"
-#import "NewsDetailViewController.h"
 #import "CommentCell.h"
 #import "PersonalModel.h"
 #import "SVProgressHUD.h"
 #import "AddNewsViewController.h"
 
-@interface NewsTableViewController (){
+@interface NewsTableViewController ()<NewsDetailViewControllerDelegate>{
     NSMutableArray *tableData;
     NSInteger sizeOfRefresh;
     DBManager *dbManager;
@@ -222,9 +221,7 @@
 }
 
 - (UserType)userTypeOfNewTableViewCell:(NewTableViewCell *)cell{
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    long index = tableData.count - 1 - indexPath.section;
-    NewsModel *news = tableData[index];
+    NewsModel *news = [self newsModelOfCell:cell fromTableView:self.tableView];
     if ([news.user_id isEqualToString:[PersonalModel personalIDfromUserDefaults]]) {
         return UserTypePersonal;
     }
@@ -233,19 +230,35 @@
 
 - (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button{
     self.tableView.scrollEnabled = NO;
-    cell.dropDown.delegate = self;
 }
 
-- (void)newTableViewCell:(NewTableViewCell *)cell didSelectMarkView:(MarkView *)markView{
-    [cell.myMarkView removeFromSuperview];
+- (void)dismissFromNewTableViewCell:(NewTableViewCell *)cell{
     [cell.dropDown removeFromSuperview];
-    
+    [cell.myMarkView removeFromSuperview];
     self.tableView.scrollEnabled = YES;
 }
 
-- (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"%@",dropDownView.dropList[indexPath.row]);
+- (void)deleteNewsFromNewTableViewCell:(NewTableViewCell *)cell withUserType:(UserType)userType{
+    NewsModel *news = [self newsModelOfCell:cell fromTableView:self.tableView];
+    [tableData removeObject:news];
+    [news deleteNewFromTable];
+    [self.tableView reloadData];
 }
+
+- (NewsModel *)newsModelOfCell:(NewTableViewCell *)cell fromTableView:(UITableView *)tableView{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    long index = tableData.count - 1 - indexPath.section;
+    NewsModel *news = tableData[index];
+    return news;
+}
+#pragma mark - NewsDetailViewController 协议方法
+
+- (void)deleteNews:(NewsModel *)newsModel{
+    [tableData removeObject:newsModel];
+    [newsModel deleteNewFromTable];
+    [self.tableView reloadData];
+}
+
 #pragma mark - 动态加载 imageview
 - (void)tableViewCell:(NewTableViewCell *)cell setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle
 {
@@ -295,6 +308,7 @@
         NewsDetailViewController *controller = segue.destinationViewController;
         controller.hidesBottomBarWhenPushed = YES;
         controller.newsModel = sender;
+        controller.delegate = self;
     }
 }
 

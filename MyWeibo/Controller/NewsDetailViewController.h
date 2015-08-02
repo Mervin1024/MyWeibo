@@ -10,6 +10,14 @@
 #import "NewsModel.h"
 #import "NewsTableViewController.h"
 
+@protocol NewsDetailViewControllerDelegate <NSObject>
+
+- (void)deleteNews:(NewsModel *)newsModel;
+
+@end
+
+
 @interface NewsDetailViewController : UITableViewController<NewTableViewCellDelegate>
 @property (strong, nonatomic) NewsModel *newsModel;
+@property (weak, nonatomic) id<NewsDetailViewControllerDelegate> delegate;
 @end
