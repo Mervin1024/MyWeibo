@@ -148,12 +148,12 @@ CGFloat const aRowOfText = 18.0f;
     }else{
         // 更新 imageView 位置
         CGRect buttom = addImageButton.frame;
-        buttom.origin.y = self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
+        buttom.origin.y = images.count / 3 * (addImageButtonHight + buttonMargin) + self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
         addImageButton.frame = buttom;
         
         [imageViews excetueEach:^(UIImageView *imageView){
             CGRect frame = imageView.frame;
-            frame.origin.y = self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
+            frame.origin.y = imageViews.count / 3 * (addImageButtonHight + buttonMargin) + self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
             imageView.frame = frame;
         }];
         
