@@ -25,4 +25,15 @@
 //    NSLog(@"%@",NSStringFromCGSize(self.contentView.bounds.size));
 }
 
+- (IBAction)Forward:(id)sender {
+    [self.delegate commentCell:self forward:sender];
+}
+
+- (IBAction)Praise:(id)sender {
+    [self.delegate commentCell:self Praise:sender];
+}
+
+- (IBAction)Comment:(id)sender {
+    [self.delegate commentCell:self Comment:sender];
+}
 @end

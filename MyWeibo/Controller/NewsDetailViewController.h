@@ -20,4 +20,5 @@
 @interface NewsDetailViewController : UITableViewController<NewTableViewCellDelegate>
 @property (strong, nonatomic) NewsModel *newsModel;
 @property (weak, nonatomic) id<NewsDetailViewControllerDelegate> delegate;
+- (IBAction)backButton:(id)sender;
 @end

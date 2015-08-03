@@ -151,11 +151,12 @@ CGFloat const aRowOfText = 18.0f;
         buttom.origin.y = images.count / 3 * (addImageButtonHight + buttonMargin) + self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
         addImageButton.frame = buttom;
         
-        [imageViews excetueEach:^(UIImageView *imageView){
+        for (int i = 0; i < imageViews.count; i++) {
+            UIImageView *imageView = imageViews[i];
             CGRect frame = imageView.frame;
-            frame.origin.y = imageViews.count / 3 * (addImageButtonHight + buttonMargin) + self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
+            frame.origin.y = i / 3 * (addImageButtonHight + buttonMargin) + self.textView.frame.origin.y+self.textView.frame.size.height+buttonMargin;
             imageView.frame = frame;
-        }];
+        }
         
     }
     

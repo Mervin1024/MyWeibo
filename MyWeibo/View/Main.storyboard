@@ -180,7 +180,24 @@
                             <outlet property="delegate" destination="z83-zQ-vTD" id="aWc-bC-PRQ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="新鲜事" id="x9N-bL-JWv"/>
+                    <navigationItem key="navigationItem" title="新鲜事" id="x9N-bL-JWv">
+                        <barButtonItem key="leftBarButtonItem" title="Item" id="bjc-jH-k4l">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="dynamicStateButton:" destination="z83-zQ-vTD" id="r6c-oW-fM7"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" id="taT-At-TGL">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="scanningButton:" destination="z83-zQ-vTD" id="hJB-mF-9Hg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="dynamicStateButton" destination="bjc-jH-k4l" id="5KE-9d-FgB"/>
+                        <outlet property="scanningButton" destination="taT-At-TGL" id="CT0-WW-CnY"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8T9-hd-dY8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -226,6 +243,14 @@
                             <outlet property="delegate" destination="soh-B0-hKG" id="M92-Df-wsj"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="微博正文" id="pcd-Yq-cEk">
+                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="KdA-UO-kk7">
+                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <connections>
+                                <action selector="backButton:" destination="soh-B0-hKG" id="saY-IP-T4X"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8p4-O2-9Mz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

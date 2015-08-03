@@ -85,7 +85,6 @@
     myScrollView.contentSize = contentSize;
 //
     
-    
 }
 
 #pragma mark - Table view data source 协议
@@ -231,7 +230,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
     }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是这样的"] || [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"我开玩笑的"]){
-        [SVProgressHUD showErrorWithStatus:@"我还不想删除\n(=・ω・=)"];
+        [SVProgressHUD showErrorWithStatus:@"那就不删除了\n(=・ω・=)"];
     }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是的!"]){
         [SVProgressHUD showErrorWithStatus:@"那就再给你一次机会\n（￣へ￣）"];
     }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"嗯,是的"]){
@@ -347,4 +346,7 @@
 }
 
 
+- (IBAction)backButton:(id)sender {
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

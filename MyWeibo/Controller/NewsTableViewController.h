@@ -17,4 +17,8 @@
 
 @property (assign, nonatomic)NSInteger count;
 @property (strong, nonatomic)UIRefreshControl *aRefreshController;
+- (IBAction)dynamicStateButton:(id)sender;
+- (IBAction)scanningButton:(id)sender;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *dynamicStateButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *scanningButton;
 @end

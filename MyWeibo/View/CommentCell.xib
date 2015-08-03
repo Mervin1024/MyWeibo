@@ -19,6 +19,9 @@
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="Forward:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1UP-Kj-myt"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RqV-oq-9Wh">
                         <rect key="frame" x="250" y="-1" width="125" height="30"/>
@@ -26,6 +29,9 @@
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="Praise:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ne2-pb-o2w"/>
+                        </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSt-mG-kTQ">
                         <rect key="frame" x="125" y="0.0" width="125" height="28"/>
@@ -33,6 +39,9 @@
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
+                        <connections>
+                            <action selector="Comment:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="LPl-Iz-UY2"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

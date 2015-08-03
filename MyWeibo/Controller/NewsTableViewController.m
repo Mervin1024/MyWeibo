@@ -19,7 +19,7 @@
 #import "SVProgressHUD.h"
 #import "AddNewsViewController.h"
 
-@interface NewsTableViewController ()<NewsDetailViewControllerDelegate,UIAlertViewDelegate>{
+@interface NewsTableViewController ()<NewsDetailViewControllerDelegate,UIAlertViewDelegate,CommentCellDelegate>{
     NSMutableArray *tableData;
     NSInteger sizeOfRefresh;
     DBManager *dbManager;
@@ -32,13 +32,14 @@
 @end
 
 @implementation NewsTableViewController
-@synthesize count;
+@synthesize count,scanningButton,dynamicStateButton;
 @synthesize aRefreshController;
 
 #pragma mark - view 视图初始化
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initValue];
+    [self initView];
     [self setRefreshControl];
     // 注册通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishPublish:) name:@"AddNewsNotification" object:nil];
@@ -66,6 +67,19 @@
     }
     
 }
+
+- (void)initView{
+    dynamicStateButton.title = nil;
+//    dynamicStateButton.tintColor = [UIColor blackColor];
+    UIImage *dynamicStateImage = [UIImage imageNamed:@"noDynamicState"];
+    dynamicStateButton.image = [UIImage imageWithCGImage:dynamicStateImage.CGImage scale:(dynamicStateImage.scale*3) orientation:dynamicStateImage.imageOrientation];
+    
+    scanningButton.title = nil;
+//    scanningButton.tintColor = [UIColor blackColor];
+    UIImage *scanningImage = [UIImage imageNamed:@"scanning"];
+    scanningButton.image = [UIImage imageWithCGImage:scanningImage.CGImage scale:(scanningImage.scale*3) orientation:scanningImage.imageOrientation];
+}
+
 #pragma mark - 读取数据库
 - (void) initValue{
     dbManager = [MyWeiboData sharedManager].dbManager;
@@ -185,6 +199,7 @@
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
         }
+        cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleBlue;
         return cell;
     }
@@ -318,7 +333,7 @@
             [self.tableView reloadData];
         }
     }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是这样的"] || [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"我开玩笑的"]){
-        [SVProgressHUD showErrorWithStatus:@"我还不想删除\n(=・ω・=)"];
+        [SVProgressHUD showErrorWithStatus:@"那就不删除了\n(=・ω・=)"];
     }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是的!"]){
         [SVProgressHUD showErrorWithStatus:@"那就再给你一次机会\n（￣へ￣）"];
     }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"嗯,是的"]){
@@ -331,6 +346,36 @@
     [tableData removeObject:newsModel];
     [newsModel deleteNewFromTable];
     [self.tableView reloadData];
+}
+
+#pragma mark - CommentCell 协议方法
+- (void)commentCell:(CommentCell *)cell Comment:(id)sender{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    long index = tableData.count - 1 - indexPath.section;
+    NewsModel *news = tableData[index];
+    NSString *str = news.user.name;
+    if ([news.user_id isEqualToString:[PersonalModel personalIDfromUserDefaults]]) {
+        str = @"自己";
+    }
+    [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"亲,暂时还不能评论%@的微博",str]];
+}
+
+- (void)commentCell:(CommentCell *)cell forward:(id)sender{
+//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+//    long index = tableData.count - 1 - indexPath.section;
+//    NewsModel *news = tableData[index];
+    [SVProgressHUD showErrorWithStatus:@"不能联网你想转给谁看?/n←_←"];
+}
+
+- (void)commentCell:(CommentCell *)cell Praise:(id)sender{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    long index = tableData.count - 1 - indexPath.section;
+    NewsModel *news = tableData[index];
+    NSString *str = news.user.name;
+    if ([news.user_id isEqualToString:[PersonalModel personalIDfromUserDefaults]]) {
+        str = @"我自己也";
+    }
+    [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"%@棒棒哒\n(￣3￣)",str]];
 }
 
 #pragma mark - 动态加载 imageview
@@ -386,4 +431,9 @@
     }
 }
 
+- (IBAction)dynamicStateButton:(id)sender {
+}
+
+- (IBAction)scanningButton:(id)sender {
+}
 @end
