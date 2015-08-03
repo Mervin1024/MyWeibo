@@ -45,6 +45,8 @@
 		C967E0ED1B60FC2C00A04653 /* NewsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0E71B60FC2C00A04653 /* NewsModel.m */; };
 		C967E0EF1B60FC2C00A04653 /* UserModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0EB1B60FC2C00A04653 /* UserModel.m */; };
 		C967E0F21B61183000A04653 /* PersonalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0F11B61183000A04653 /* PersonalModel.m */; };
+		C982F6311B6FC182001E9370 /* CommentCellMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F6301B6FC182001E9370 /* CommentCellMethod.m */; };
+		C982F6351B6FD047001E9370 /* CommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F6341B6FD047001E9370 /* CommentButton.m */; };
 		C9D3F3A41B0B459900313035 /* MyWeiboTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F3A31B0B459900313035 /* MyWeiboTests.m */; };
 		C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4231B0B681100313035 /* AppDelegate.m */; };
 		C9D3F43F1B0B68F500313035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F43E1B0B68F500313035 /* main.m */; };
@@ -136,6 +138,10 @@
 		C967E0EB1B60FC2C00A04653 /* UserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserModel.m; sourceTree = "<group>"; };
 		C967E0F01B61183000A04653 /* PersonalModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalModel.h; sourceTree = "<group>"; };
 		C967E0F11B61183000A04653 /* PersonalModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalModel.m; sourceTree = "<group>"; };
+		C982F62F1B6FC182001E9370 /* CommentCellMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentCellMethod.h; sourceTree = "<group>"; };
+		C982F6301B6FC182001E9370 /* CommentCellMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCellMethod.m; sourceTree = "<group>"; };
+		C982F6331B6FD047001E9370 /* CommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentButton.h; sourceTree = "<group>"; };
+		C982F6341B6FD047001E9370 /* CommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentButton.m; sourceTree = "<group>"; };
 		C9D3F3841B0B459900313035 /* MyWeibo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeibo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D3F39D1B0B459900313035 /* MyWeiboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyWeiboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D3F3A21B0B459900313035 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -272,6 +278,8 @@
 				C92E857F1B6DC87B00785163 /* DropDownView.m */,
 				C9EE8DC31B6E098400B5F917 /* MarkView.h */,
 				C9EE8DC41B6E098400B5F917 /* MarkView.m */,
+				C982F6331B6FD047001E9370 /* CommentButton.h */,
+				C982F6341B6FD047001E9370 /* CommentButton.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -305,12 +313,13 @@
 		C967E0F41B61495C00A04653 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				C967E0C21B60FBAD00A04653 /* CommentCell.h */,
-				C967E0C31B60FBAD00A04653 /* CommentCell.m */,
-				C967E0C41B60FBAD00A04653 /* CommentCell.xib */,
 				C967E0CA1B60FBAD00A04653 /* NewTableViewCell.h */,
 				C967E0CB1B60FBAD00A04653 /* NewTableViewCell.m */,
 				C967E0C91B60FBAD00A04653 /* NewCell.xib */,
+				C967E0C21B60FBAD00A04653 /* CommentCell.h */,
+				C967E0C31B60FBAD00A04653 /* CommentCell.m */,
+				C967E0C41B60FBAD00A04653 /* CommentCell.xib */,
+				C982F6321B6FC5A4001E9370 /* CellMethod */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -335,6 +344,15 @@
 				C967E0D51B60FC0200A04653 /* AddNewsViewController.m */,
 			);
 			name = DetailViewController;
+			sourceTree = "<group>";
+		};
+		C982F6321B6FC5A4001E9370 /* CellMethod */ = {
+			isa = PBXGroup;
+			children = (
+				C982F62F1B6FC182001E9370 /* CommentCellMethod.h */,
+				C982F6301B6FC182001E9370 /* CommentCellMethod.m */,
+			);
+			name = CellMethod;
 			sourceTree = "<group>";
 		};
 		C9D3F37B1B0B459900313035 = {
@@ -504,6 +522,7 @@
 				C967E0B31B60FB1800A04653 /* DBManager.m in Sources */,
 				C967E0BD1B60FB1800A04653 /* MyWeiboData.m in Sources */,
 				C95EDCDE1B61DB5200A21A04 /* AddingImageView.m in Sources */,
+				C982F6351B6FD047001E9370 /* CommentButton.m in Sources */,
 				C967E0AE1B60FB1800A04653 /* NSDate+Assemble.m in Sources */,
 				C967E0F21B61183000A04653 /* PersonalModel.m in Sources */,
 				C967E0CE1B60FBAD00A04653 /* ImageScrollView.m in Sources */,
@@ -526,6 +545,7 @@
 				C967E0EC1B60FC2C00A04653 /* ImagesModel.m in Sources */,
 				C967E0B61B60FB1800A04653 /* FMDatabasePool.m in Sources */,
 				C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */,
+				C982F6311B6FC182001E9370 /* CommentCellMethod.m in Sources */,
 				C967E0EF1B60FC2C00A04653 /* UserModel.m in Sources */,
 				C967E0DE1B60FC0200A04653 /* AddNewsViewController.m in Sources */,
 				C967E0BB1B60FB1800A04653 /* DocumentAccess.m in Sources */,

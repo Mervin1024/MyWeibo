@@ -18,6 +18,7 @@
 #import "PersonalModel.h"
 #import "SVProgressHUD.h"
 #import "AddNewsViewController.h"
+#import "CommentCellMethod.h"
 
 @interface NewsTableViewController ()<NewsDetailViewControllerDelegate,UIAlertViewDelegate,CommentCellDelegate>{
     NSMutableArray *tableData;
@@ -249,8 +250,10 @@
 }
 
 - (void)dismissFromNewTableViewCell:(NewTableViewCell *)cell{
-    [cell.dropDown removeFromSuperview];
-    [cell.myMarkView removeFromSuperview];
+//    [cell.dropDown removeFromSuperview];
+    [UIView animateWithDuration:0.3 animations:^{
+        cell.myMarkView.alpha = 0;
+    }];
     self.tableView.scrollEnabled = YES;
 }
 
@@ -353,29 +356,24 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     long index = tableData.count - 1 - indexPath.section;
     NewsModel *news = tableData[index];
-    NSString *str = news.user.name;
-    if ([news.user_id isEqualToString:[PersonalModel personalIDfromUserDefaults]]) {
-        str = @"自己";
-    }
-    [SVProgressHUD showErrorWithStatus:[NSString stringWithFormat:@"亲,暂时还不能评论%@的微博",str]];
+    CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:news];
+    [commentMethod Comment];
 }
 
 - (void)commentCell:(CommentCell *)cell forward:(id)sender{
 //    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
 //    long index = tableData.count - 1 - indexPath.section;
 //    NewsModel *news = tableData[index];
-    [SVProgressHUD showErrorWithStatus:@"不能联网你想转给谁看?/n←_←"];
+    CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:nil];
+    [commentMethod forward];
 }
 
 - (void)commentCell:(CommentCell *)cell Praise:(id)sender{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     long index = tableData.count - 1 - indexPath.section;
     NewsModel *news = tableData[index];
-    NSString *str = news.user.name;
-    if ([news.user_id isEqualToString:[PersonalModel personalIDfromUserDefaults]]) {
-        str = @"我自己也";
-    }
-    [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"%@棒棒哒\n(￣3￣)",str]];
+    CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:news];
+    [commentMethod Praise];
 }
 
 #pragma mark - 动态加载 imageview

@@ -14,8 +14,9 @@
 #import "NSArray+Assemble.h"
 #import "CommentCell.h"
 #import "SVProgressHUD.h"
+#import "CommentCellMethod.h"
 
-@interface NewsDetailViewController ()<ImageScrollViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate>{
+@interface NewsDetailViewController ()<ImageScrollViewDelegate,UIScrollViewDelegate,UIAlertViewDelegate,CommentCellDelegate>{
     CGRect tableViewContentRect;
     UIView *blankView; //背景层
     UIView *markView; // 渐变层
@@ -134,6 +135,7 @@
         if (cell == nil) {
             cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
         }
+        cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -157,8 +159,9 @@
 }
 
 - (void)dismissFromNewTableViewCell:(NewTableViewCell *)cell{
-    [cell.dropDown removeFromSuperview];
-    [cell.myMarkView removeFromSuperview];
+    [UIView animateWithDuration:0.3 animations:^{
+        cell.myMarkView.alpha = 0;
+    }];
     self.tableView.scrollEnabled = YES;
 }
 
@@ -237,6 +240,22 @@
         [SVProgressHUD showErrorWithStatus:@"然而并没有这个功能\n_(:3」∠)_"];
     }
     
+}
+#pragma mark - CommentCell 协议方法
+
+- (void)commentCell:(CommentCell *)cell Comment:(id)sender{
+    CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:newsModel];
+    [commentMethod Comment];
+}
+
+- (void)commentCell:(CommentCell *)cell forward:(id)sender{
+    CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:newsModel];
+    [commentMethod forward];
+}
+
+- (void)commentCell:(CommentCell *)cell Praise:(id)sender{
+    CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:newsModel];
+    [commentMethod Praise];
 }
 
 #pragma mark - 动态加载 imageview

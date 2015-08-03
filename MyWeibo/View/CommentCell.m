@@ -8,10 +8,25 @@
 
 #import "CommentCell.h"
 
-@implementation CommentCell
+@interface CommentCell(){
+    UIView *markView;
+}
 
+@end
+
+@implementation CommentCell
+@synthesize forward,comment,praise;
 - (void)awakeFromNib {
     // Initialization code
+    markView = [[UIView alloc]init];
+    markView.alpha = 0;
+    markView.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.35];
+    [self addSubview:markView];
+//    [self sendSubviewToBack:markView];
+    
+    forward.delegate = self;
+    comment.delegate = self;
+    praise.delegate = self;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -35,5 +50,40 @@
 
 - (IBAction)Comment:(id)sender {
     [self.delegate commentCell:self Comment:sender];
+}
+
+- (void)setAnimation:(CommentButton *)sender{
+    if (markView.alpha == 1) {
+        
+    }else{
+        [UIView animateWithDuration:0.1 animations:^{
+            markView.alpha = 1;
+        }];
+    }
+    
+//    sender.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.35];
+    
+}
+
+- (void)stopAnimation:(CommentButton *)sender{
+    if (markView.alpha == 0) {
+        
+    }else{
+        [UIView animateWithDuration:0.4 animations:^{
+            markView.alpha = 0;
+            //        sender.backgroundColor = [UIColor clearColor];
+            //        sender.alpha = 1;
+        }];
+    }
+    
+}
+
+- (void)commentButton:(CommentButton *)button touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    markView.frame = button.frame;
+    [self setAnimation:button];
+}
+
+- (void)commentButton:(CommentButton *)button touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self stopAnimation:button];
 }
 @end

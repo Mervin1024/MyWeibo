@@ -10,12 +10,12 @@
 
 @interface DropDownView()<UITableViewDataSource,UITableViewDelegate>{
     UITableView *myTableView;
-    UserType userType;
+    
 }
 @end
 
 @implementation DropDownView
-@synthesize dropList;
+@synthesize dropList,userType;
 - (id)initWithFrame:(CGRect)frame dropList:(NSArray *)array userType:(UserType)type{
     frame.size.height = array.count * DROPDOWN_CELL_HEIGHT;
     if ((self = [super initWithFrame:frame])) {

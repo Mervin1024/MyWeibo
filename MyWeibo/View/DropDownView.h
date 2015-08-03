@@ -23,4 +23,5 @@
 - (id)initWithFrame:(CGRect)frame dropList:(NSArray *)array userType:(UserType)type;
 @property (weak, nonatomic) id<DropDownViewDelegate> delegate;
 @property (strong, nonatomic) NSArray *dropList;
+@property (assign, nonatomic) UserType userType;
 @end

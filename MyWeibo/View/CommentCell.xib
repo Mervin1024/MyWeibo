@@ -13,34 +13,44 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6di-SM-AeA">
-                        <rect key="frame" x="0.0" y="-1" width="125" height="30"/>
-                        <state key="normal" title="转发">
-                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                        </state>
-                        <connections>
-                            <action selector="Forward:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1UP-Kj-myt"/>
-                        </connections>
-                    </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RqV-oq-9Wh">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RqV-oq-9Wh" customClass="CommentButton">
                         <rect key="frame" x="250" y="-1" width="125" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <state key="normal" title="点赞">
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
                             <action selector="Praise:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="ne2-pb-o2w"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSt-mG-kTQ">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kSt-mG-kTQ" customClass="CommentButton">
                         <rect key="frame" x="125" y="0.0" width="125" height="28"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <state key="normal" title="评论" backgroundImage="Button">
                             <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted" title="评论">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
                             <action selector="Comment:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="LPl-Iz-UY2"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6di-SM-AeA" customClass="CommentButton">
+                        <rect key="frame" x="0.0" y="-1" width="125" height="30"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <state key="normal" title="转发">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <state key="highlighted" title="转发">
+                            <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                        <connections>
+                            <action selector="Forward:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="1UP-Kj-myt"/>
                         </connections>
                     </button>
                 </subviews>
@@ -58,6 +68,11 @@
                     <constraint firstItem="kSt-mG-kTQ" firstAttribute="centerY" secondItem="RqV-oq-9Wh" secondAttribute="centerY" id="n8o-Ys-lBu"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="comment" destination="kSt-mG-kTQ" id="KJK-F6-HeM"/>
+                <outlet property="forward" destination="6di-SM-AeA" id="Khk-rV-Jmm"/>
+                <outlet property="praise" destination="RqV-oq-9Wh" id="uBT-3V-rMc"/>
+            </connections>
         </tableViewCell>
     </objects>
     <resources>
