@@ -7,17 +7,8 @@
 //
 
 #import "CommentCellMethod.h"
-#import "SVProgressHUD.h"
-#import "PersonalModel.h"
 
 @implementation CommentCellMethod
-
-- (id)initWithNewsModel:(NewsModel *)news{
-    if ((self = [super init])) {
-        self.news = news;
-    }
-    return self;
-}
 
 - (void)forward{
     [SVProgressHUD showErrorWithStatus:@"不能联网你想转给谁看?\n←_←"];

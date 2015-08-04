@@ -19,7 +19,7 @@ typedef enum {
 @protocol NewTableViewCellDelegate <NSObject>
 - (CGRect)frameOfSuperView;
 - (UserType)userTypeOfNewTableViewCell:(NewTableViewCell *)cell;
-- (void)didSelectedItem:(NSString *)item FromTableViewCell:(NewTableViewCell *)cell;
+- (void)didSelectedItem:(NSString *)item fromTableViewCell:(NewTableViewCell *)cell;
 @optional
 - (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button;
 - (void)dismissFromNewTableViewCell:(NewTableViewCell *)cell;

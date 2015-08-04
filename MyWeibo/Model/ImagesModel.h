@@ -18,7 +18,7 @@
 - (BOOL) insertItemToTable;
 
 //@property (strong, nonatomic) NSArray *images;
-@property (assign, nonatomic) NSInteger image_id;
-@property (copy, nonatomic) NSString *image_name;
-@property (assign, nonatomic) NSInteger news_id;
+@property (assign, nonatomic, readonly) NSInteger image_id;
+@property (copy, nonatomic, readonly) NSString *image_name;
+@property (assign, nonatomic, readonly) NSInteger news_id;
 @end

@@ -8,6 +8,7 @@
 
 #import "PersonalModel.h"
 #import "MyWeiboData.h"
+#import "NSArray+Assemble.h"
 
 @interface PersonalModel (){
     NSUserDefaults *userDefaults;
@@ -15,26 +16,25 @@
 @end
 
 @implementation PersonalModel
-
+@synthesize password,images;
 - (PersonalModel *)initWithUserID:(NSString *)userId password:(NSString *)passwords name:(NSString *)names avatar:(NSString *)avatars description:(NSString *)descr{
-    
     if ((self = [super initWithUserID:userId name:names avatar:avatars description:descr])) {
-        self.password = passwords;
+        password = passwords;
+        images = [self arrayAllImagesBySelected];
     }
+    
     return self;
 }
 
 - (PersonalModel *)initWithUserDefaults{
-    if ((self = [super init])) {
-        userDefaults = [NSUserDefaults standardUserDefaults];
-        self.desc = [userDefaults objectForKey:personalDesc];
-        self.user_ID = [userDefaults objectForKey:personalID];
-        self.avatar = [userDefaults objectForKey:personalAvatar];
-        self.password = [userDefaults objectForKey:personalPassword];
-        NSString *pName;
-        if ((pName = [userDefaults objectForKey:personalName])) {
-            self.name = pName;
-        }
+    userDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *pName;
+    if ([userDefaults objectForKey:personalName]) {
+        pName = [userDefaults objectForKey:personalName];
+    }
+    if ((self = [self initWithUserID:[userDefaults objectForKey:personalID] password:[userDefaults objectForKey:personalPassword] name:pName avatar:[userDefaults objectForKey:personalAvatar] description:[userDefaults objectForKey:personalDesc]])) {
+        images = [self arrayAllImagesBySelected];
+        
     }
     return self;
 }
@@ -54,6 +54,15 @@
 + (NSString *)personalIDfromUserDefaults{
     NSString *personalId = [[NSUserDefaults standardUserDefaults] objectForKey:personalID];
     return personalId;
+}
+
+- (NSArray *)arrayAllImagesBySelected{
+    NSArray *news = [self arrayUserAllNewsBySelected];
+    __block NSMutableArray *allImages = [NSMutableArray array];
+    [news excetueEach:^(NewsModel *new){
+        [allImages addObjectsFromArray:[new arrayAllImagesNameBySelected]];
+    }];
+    return allImages;
 }
 
 @end

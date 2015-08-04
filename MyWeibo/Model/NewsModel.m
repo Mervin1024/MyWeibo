@@ -10,6 +10,8 @@
 #import "MyWeiboData.h"
 #import "DBManager.h"
 #import "ImagesModel.h"
+#import "DocumentAccess.h"
+#import "NSArray+Assemble.h"
 
 @implementation NewsModel{
     DBManager *dbManager;
@@ -111,6 +113,9 @@
 
 - (BOOL) deleteImagesFromTable{
     if ([dbManager deleteFromTableName:imagesTable where:@{newsID:[NSString stringWithFormat:@"%ld",(long)news_id]}]) {
+        [imagesName excetueEach:^(NSString *imageName){
+            [DocumentAccess deleteImageWithImageName:imageName];
+        }];
         return YES;
     }
     return NO;

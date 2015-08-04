@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NewsModel.h"
 
 @interface UserModel : NSObject
 - (UserModel *)initWithUserID:(NSString *)userId name:(NSString *)names avatar:(NSString *)avatars description:(NSString *)descs;
@@ -15,12 +16,12 @@
 + (NSArray *) arrayOfProperties;
 + (NSDictionary *) dictionaryOfPropertiesAndTypes;
 - (NSDictionary *) dictionaryOfDate;
-- (NSDictionary *) dictionaryBySelected;
+//- (NSDictionary *) dictionaryBySelectedWithUserID:(NSString *)userId;
 - (BOOL) insertItemToTable;
 - (BOOL) updateItemFromTable;
-
-@property (copy, nonatomic) NSString *user_ID;
-@property (copy, nonatomic) NSString *name;
-@property (copy, nonatomic) NSString *avatar;
-@property (copy, nonatomic) NSString *desc;
+- (NSArray *)arrayUserAllNewsBySelected;
+@property (copy, nonatomic, readonly) NSString *user_ID;
+@property (copy, nonatomic, readonly) NSString *name;
+@property (copy, nonatomic, readonly) NSString *avatar;
+@property (copy, nonatomic, readonly) NSString *desc;
 @end

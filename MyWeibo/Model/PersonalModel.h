@@ -19,5 +19,6 @@ typedef enum {
 - (BOOL)savePersonalInformation;
 + (NSString *)personalIDfromUserDefaults;
 
-@property (copy, nonatomic) NSString *password;
+@property (copy, nonatomic, readonly) NSString *password;
+@property (strong, nonatomic, readonly) NSArray *images;
 @end

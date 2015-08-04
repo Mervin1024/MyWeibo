@@ -6,17 +6,13 @@
 //  Copyright (c) 2015年 NJUPT. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "CellMethod.h"
 #import "CommentCell.h"
-#import "NewsModel.h"
 
-@interface CommentCellMethod : NSObject
 
-- (id)initWithNewsModel:(NewsModel *)news;
+@interface CommentCellMethod :CellMethod
 
 - (void)forward;
 - (void)Praise;
 - (void)Comment;
-
-@property (strong, nonatomic) NewsModel *news;
 @end

@@ -42,12 +42,18 @@
 + (BOOL) insertNewsModel{
     if ([NewsModel countOfNews] < 20) {
         for (int i = 0; i < 20; i++) {
-            NewsModel *new = [InitialNews randomNewsModel];
-            [new insertItemToTable];
-            for (int i = 0; i < new.imagesName.count; i++) {
-                [DocumentAccess saveImage:[UIImage imageNamed:new.imagesName[i]] withImageName:new.imagesName[i]];
+            NewsModel *n = [InitialNews randomNewsModel];
+            NSMutableArray *newImagesName = [NSMutableArray array];
+            for (int j = 0; j < n.imagesName.count; j++) {
+                NSString *newImageName = [n.imagesName[j] stringByAppendingString:[NSString stringWithFormat:@"_%d_%d",i,j]];
+                [newImagesName addObject:newImageName];
+                
+                [DocumentAccess saveImage:[UIImage imageNamed:n.imagesName[j]] withImageName:newImageName];
             }
+            NewsModel *new = [[NewsModel alloc]initWithNewsID:n.news_id userID:n.user_id text:n.news_text imagesName:newImagesName];
+            [new insertItemToTable];
         }
+        
         NSLog(@"添加虚拟微博");
         return YES;
     }
@@ -80,6 +86,7 @@
     }else{
         [person savePersonalInformation];
         [person insertItemToTable];
+        [DocumentAccess saveImage:[UIImage imageNamed:person.avatar] withImageName:person.avatar];
         NSLog(@"添加虚拟用户");
         return YES;
     }

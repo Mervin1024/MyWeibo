@@ -47,6 +47,9 @@
 		C967E0F21B61183000A04653 /* PersonalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = C967E0F11B61183000A04653 /* PersonalModel.m */; };
 		C982F6311B6FC182001E9370 /* CommentCellMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F6301B6FC182001E9370 /* CommentCellMethod.m */; };
 		C982F6351B6FD047001E9370 /* CommentButton.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F6341B6FD047001E9370 /* CommentButton.m */; };
+		C982F63B1B708940001E9370 /* CellMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F63A1B708940001E9370 /* CellMethod.m */; };
+		C982F63E1B708A16001E9370 /* NewTableViewCellMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F63D1B708A16001E9370 /* NewTableViewCellMethod.m */; };
+		C982F6411B70B4A1001E9370 /* PersonalConfigureTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F6401B70B4A1001E9370 /* PersonalConfigureTableViewController.m */; };
 		C9D3F3A41B0B459900313035 /* MyWeiboTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F3A31B0B459900313035 /* MyWeiboTests.m */; };
 		C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4231B0B681100313035 /* AppDelegate.m */; };
 		C9D3F43F1B0B68F500313035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F43E1B0B68F500313035 /* main.m */; };
@@ -142,6 +145,12 @@
 		C982F6301B6FC182001E9370 /* CommentCellMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentCellMethod.m; sourceTree = "<group>"; };
 		C982F6331B6FD047001E9370 /* CommentButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentButton.h; sourceTree = "<group>"; };
 		C982F6341B6FD047001E9370 /* CommentButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentButton.m; sourceTree = "<group>"; };
+		C982F6391B708940001E9370 /* CellMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CellMethod.h; sourceTree = "<group>"; };
+		C982F63A1B708940001E9370 /* CellMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CellMethod.m; sourceTree = "<group>"; };
+		C982F63C1B708A16001E9370 /* NewTableViewCellMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewTableViewCellMethod.h; sourceTree = "<group>"; };
+		C982F63D1B708A16001E9370 /* NewTableViewCellMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewTableViewCellMethod.m; sourceTree = "<group>"; };
+		C982F63F1B70B4A1001E9370 /* PersonalConfigureTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalConfigureTableViewController.h; sourceTree = "<group>"; };
+		C982F6401B70B4A1001E9370 /* PersonalConfigureTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalConfigureTableViewController.m; sourceTree = "<group>"; };
 		C9D3F3841B0B459900313035 /* MyWeibo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeibo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D3F39D1B0B459900313035 /* MyWeiboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyWeiboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D3F3A21B0B459900313035 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -331,6 +340,8 @@
 				C967E0DB1B60FC0200A04653 /* NewsTableViewController.m */,
 				C967E0D61B60FC0200A04653 /* AppendViewController.h */,
 				C967E0D71B60FC0200A04653 /* AppendViewController.m */,
+				C982F63F1B70B4A1001E9370 /* PersonalConfigureTableViewController.h */,
+				C982F6401B70B4A1001E9370 /* PersonalConfigureTableViewController.m */,
 			);
 			name = TabBarViewControllers;
 			sourceTree = "<group>";
@@ -349,6 +360,10 @@
 		C982F6321B6FC5A4001E9370 /* CellMethod */ = {
 			isa = PBXGroup;
 			children = (
+				C982F6391B708940001E9370 /* CellMethod.h */,
+				C982F63A1B708940001E9370 /* CellMethod.m */,
+				C982F63C1B708A16001E9370 /* NewTableViewCellMethod.h */,
+				C982F63D1B708A16001E9370 /* NewTableViewCellMethod.m */,
 				C982F62F1B6FC182001E9370 /* CommentCellMethod.h */,
 				C982F6301B6FC182001E9370 /* CommentCellMethod.m */,
 			);
@@ -518,14 +533,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C982F63B1B708940001E9370 /* CellMethod.m in Sources */,
 				C92E85801B6DC87B00785163 /* DropDownView.m in Sources */,
 				C967E0B31B60FB1800A04653 /* DBManager.m in Sources */,
 				C967E0BD1B60FB1800A04653 /* MyWeiboData.m in Sources */,
 				C95EDCDE1B61DB5200A21A04 /* AddingImageView.m in Sources */,
+				C982F6411B70B4A1001E9370 /* PersonalConfigureTableViewController.m in Sources */,
 				C982F6351B6FD047001E9370 /* CommentButton.m in Sources */,
 				C967E0AE1B60FB1800A04653 /* NSDate+Assemble.m in Sources */,
 				C967E0F21B61183000A04653 /* PersonalModel.m in Sources */,
 				C967E0CE1B60FBAD00A04653 /* ImageScrollView.m in Sources */,
+				C982F63E1B708A16001E9370 /* NewTableViewCellMethod.m in Sources */,
 				C9EE8DC51B6E098400B5F917 /* MarkView.m in Sources */,
 				C967E0B21B60FB1800A04653 /* UILabel+StringFrame.m in Sources */,
 				C967E0B11B60FB1800A04653 /* UIImage+ImageFrame.m in Sources */,

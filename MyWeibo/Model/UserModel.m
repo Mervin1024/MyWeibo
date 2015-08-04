@@ -9,6 +9,7 @@
 #import "UserModel.h"
 #import "MyWeiboData.h"
 #import "DBManager.h"
+#import "NSArray+Assemble.h"
 
 @implementation UserModel{
     DBManager *dbManager;
@@ -39,17 +40,14 @@
 }
 
 + (UserModel *)selectedByUserID:(NSString *)userId{
-    UserModel *users = [[UserModel alloc]init];
-    if (users) {
-        users.user_ID = userId;
-        NSDictionary *user = [users dictionaryBySelected];
-        if ([user count] == 4) {
-            users.name = [user objectForKey:userName];
-        }
-        users.avatar = [user objectForKey:avatarName];
-        users.desc = [user objectForKey:userDesc];
+    NSString *name = nil;
+    NSDictionary *user = [self dictionaryBySelectedWithUserID:userId];
+    if ([user count] == 4) {
+        name = [user objectForKey:userName];
     }
-    return users;
+    NSString *avatar = [user objectForKey:avatarName];
+    NSString *desc = [user objectForKey:userDesc];
+    return [[UserModel alloc]initWithUserID:userId name:name avatar:avatar description:desc];
 }
 
 + (int) countOfUsers{
@@ -73,8 +71,8 @@
     return [NSDictionary dictionaryWithObjects:@[user_ID,avatar,desc] forKeys:@[userID,avatarName,userDesc]];
 }
 
-- (NSDictionary *) dictionaryBySelected{
-    NSArray *data = [[MyWeiboData sharedManager].dbManager arrayBySelect:[UserModel arrayOfProperties] fromTable:userTable where:@{userID:user_ID} orderBy:nil from:0 to:0];
++ (NSDictionary *) dictionaryBySelectedWithUserID:(NSString *)userId{
+    NSArray *data = [[MyWeiboData sharedManager].dbManager arrayBySelect:[UserModel arrayOfProperties] fromTable:userTable where:@{userID:userId} orderBy:nil from:0 to:0];
     return data[0];
 }
 
@@ -91,6 +89,14 @@
     }
     return NO;
     
+}
+
+- (NSArray *)arrayUserAllNewsBySelected{
+    NSArray *allNews = [NewsModel arrayBySelectedWhere:nil from:0 to:0];
+    NSArray *news = [allNews arrayBySelect:^(NewsModel *new){
+        return [new.user.user_ID isEqualToString:user_ID];
+    }];
+    return news;
 }
 
 @end

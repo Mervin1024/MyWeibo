@@ -7,6 +7,7 @@
 //
 
 #import "CommentCell.h"
+//#import "SVProgressHUD.h"
 
 @interface CommentCell(){
     UIView *markView;
@@ -41,14 +42,17 @@
 }
 
 - (IBAction)Forward:(id)sender {
+//    [SVProgressHUD dismiss];
     [self.delegate commentCell:self forward:sender];
 }
 
 - (IBAction)Praise:(id)sender {
+//    [SVProgressHUD dismiss];
     [self.delegate commentCell:self Praise:sender];
 }
 
 - (IBAction)Comment:(id)sender {
+//    [SVProgressHUD dismiss];
     [self.delegate commentCell:self Comment:sender];
 }
 

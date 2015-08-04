@@ -19,15 +19,19 @@
 #import "SVProgressHUD.h"
 #import "AddNewsViewController.h"
 #import "CommentCellMethod.h"
+#import "NewTableViewCellMethod.h"
 
-@interface NewsTableViewController ()<NewsDetailViewControllerDelegate,UIAlertViewDelegate,CommentCellDelegate>{
+@interface NewsTableViewController ()<NewsDetailViewControllerDelegate,UIAlertViewDelegate,CommentCellDelegate,NewTableViewCellMethodDelegate>{
     NSMutableArray *tableData;
-    NSInteger sizeOfRefresh;
+    BOOL haveData;              // 是否有数据,默认YES
+    NSInteger sizeOfRefresh;    // 每次更新数据条目
     DBManager *dbManager;
-    NewsModel *newsWillDelete;
-    NSInteger mark;
+    NewsModel *newsDidSelect;   // 拓展按钮选中的item
+    BOOL isReload;             // 是否更新数据
     float to;
     float from;
+    
+    NewTableViewCellMethod *newTableViewCellMethod;
 }
 
 @end
@@ -61,22 +65,22 @@
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    if (mark == 0) {
+    // 加载数据
+    if (isReload == YES) {
         [SVProgressHUD showWithStatus:@"正在加载。。"];
         [self performSelector:@selector(setTableData) withObject:nil afterDelay:0.5];
-        mark = 1;
+        isReload = NO;
     }
     
 }
 
+// 添加navigationItemBarButton
 - (void)initView{
     dynamicStateButton.title = nil;
-//    dynamicStateButton.tintColor = [UIColor blackColor];
     UIImage *dynamicStateImage = [UIImage imageNamed:@"noDynamicState"];
     dynamicStateButton.image = [UIImage imageWithCGImage:dynamicStateImage.CGImage scale:(dynamicStateImage.scale*3) orientation:dynamicStateImage.imageOrientation];
     
     scanningButton.title = nil;
-//    scanningButton.tintColor = [UIColor blackColor];
     UIImage *scanningImage = [UIImage imageNamed:@"scanning"];
     scanningButton.image = [UIImage imageWithCGImage:scanningImage.CGImage scale:(scanningImage.scale*3) orientation:scanningImage.imageOrientation];
 }
@@ -87,9 +91,10 @@
     tableData = [NSMutableArray array];
     sizeOfRefresh = 10;
     self.count = 0;
-    mark = 0;
+    isReload = YES;
     from = 0;
     to = 0;
+    haveData = YES;
 }
 
 - (void) initDB{
@@ -111,9 +116,22 @@
         tableData = [NSMutableArray array];
         from = to - sizeOfRefresh;
     }
+    NSArray *reloadData = [NewsModel arrayBySelectedWhere:nil from:from to:to];
+    [tableData addObjectsFromArray:reloadData];
     
-    [tableData addObjectsFromArray:[NewsModel arrayBySelectedWhere:nil from:from to:to]];
-    [SVProgressHUD dismiss];
+    if (tableData.count == 0) {
+        haveData = NO;
+        [SVProgressHUD dismiss];
+    }else{
+        
+        haveData = YES;
+        NSString *str = @"已经是最新了";
+        if (reloadData.count != 0) {
+            str = [NSString stringWithFormat:@"%ld条新微博",reloadData.count];
+        }
+        [SVProgressHUD showSuccessWithStatus:str];
+    }
+//    [SVProgressHUD dismiss];
     [self.tableView reloadData];
 
 }
@@ -134,18 +152,11 @@
 
 - (void) refreshControlDidRefreshing{
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        if ([NewsModel countOfNews] > to) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新成功"];
-                [self setTableData];
-                [self performSelector:@selector(didFinishRefreshing) withObject:nil afterDelay:0.5];
-            });
-        }else{
-            dispatch_async(dispatch_get_main_queue(), ^{
-                aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"已经是最新了"];
-                [self performSelector:@selector(didFinishRefreshing) withObject:nil afterDelay:0.5];
-            });
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+//                aRefreshController.attributedTitle = [[NSAttributedString alloc]initWithString:@"刷新成功"];
+            [self setTableData];
+            [self performSelector:@selector(didFinishRefreshing) withObject:nil afterDelay:0.5];
+        });
     });
 }
 
@@ -161,76 +172,122 @@
 #pragma mark - Table view data source 协议
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return tableData.count;
+    if (haveData == NO) {
+        return 1;
+    }else{
+        return tableData.count;
+    }
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    return 2;
+    if (haveData == NO) {
+        return 1;
+    }else{
+        return 2;
+    }
+    
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.row  == 0) {
-        NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewCell"];
+    if (haveData == NO) {
+        // 无数据时的cell
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NoDataCell"];
         if (cell == nil) {
-            cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil] lastObject];
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NoDataCell"];
         }
-        cell.delegate = self;
+        cell.backgroundColor = [UIColor clearColor];
+        self.tableView.userInteractionEnabled = NO;
+        cell.userInteractionEnabled = NO;
         
-        // 数据逆向显示
-        long index = tableData.count -1- indexPath.section;
-        
-        NewsModel *new = tableData[index];
-        
-        cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
-        cell.weibo.text = new.news_text;
-        cell.desc.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)index]];
-        if (new.user.name) {
-            cell.name.text = new.user.name;
-        }else{
-            cell.name.text = new.user.user_ID;
-        }
-        // 动态加载 imageview
-        [self tableViewCell:(NewTableViewCell *)cell setImages:new.imagesName withStyle:NewsStyleOfList];
-//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else{
-        CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
-        if (cell == nil) {
-            cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
+        self.tableView.userInteractionEnabled = YES;
+        if (indexPath.row  == 0) {
+            NewTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NewCell"];
+            if (cell == nil) {
+                cell = [[[NSBundle mainBundle] loadNibNamed:@"NewCell" owner:self options:nil] lastObject];
+            }
+            cell.delegate = self;
+            
+            // 数据逆向显示
+            long index = tableData.count -1- indexPath.section;
+            
+            NewsModel *new = tableData[index];
+            
+            cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
+            cell.weibo.text = new.news_text;
+            cell.desc.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)index]];
+            if (new.user.name) {
+                cell.name.text = new.user.name;
+            }else{
+                cell.name.text = new.user.user_ID;
+            }
+            // 动态加载 imageview
+            [self tableViewCell:(NewTableViewCell *)cell setImages:new.imagesName withStyle:NewsStyleOfList];
+            //        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+        }else{
+            CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CommentCell"];
+            if (cell == nil) {
+                cell = [[[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil]lastObject];
+            }
+            cell.delegate = self;
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+            return cell;
         }
-        cell.delegate = self;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        return cell;
     }
     
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
+    if (section == 0 && haveData == YES) {
         return TABLE_CONTENT_MARGIN;
     }
     return 0.1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
     return TABLE_CONTENT_MARGIN;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row  == 0) {
+    if (indexPath.row  == 0 && haveData == YES) {
         // 计算 cell 高度
         long index = tableData.count -1- indexPath.section;
         NewsModel *new = tableData[index];
         CGFloat width = TABLE_CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN*2;
         return [NewTableViewCell heighForRowWithCellContentWidth:width Style:NewsStyleOfList model:new];
+    }else if (haveData == NO){
+        return 200;
     }else{
         return 30.0f;
     }
 
 }
+
+#pragma mark - cell 点击事件
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.row == 0 && haveData == YES) {
+        long index = tableData.count -1- indexPath.section;
+        NewsModel *news = tableData[index];
+        
+        [self performSegueWithIdentifier:@"ShowDetails" sender:news];
+    }
+    
+}
 #pragma mark - NewTableView 协议方法
+- (NewsModel *)newsModelOfCell:(UITableViewCell *)cell fromTableView:(UITableView *)tableView{
+    // 通过Cell求出index
+    NSIndexPath *indexPath = [tableView indexPathForCell:cell];
+    long index = tableData.count - 1 - indexPath.section;
+    NewsModel *news = tableData[index];
+    return news;
+}
+
 - (CGRect)frameOfSuperView{
     CGRect frame = self.view.frame;
     frame.origin = self.tableView.contentOffset;
@@ -239,110 +296,38 @@
 
 - (UserType)userTypeOfNewTableViewCell:(NewTableViewCell *)cell{
     NewsModel *news = [self newsModelOfCell:cell fromTableView:self.tableView];
-    if ([news.user_id isEqualToString:[PersonalModel personalIDfromUserDefaults]]) {
-        return UserTypePersonal;
-    }
-    return UserTypeFans;
+    newTableViewCellMethod = [[NewTableViewCellMethod alloc]initWithNewsModel:news];
+    newTableViewCellMethod.delegate = self;
+    newsDidSelect = [self newsModelOfCell:cell fromTableView:self.tableView];
+    return [newTableViewCellMethod userTypeOfNews];
 }
 
 - (void)newTableViewCell:(NewTableViewCell *)cell didSelectButton:(UIButton *)button{
-    self.tableView.scrollEnabled = NO;
+    // 点击拓展按钮
+    [newTableViewCellMethod didSelectButton:button atCell:cell fromTableView:self.tableView];
 }
 
 - (void)dismissFromNewTableViewCell:(NewTableViewCell *)cell{
-//    [cell.dropDown removeFromSuperview];
-    [UIView animateWithDuration:0.3 animations:^{
-        cell.myMarkView.alpha = 0;
-    }];
-    self.tableView.scrollEnabled = YES;
+    // 关闭菜单界面
+    [newTableViewCellMethod dismissCell:cell fromTableView:self.tableView];
 }
 
-- (void)didSelectedItem:(NSString *)item FromTableViewCell:(NewTableViewCell *)cell{
-    if (cell.userType == UserTypePersonal) {
-        if ([item isEqualToString:@"删除"]) {
-            [self deleteNewsFromNewTableViewCell:cell withUserType:UserTypePersonal];
-//            [SVProgressHUD showSuccessWithStatus:@"这条是我表弟刚才写的\n←_←"];
+- (void)didSelectedItem:(NSString *)item fromTableViewCell:(NewTableViewCell *)cell{
+    // 选择菜单界面
+    [newTableViewCellMethod didSelectedItem:item fromCell:cell];
+}
+#pragma mark - NewTableViewCellMethod 协议方法
 
-        }else if ([item isEqualToString:@"收藏"]){
-            [SVProgressHUD showSuccessWithStatus:@"我说的真有道理\n（￣▽￣）"];
-
-        }else if ([item isEqualToString:@"置顶"]){
-            [SVProgressHUD showSuccessWithStatus:@"给我去最上面\n(╯°口°)╯"];
-            
-        }else if ([item isEqualToString:@"推广"]){
-            [SVProgressHUD showSuccessWithStatus:@"(一条五毛,括号删掉)\n(^・ω・^ )"];
-            
-        }
-
-    }else if (cell.userType == UserTypeFans){
-        if ([item isEqualToString:@"屏蔽"]) {
-            [self deleteNewsFromNewTableViewCell:cell withUserType:UserTypeFans];
-            
-        }else if ([item isEqualToString:@"收藏"]){
-            [SVProgressHUD showSuccessWithStatus:@"这条微博我承包了\n(｀・ω・´)"];
-            
-        }else if ([item isEqualToString:@"帮上头条"]){
-            [SVProgressHUD showSuccessWithStatus:@"我只能帮你到这儿了\n(￣3￣)"];
-            
-        }else if ([item isEqualToString:@"取消关注"]){
-            [self cancelAttention];
-//            [SVProgressHUD showSuccessWithStatus:@"别让我再看见你\n(￣ε(#￣) Σ"];
-            
-        }else if ([item isEqualToString:@"举报"]){
-            [SVProgressHUD showSuccessWithStatus:@"警察叔叔就是这个人\nΣ(ﾟдﾟ;)"];
-        }
-    }
+- (void)deleteNewFromTable{
+    // 删除数据
+    [self deleteNews:newsDidSelect];
 }
 
-- (void)deleteNewsFromNewTableViewCell:(NewTableViewCell *)cell withUserType:(UserType)userType{
-    NSString *message;
-    NSString *cancel;
-    NSString *done;
-    if (userType == UserTypeFans) {
-        message = @"你确定不想看见这条微博吗?";
-        cancel = @"确定";
-        done = @"肯定";
-    }else if (userType == UserTypePersonal){
-        message = @"你真的要否认你刚才说的话吗?";
-        cancel = @"不是这样的";
-        done = @"我开玩笑的";
-    }
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:message delegate:self cancelButtonTitle:cancel otherButtonTitles:done, nil];
-    [alertView show];
-    
-    newsWillDelete = [self newsModelOfCell:cell fromTableView:self.tableView];
-    
+- (NewsModel *)newsDidSelect{
+    // 拓展按钮所在的数据
+    return newsDidSelect;
 }
 
-- (void)cancelAttention{
-    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:@"真的不想再看见这个人?" delegate:self cancelButtonTitle:@"不是的!" otherButtonTitles:@"嗯,是的", nil];
-    [alertView show];
-}
-
-- (NewsModel *)newsModelOfCell:(NewTableViewCell *)cell fromTableView:(UITableView *)tableView{
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    long index = tableData.count - 1 - indexPath.section;
-    NewsModel *news = tableData[index];
-    return news;
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"确定"] || [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"肯定"]) {
-        if (newsWillDelete == nil) {
-        }else{
-            [SVProgressHUD showSuccessWithStatus:@"我不听我不听我不听\nヽ(｀ Д ´ )ﾉ"];
-            [tableData removeObject:newsWillDelete];
-            [newsWillDelete deleteNewFromTable];
-            [self.tableView reloadData];
-        }
-    }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是这样的"] || [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"我开玩笑的"]){
-        [SVProgressHUD showErrorWithStatus:@"那就不删除了\n(=・ω・=)"];
-    }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是的!"]){
-        [SVProgressHUD showErrorWithStatus:@"那就再给你一次机会\n（￣へ￣）"];
-    }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"嗯,是的"]){
-        [SVProgressHUD showErrorWithStatus:@"然而并没有这个功能\n_(:3」∠)_"];
-    }
-}
 #pragma mark - NewsDetailViewController 协议方法
 
 - (void)deleteNews:(NewsModel *)newsModel{
@@ -353,25 +338,19 @@
 
 #pragma mark - CommentCell 协议方法
 - (void)commentCell:(CommentCell *)cell Comment:(id)sender{
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    long index = tableData.count - 1 - indexPath.section;
-    NewsModel *news = tableData[index];
+    
+    NewsModel *news = [self newsModelOfCell:cell fromTableView:self.tableView];
     CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:news];
     [commentMethod Comment];
 }
 
 - (void)commentCell:(CommentCell *)cell forward:(id)sender{
-//    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-//    long index = tableData.count - 1 - indexPath.section;
-//    NewsModel *news = tableData[index];
     CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:nil];
     [commentMethod forward];
 }
 
 - (void)commentCell:(CommentCell *)cell Praise:(id)sender{
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    long index = tableData.count - 1 - indexPath.section;
-    NewsModel *news = tableData[index];
+    NewsModel *news = [self newsModelOfCell:cell fromTableView:self.tableView];
     CommentCellMethod *commentMethod = [[CommentCellMethod alloc]initWithNewsModel:news];
     [commentMethod Praise];
 }
@@ -399,6 +378,7 @@
 
 #pragma mark - AddNewsNotification 方法
 - (void)didFinishPublish:(NSNotification *)notification{
+    // 实现发布动态
     NSDictionary *dic = [notification userInfo];
     if (dic != nil) {
         NewsModel *newsModel = [dic objectForKey:@"news"];
@@ -408,17 +388,6 @@
     }
 }
 
-#pragma mark - cell 点击事件
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        long index = tableData.count -1- indexPath.section;
-        NewsModel *news = tableData[index];
-        
-        [self performSegueWithIdentifier:@"ShowDetails" sender:news];
-    }
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    
-}
 #pragma mark - segue 跳转
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"ShowDetails"]) {
@@ -428,8 +397,9 @@
         controller.delegate = self;
     }
 }
-
+#pragma mark - navigationItemBarButton
 - (IBAction)dynamicStateButton:(id)sender {
+    
 }
 
 - (IBAction)scanningButton:(id)sender {

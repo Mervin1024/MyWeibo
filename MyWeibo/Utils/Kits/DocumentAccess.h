@@ -12,5 +12,5 @@
 
 + (void) saveImage:(UIImage *)image withImageName:(NSString *)imageName;
 + (NSString *) stringOfFilePathForName:(NSString *)name;
-
++ (void) deleteImageWithImageName:(NSString *)imageName;
 @end

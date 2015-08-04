@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "UserModel.h"
-
+@class UserModel;
 @interface NewsModel : NSObject
 + (BOOL) creatTableFromSql;
 - (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text imagesName:(NSArray *)image;
@@ -18,13 +18,14 @@
 + (NSArray *) arrayOfProperties;
 + (NSDictionary *) dictionaryOfPropertiesAndTypes;
 - (BOOL) deleteNewFromTable;
+- (NSArray *) arrayAllImagesNameBySelected;
 + (NSArray *) arrayBySelectedWhere:(NSDictionary *)condition from:(long)from to:(long)to;
 - (BOOL) insertItemToTable;
 - (NSDictionary *) dictionaryOfData;
 
 @property (assign, nonatomic) NSInteger news_id;
-@property (copy, nonatomic) NSString *user_id;
-@property (strong, nonatomic) NSArray *imagesName;
-@property (copy, nonatomic) NSString *news_text;
-@property (strong, nonatomic) UserModel *user;
+@property (copy, nonatomic, readonly) NSString *user_id;
+@property (strong, nonatomic, readonly) NSArray *imagesName;
+@property (copy, nonatomic, readonly) NSString *news_text;
+@property (strong, nonatomic, readonly) UserModel *user;
 @end

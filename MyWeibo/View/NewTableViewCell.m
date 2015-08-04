@@ -31,6 +31,7 @@
 }
 
 - (IBAction)dropDown:(id)sender {
+    [SVProgressHUD dismiss];
     [self.delegate newTableViewCell:self didSelectButton:sender];
     userType = [self.delegate userTypeOfNewTableViewCell:self];
     CGRect frame = [self.delegate frameOfSuperView];
@@ -82,7 +83,7 @@
 - (void)dropDownView:(DropDownView *)dropDownView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *item = dropDownView.dropList[indexPath.row];
 
-    [self.delegate didSelectedItem:item FromTableViewCell:self];
+    [self.delegate didSelectedItem:item fromTableViewCell:self];
     [self.delegate dismissFromNewTableViewCell:self];
 }
 
