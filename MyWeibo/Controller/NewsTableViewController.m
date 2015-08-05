@@ -20,9 +20,11 @@
 #import "AddNewsViewController.h"
 #import "CommentCellMethod.h"
 #import "NewTableViewCellMethod.h"
+#import "NSArray+Assemble.h"
 
 @interface NewsTableViewController ()<NewsDetailViewControllerDelegate,UIAlertViewDelegate,CommentCellDelegate,NewTableViewCellMethodDelegate>{
-    NSMutableArray *tableData;
+    PersonalModel *personalModel;
+//    NSMutableArray *tableData;
     BOOL haveData;              // 是否有数据,默认YES
     NSInteger sizeOfRefresh;    // 每次更新数据条目
     DBManager *dbManager;
@@ -38,7 +40,7 @@
 
 @implementation NewsTableViewController
 @synthesize count,scanningButton,dynamicStateButton;
-@synthesize aRefreshController;
+@synthesize aRefreshController,tableData;
 
 #pragma mark - view 视图初始化
 - (void)viewDidLoad {
@@ -61,14 +63,17 @@
     if (self.tabBarController.tabBar.hidden == YES) {
         self.tabBarController.tabBar.hidden = NO;
     }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     // 加载数据
+    [self initPersonal];
     if (isReload == YES) {
-        [SVProgressHUD showWithStatus:@"正在加载。。"];
-        [self performSelector:@selector(setTableData) withObject:nil afterDelay:0.5];
+        [SVProgressHUD showWithStatus:@"正在加载..."];
+//        [SVProgressHUD show];
+        [self performSelector:@selector(setTableData) withObject:nil afterDelay:1];
         isReload = NO;
     }
     
@@ -85,7 +90,7 @@
     scanningButton.image = [UIImage imageWithCGImage:scanningImage.CGImage scale:(scanningImage.scale*3) orientation:scanningImage.imageOrientation];
 }
 
-#pragma mark - 读取数据库
+
 - (void) initValue{
     dbManager = [MyWeiboData sharedManager].dbManager;
     tableData = [NSMutableArray array];
@@ -98,38 +103,71 @@
 }
 
 - (void) initDB{
-    [NewsModel creatTableFromSql];
+    
     // 添加虚拟数据
     [InitialNews insertUserModel];
     [InitialNews insertNewsModel];
-    [InitialNews savePersonalInformation];
 }
 
+- (void)initPersonal{
+    if ((personalModel = [[PersonalModel alloc]initWithUserDefaults])) {
+        
+    }else{
+        [InitialNews savePersonalInformation];
+        [self initPersonal];
+    }
+}
+#pragma mark - 读取数据库
 - (void) setTableData{
     if ([NewsModel countOfNews] == 0) {
+        
         [self initDB];
+        
     }
+    __block NSMutableArray *reloadData = [NSMutableArray array];
+    [personalModel.attentions excetueEach:^(NSString *userId){
+        [reloadData addObjectsFromArray:[[UserModel selectedByUserID:userId] arrayUserAllNewsBySelected]];
+    }];
+    [reloadData addObjectsFromArray:[personalModel arrayUserAllNewsBySelected]];
+    NSArray *sortedArray = [reloadData sortedArrayUsingComparator:^(NewsModel *new1,NewsModel *new2){
+        NSString *date1 = new1.publicTime;
+        NSString *date2 = new2.publicTime;
+        return [date1 compare:date2];
+    }];
+    long since = from;
     from = to;
-    to = [NewsModel countOfNews];
-    if ((to - from)<= sizeOfRefresh) {
+    to = sortedArray.count;
+    if ((to - from)<= sizeOfRefresh && to >= from) {
+    }else if (to < from && to < sizeOfRefresh){
+        tableData = [NSMutableArray array];
+        from = 0;
     }else{
         tableData = [NSMutableArray array];
         from = to - sizeOfRefresh;
     }
-    NSArray *reloadData = [NewsModel arrayBySelectedWhere:nil from:from to:to];
-    [tableData addObjectsFromArray:reloadData];
+    for (int i = 0; i < sortedArray.count; i++) {
+        if (i >= from && i < to) {
+            [tableData addObject:sortedArray[i]];
+        }
+    }
     
+//    [tableData addObjectsFromArray:sortedArray];
     if (tableData.count == 0) {
         haveData = NO;
         [SVProgressHUD dismiss];
     }else{
         
         haveData = YES;
-        NSString *str = @"已经是最新了";
-        if (reloadData.count != 0) {
-            str = [NSString stringWithFormat:@"%ld条新微博",reloadData.count];
+        if (to-from != 0) {
+            if (since == 0) {
+                [SVProgressHUD showSuccessWithStatus:nil];
+            }else{
+                [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"%d条新微博",(int)(to-from)]];
+            }
+        }else{
+            [SVProgressHUD showSuccessWithStatus:@"已经是最新了"];
         }
-        [SVProgressHUD showSuccessWithStatus:str];
+        
     }
 //    [SVProgressHUD dismiss];
     [self.tableView reloadData];
@@ -198,7 +236,7 @@
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NoDataCell"];
         }
         cell.backgroundColor = [UIColor clearColor];
-        self.tableView.userInteractionEnabled = NO;
+//        self.tableView.userInteractionEnabled = NO;
         cell.userInteractionEnabled = NO;
         
         return cell;
@@ -218,7 +256,12 @@
             
             cell.avatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:new.user.avatar]];
             cell.weibo.text = new.news_text;
-            cell.desc.text = [new.user.desc stringByAppendingString:[NSString stringWithFormat:@"%ld",(long)index]];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc]init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+            NSDate *date = [dateFormatter dateFromString:new.publicTime];
+            [dateFormatter setDateFormat:@"MM-dd HH:mm"];
+            
+            cell.desc.text = [dateFormatter stringFromDate:date];
             if (new.user.name) {
                 cell.name.text = new.user.name;
             }else{
@@ -358,6 +401,7 @@
 #pragma mark - 动态加载 imageview
 - (void)tableViewCell:(NewTableViewCell *)cell setImages:(NSArray *)images withStyle:(NewsStyle)newsStyle
 {
+//    NSLog(@"imagesCount:%ld",images.count);
     CGFloat imageWidth = [cell imageWidthAtBlankViewWithCellContentWidth:TABLE_CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN*2 Images:images style:newsStyle];
     if (imageWidth != 0) {
         
@@ -383,8 +427,9 @@
     if (dic != nil) {
         NewsModel *newsModel = [dic objectForKey:@"news"];
         [newsModel insertItemToTable];
-        [self setTableData];
-        [self.tableView reloadData];
+//        [SVProgressHUD show];
+//        [self performSelector:@selector(setTableData) withObject:nil afterDelay:3];
+        isReload = YES;
     }
 }
 

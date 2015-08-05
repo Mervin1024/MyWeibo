@@ -11,7 +11,7 @@
 @class UserModel;
 @interface NewsModel : NSObject
 + (BOOL) creatTableFromSql;
-- (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text imagesName:(NSArray *)image;
+- (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text imagesName:(NSArray *)image publicTime:(NSString *)time;
 - (NewsModel *)initWithDictionary:(NSDictionary *)data;
 + (int) countOfNews;
 - (int) countOfImagesName;
@@ -27,5 +27,6 @@
 @property (copy, nonatomic, readonly) NSString *user_id;
 @property (strong, nonatomic, readonly) NSArray *imagesName;
 @property (copy, nonatomic, readonly) NSString *news_text;
+@property (copy, nonatomic, readonly) NSString *publicTime;
 @property (strong, nonatomic, readonly) UserModel *user;
 @end

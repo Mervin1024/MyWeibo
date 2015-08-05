@@ -16,6 +16,7 @@ NSString *const textType = @"TEXT";
 NSString *const newsTable = @"NewsTable";
 NSString *const newsID = @"news_id";
 NSString *const newsText = @"newsText";
+NSString *const newsPublicTime = @"publicTime";
 
 NSString *const imagesTable = @"ImageTable";
 NSString *const imageID = @"images_id";
@@ -33,6 +34,10 @@ NSString *const personalAvatar = @"personalAvatar";
 NSString *const personalDesc = @"personalDesc";
 NSString *const personalID = @"personalID";
 NSString *const personalPassword = @"personalPassword";
+NSString *const personalLevel = @"personalLevel";
+NSString *const personalPraise = @"personalPraise";
+NSString *const personalAttentions = @"personalAttentions";
+NSString *const personalFans = @"personalFans";
 
 - (MyWeiboData *)init{
     self = [super init];

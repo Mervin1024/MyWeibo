@@ -21,4 +21,5 @@
 - (IBAction)scanningButton:(id)sender;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *dynamicStateButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *scanningButton;
+@property (strong, nonatomic) NSMutableArray *tableData;
 @end

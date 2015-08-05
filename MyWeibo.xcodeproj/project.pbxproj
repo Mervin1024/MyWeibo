@@ -50,6 +50,8 @@
 		C982F63B1B708940001E9370 /* CellMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F63A1B708940001E9370 /* CellMethod.m */; };
 		C982F63E1B708A16001E9370 /* NewTableViewCellMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F63D1B708A16001E9370 /* NewTableViewCellMethod.m */; };
 		C982F6411B70B4A1001E9370 /* PersonalConfigureTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F6401B70B4A1001E9370 /* PersonalConfigureTableViewController.m */; };
+		C982F6451B71305F001E9370 /* ConfigureTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = C982F6431B71305F001E9370 /* ConfigureTableViewCell.m */; };
+		C982F6461B71305F001E9370 /* ConfigureTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C982F6441B71305F001E9370 /* ConfigureTableViewCell.xib */; };
 		C9D3F3A41B0B459900313035 /* MyWeiboTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F3A31B0B459900313035 /* MyWeiboTests.m */; };
 		C9D3F4331B0B681100313035 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F4231B0B681100313035 /* AppDelegate.m */; };
 		C9D3F43F1B0B68F500313035 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9D3F43E1B0B68F500313035 /* main.m */; };
@@ -151,6 +153,9 @@
 		C982F63D1B708A16001E9370 /* NewTableViewCellMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewTableViewCellMethod.m; sourceTree = "<group>"; };
 		C982F63F1B70B4A1001E9370 /* PersonalConfigureTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalConfigureTableViewController.h; sourceTree = "<group>"; };
 		C982F6401B70B4A1001E9370 /* PersonalConfigureTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalConfigureTableViewController.m; sourceTree = "<group>"; };
+		C982F6421B71305F001E9370 /* ConfigureTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigureTableViewCell.h; sourceTree = "<group>"; };
+		C982F6431B71305F001E9370 /* ConfigureTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfigureTableViewCell.m; sourceTree = "<group>"; };
+		C982F6441B71305F001E9370 /* ConfigureTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConfigureTableViewCell.xib; sourceTree = "<group>"; };
 		C9D3F3841B0B459900313035 /* MyWeibo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyWeibo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D3F39D1B0B459900313035 /* MyWeiboTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MyWeiboTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9D3F3A21B0B459900313035 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -328,6 +333,9 @@
 				C967E0C21B60FBAD00A04653 /* CommentCell.h */,
 				C967E0C31B60FBAD00A04653 /* CommentCell.m */,
 				C967E0C41B60FBAD00A04653 /* CommentCell.xib */,
+				C982F6421B71305F001E9370 /* ConfigureTableViewCell.h */,
+				C982F6431B71305F001E9370 /* ConfigureTableViewCell.m */,
+				C982F6441B71305F001E9370 /* ConfigureTableViewCell.xib */,
 				C982F6321B6FC5A4001E9370 /* CellMethod */,
 			);
 			name = Cell;
@@ -509,6 +517,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C982F6461B71305F001E9370 /* ConfigureTableViewCell.xib in Resources */,
 				C967E0CF1B60FBAD00A04653 /* LaunchScreen.xib in Resources */,
 				C9F2E55C1B5991AF006DE9C1 /* Info.plist in Resources */,
 				C967E0D11B60FBAD00A04653 /* NewCell.xib in Resources */,
@@ -541,6 +550,7 @@
 				C982F6411B70B4A1001E9370 /* PersonalConfigureTableViewController.m in Sources */,
 				C982F6351B6FD047001E9370 /* CommentButton.m in Sources */,
 				C967E0AE1B60FB1800A04653 /* NSDate+Assemble.m in Sources */,
+				C982F6451B71305F001E9370 /* ConfigureTableViewCell.m in Sources */,
 				C967E0F21B61183000A04653 /* PersonalModel.m in Sources */,
 				C967E0CE1B60FBAD00A04653 /* ImageScrollView.m in Sources */,
 				C982F63E1B708A16001E9370 /* NewTableViewCellMethod.m in Sources */,

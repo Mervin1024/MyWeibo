@@ -62,6 +62,7 @@
 #pragma mark - 单条目插入数据库
 - (BOOL) insertItemToTable{
     if ([dbManager insertItemsToTableName:imagesTable columns:[self dictionaryOfData]]) {
+//        NSLog(@"%@",self.image_name);
         return YES;
     }
     return NO;

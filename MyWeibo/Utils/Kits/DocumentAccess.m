@@ -23,7 +23,7 @@
     NSString *imageFilePath = [self stringOfFilePathForName:imageName];
     BOOL result = [imageData writeToFile:imageFilePath atomically:YES];
     if (result) {
-        NSLog(@"成功储存%@",imageName);
+//        NSLog(@"成功储存%@",imageName);
     }else{
         NSLog(@"储存失败");
     }

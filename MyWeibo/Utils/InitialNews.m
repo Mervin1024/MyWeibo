@@ -17,7 +17,7 @@
 @implementation InitialNews
 
 + (NewsModel *) randomNewsModel{
-    NSArray *userIDs = @[@"Mervin",@"Bob",@"Nancy"];
+    NSArray *userIDs = @[@"Mervin",@"Bob",@"Nancy",@"Taddy"];
     NSArray *texts = @[@"青春不回头，脚步莫停留。我们奋斗的是飞翔的翅膀，我们迈出的是慷慨的步伐，我们追求的是卓越的人生。",
                        @"谁眼角朱红的泪痣成全了你的繁华一世、你金戈铁马的江山赠与谁一场石破惊天的空欢喜。",
                        @"是否忙碌？是否疲惫。",
@@ -35,7 +35,8 @@
         int a = [random4[i] intValue];
         [image addObject:images[a]];
     }
-    NewsModel *new = [[NewsModel alloc]initWithNewsID:0 userID:userIDs[random1] text:texts[random2] imagesName:image];
+    
+    NewsModel *new = [[NewsModel alloc]initWithNewsID:0 userID:userIDs[random1] text:texts[random2] imagesName:image publicTime:nil];
     return new;
 }
 
@@ -50,7 +51,10 @@
                 
                 [DocumentAccess saveImage:[UIImage imageNamed:n.imagesName[j]] withImageName:newImageName];
             }
-            NewsModel *new = [[NewsModel alloc]initWithNewsID:n.news_id userID:n.user_id text:n.news_text imagesName:newImagesName];
+            NSDateFormatter *date = [[NSDateFormatter alloc]init];
+            [date setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+            NSString *now = [date stringFromDate:[NSDate dateWithTimeIntervalSinceReferenceDate:3600*i]];
+            NewsModel *new = [[NewsModel alloc]initWithNewsID:n.news_id userID:n.user_id text:n.news_text imagesName:newImagesName publicTime:now];
             [new insertItemToTable];
         }
         
@@ -72,14 +76,15 @@
             [user insertItemToTable];
             [DocumentAccess saveImage:[UIImage imageNamed:avatars[i]] withImageName:avatars[i]];
         }
-        NSLog(@"添加虚拟粉丝");
+        NSLog(@"添加虚拟关注");
         return YES;
     }
     return NO;
 }
 
 + (BOOL) savePersonalInformation{
-    PersonalModel *person = [[PersonalModel alloc]initWithUserID:@"Taddy" password:@"123456" name:@"咣咣加" avatar:@"莲妈" description:@"苦逼"];
+    NSArray *attention = @[@"Mervin",@"Bob",@"Nancy"];;
+    PersonalModel *person = [[PersonalModel alloc]initWithUserID:@"Taddy" password:@"123456" name:@"咣咣加" avatar:@"莲妈" description:@"苦逼" level:13 praise:nil attentions:attention fans:nil];
     if ([PersonalModel personalIDfromUserDefaults]) {
         return NO;
         

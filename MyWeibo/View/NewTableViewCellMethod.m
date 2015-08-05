@@ -70,10 +70,10 @@
     if (userType == UserTypeFans) {
         message = @"你确定不想看见这条微博吗?";
         cancel = @"确定";
-        done = @"肯定";
+        done = @"算了";
     }else if (userType == UserTypePersonal){
         message = @"你真的要否认你刚才说的话吗?";
-        cancel = @"不是这样的";
+        cancel = @"不是我说的";
         done = @"我开玩笑的";
     }
     UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:message delegate:self cancelButtonTitle:cancel otherButtonTitles:done, nil];
@@ -86,13 +86,19 @@
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"确定"] || [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"肯定"]) {
+    if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"确定"]) {
         if ([self.delegate newsDidSelect] == nil) {
         }else{
             [SVProgressHUD showSuccessWithStatus:@"我不听我不听我不听\nヽ(｀ Д ´ )ﾉ"];
             [self.delegate deleteNewFromTable];
         }
-    }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是这样的"] || [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"我开玩笑的"]){
+    }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是我说的"]){
+        if ([self.delegate newsDidSelect] == nil) {
+        }else{
+            [SVProgressHUD showSuccessWithStatus:@"这条是我表弟刚才写的\n←_←"];
+            [self.delegate deleteNewFromTable];
+        }
+    }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"我开玩笑的"] || [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"算了"]){
         [SVProgressHUD showErrorWithStatus:@"那就不删除了\n(=・ω・=)"];
     }else if ([[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"不是的!"]){
         [SVProgressHUD showErrorWithStatus:@"那就再给你一次机会\n（￣へ￣）"];

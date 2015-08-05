@@ -96,6 +96,14 @@
     NSArray *news = [allNews arrayBySelect:^(NewsModel *new){
         return [new.user.user_ID isEqualToString:user_ID];
     }];
+//    if (news.count == 0) {
+//        
+//    }else{
+//        NewsModel *n = news[0];
+//        NSLog(@"%ld",n.imagesName.count);
+//    }
+    
+//    NSLog(@"%ld",news.count);
     return news;
 }
 

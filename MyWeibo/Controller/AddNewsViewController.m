@@ -325,11 +325,15 @@ CGFloat const aRowOfText = 18.0f;
 
 - (IBAction)publish:(id)sender {
     [SVProgressHUD showWithStatus:@"正在发送^_^"];
-    [self performSelector:@selector(publishNews) withObject:nil afterDelay:0.5];
+    [self performSelector:@selector(publishNews) withObject:nil afterDelay:1];
 }
 
 - (void)publishNews{
-    NewsModel *news = [[NewsModel alloc]initWithNewsID:0 userID:[PersonalModel personalIDfromUserDefaults] text:self.textView.text imagesName:imagesName];
+    NSDateFormatter *date = [[NSDateFormatter alloc]init];
+    [date setDateFormat:@"yyyy-MM-dd HH:mm:ss zzz"];
+    NSString *now = [date stringFromDate:[NSDate date]];
+    
+    NewsModel *news = [[NewsModel alloc]initWithNewsID:0 userID:[PersonalModel personalIDfromUserDefaults] text:self.textView.text imagesName:imagesName publicTime:now];
     NSDictionary *dic = @{@"news":news};
     [[NSNotificationCenter defaultCenter] postNotificationName:@"AddNewsNotification" object:self userInfo:dic];
     

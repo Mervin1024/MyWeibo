@@ -39,6 +39,7 @@
 - (void)layoutSubviews{
     [super layoutSubviews];
 //    NSLog(@"%@",NSStringFromCGSize(self.contentView.bounds.size));
+
 }
 
 - (IBAction)Forward:(id)sender {

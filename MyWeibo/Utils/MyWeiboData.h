@@ -20,6 +20,7 @@ extern NSString *const textType;
 extern NSString *const newsTable;
 extern NSString *const newsID;
 extern NSString *const newsText;
+extern NSString *const newsPublicTime;
 
 extern NSString *const imagesTable;
 extern NSString *const imageID;
@@ -37,4 +38,8 @@ extern NSString *const personalAvatar;
 extern NSString *const personalDesc;
 extern NSString *const personalID;
 extern NSString *const personalPassword;
+extern NSString *const personalLevel;
+extern NSString *const personalPraise;
+extern NSString *const personalAttentions;
+extern NSString *const personalFans;
 @end

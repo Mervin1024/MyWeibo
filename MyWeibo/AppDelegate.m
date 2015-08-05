@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "DBManager.h"
 #import "MyWeiboData.h"
+#import "NewsModel.h"
 
 @interface AppDelegate ()
 @end
@@ -20,12 +21,13 @@
     
     [self setTab];
 //    [self dropTable];
+    [NewsModel creatTableFromSql];
     return YES;
 }
 
 - (void) setTab{
     UITabBarController *tabViewController = (UITabBarController *) self.window.rootViewController;
-    [tabViewController setSelectedIndex:0];
+    [tabViewController setSelectedIndex:4];
     //
     UITabBar *tabBar = tabViewController.tabBar;
     [tabBar setTintColor: [UIColor greenColor]];

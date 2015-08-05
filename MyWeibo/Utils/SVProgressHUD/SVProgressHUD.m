@@ -877,7 +877,7 @@ static const CGFloat SVProgressHUDUndefinedProgress = -1;
 #pragma mark - Getters
 
 - (NSTimeInterval)displayDurationForString:(NSString*)string {
-    return MIN((float)string.length*0.5 + 0.5, 3);
+    return MIN((float)string.length*0.15 + 1, 5);
 }
 
 - (BOOL)isClear { // used for iOS 7 and above

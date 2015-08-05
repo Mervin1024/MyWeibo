@@ -21,6 +21,7 @@
 @synthesize imagesName;
 @synthesize news_text;
 @synthesize user;
+@synthesize publicTime;
 
 #pragma mark - init 方法
 - (NewsModel *)init{
@@ -31,13 +32,14 @@
     return self;
 }
 
-- (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text imagesName:(NSArray *)image{
+- (NewsModel *)initWithNewsID:(NSInteger)newsId userID:(NSString *)userId text:(NSString *)text imagesName:(NSArray *)image publicTime:(NSString *)time{
     self = [super init];
     if (self) {
         dbManager = [MyWeiboData sharedManager].dbManager;
         user_id = userId;
         imagesName = image;
         news_text = text;
+        publicTime = time;
         if (newsId > 0) {
             news_id = newsId;
         }
@@ -49,12 +51,15 @@
 - (NewsModel *)initWithDictionary:(NSDictionary *)data{
     self = [super init];
     if (self) {
-        if ([data allKeys].count == 3) {
+        
+        if ([data allKeys].count == [NewsModel arrayOfProperties].count) {
+
             news_id = [[data objectForKey:newsID] intValue];
         }
         dbManager = [MyWeiboData sharedManager].dbManager;
         user_id = [data objectForKey:userID];
         news_text = [data objectForKey:newsText];
+        publicTime = [data objectForKey:newsPublicTime];
         imagesName = [self arrayAllImagesNameBySelected];
         user = [UserModel selectedByUserID:user_id];
     }
@@ -70,20 +75,23 @@
 }
 
 + (NSArray *) arrayOfProperties{
-    return @[newsID,userID,newsText];
+    return @[newsID,userID,newsText,newsPublicTime];
 }
 
 + (NSDictionary *) dictionaryOfPropertiesAndTypes{
-    NSArray *types = @[primaryKey,textType,textType];
+    NSArray *types = @[primaryKey,textType,textType,textType];
     return [NSDictionary dictionaryWithObjects:types forKeys:[NewsModel arrayOfProperties]];
 }
 
 - (NSArray *) arrayAllImagesNameBySelected{
+//    NSLog(@"%ld",(long)news_id);
     NSArray *data = [ImagesModel arrayAllBySelectedWhere:@{newsID:[NSString stringWithFormat:@"%ld",news_id]}];
+//    NSLog(@"%ld",data.count);
     NSMutableArray *imageNames = [NSMutableArray array];
     for (NSDictionary *image in data) {
         [imageNames addObject:[image objectForKey:imageName]];
     }
+//    NSLog(@"imagesCount:%ld",imageNames.count);
     return imageNames;
 }
 
@@ -91,16 +99,19 @@
     NSArray *news = [[MyWeiboData sharedManager].dbManager arrayBySelect:[NewsModel arrayOfProperties] fromTable:newsTable where:condition orderBy:nil from:from to:to];
     NSMutableArray *data = [NSMutableArray array];
     for (NSDictionary *new in news) {
-        [data addObject:[[NewsModel alloc]initWithDictionary:new]];
+        NewsModel *n = [[NewsModel alloc]initWithDictionary:new];
+//        NSLog(@"%@",new);
+//        NSLog(@"%ld",n.imagesName.count);
+        [data addObject:n];
     }
     return data;
 }
 #pragma mark - 字典形式返回对象属性
 - (NSDictionary *) dictionaryOfData{
     if (news_id > 0) {
-        return [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%ld",(long)news_id],user_id,news_text] forKeys:[NewsModel arrayOfProperties]];
+        return [NSDictionary dictionaryWithObjects:@[[NSString stringWithFormat:@"%ld",(long)news_id],user_id,news_text,publicTime] forKeys:[NewsModel arrayOfProperties]];
     }
-    return [NSDictionary dictionaryWithObjects:@[user_id,news_text] forKeys:@[userID,newsText]];
+    return [NSDictionary dictionaryWithObjects:@[user_id,news_text,publicTime] forKeys:@[userID,newsText,newsPublicTime]];
 }
 #pragma mark - 从数据库删除条目
 - (BOOL) deleteNewFromTable{

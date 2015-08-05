@@ -18,6 +18,8 @@
 @end
 
 
-@interface CommentButton : UIButton
+@interface CommentButton : UIButton{
+    UIView *markView;
+}
 @property (weak, nonatomic) id<CommentButtonDelegate> delegate;
 @end
