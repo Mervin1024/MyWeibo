@@ -91,7 +91,7 @@
     
 }
 
-- (NSArray *)arrayUserAllNewsBySelected{
+- (NSArray *)arrayAllNewsOfUserBySelected{
     NSArray *allNews = [NewsModel arrayBySelectedWhere:nil from:0 to:0];
     NSArray *news = [allNews arrayBySelect:^(NewsModel *new){
         return [new.user.user_ID isEqualToString:user_ID];

@@ -6,6 +6,61 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
+        <!--Own News View Controller-->
+        <scene sceneID="0MW-Tw-NcW">
+            <objects>
+                <tableViewController id="C8W-Mm-nPk" customClass="OwnNewsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="tLI-A6-Lfk">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <connections>
+                            <outlet property="dataSource" destination="C8W-Mm-nPk" id="Hnq-aU-gmE"/>
+                            <outlet property="delegate" destination="C8W-Mm-nPk" id="fkr-sg-Jpl"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gIS-HZ-bFa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1184" y="2168"/>
+        </scene>
+        <!--Attentions View Controller-->
+        <scene sceneID="jfZ-a6-OCl">
+            <objects>
+                <tableViewController id="dzi-59-NE9" customClass="AttentionsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gTG-1P-I0m">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="dzi-59-NE9" id="5EN-rF-e8x"/>
+                            <outlet property="delegate" destination="dzi-59-NE9" id="A8d-4A-n9a"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="SeG-gX-lMT"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JDe-Oe-MNW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-544" y="2168"/>
+        </scene>
+        <!--Fans View Controller-->
+        <scene sceneID="vcq-a1-CF7">
+            <objects>
+                <tableViewController id="TFW-FA-BAY" customClass="FansViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OJU-pD-1yh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="TFW-FA-BAY" id="5uy-Pj-edh"/>
+                            <outlet property="delegate" destination="TFW-FA-BAY" id="L3v-Bc-L8S"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="y8k-su-ByY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="90" y="2168"/>
+        </scene>
         <!--我-->
         <scene sceneID="i7i-xQ-sO7">
             <objects>
@@ -69,6 +124,7 @@
                                                     </state>
                                                     <connections>
                                                         <action selector="microblog:" destination="sYc-O0-Lej" eventType="touchUpInside" id="sSg-SY-863"/>
+                                                        <segue destination="C8W-Mm-nPk" kind="show" identifier="Microblog" id="IEK-dt-bv5"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M1p-EB-8YP" customClass="CommentButton">
@@ -80,6 +136,7 @@
                                                     </state>
                                                     <connections>
                                                         <action selector="attention:" destination="sYc-O0-Lej" eventType="touchUpInside" id="qfV-gG-61b"/>
+                                                        <segue destination="dzi-59-NE9" kind="show" identifier="Attention" id="UgC-UM-PWu"/>
                                                     </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jdm-bB-MCD" customClass="CommentButton">
@@ -91,6 +148,7 @@
                                                     </state>
                                                     <connections>
                                                         <action selector="fans:" destination="sYc-O0-Lej" eventType="touchUpInside" id="7J4-gr-Ogm"/>
+                                                        <segue destination="TFW-FA-BAY" kind="show" identifier="Fans" id="xsv-Rh-Ip5"/>
                                                     </connections>
                                                 </button>
                                             </subviews>
@@ -708,29 +766,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" restorationIdentifier="NewsTableCell" selectionStyle="default" indentationWidth="10" reuseIdentifier="NoDataCell" id="aYW-aX-X8w">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aYW-aX-X8w" id="NXp-S2-PyF">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="还没有新鲜事哦" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zE1-Sa-hUB">
-                                            <rect key="frame" x="248" y="13" width="105" height="18"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <constraints>
-                                        <constraint firstAttribute="centerX" secondItem="zE1-Sa-hUB" secondAttribute="centerX" id="rE8-0R-zND"/>
-                                        <constraint firstAttribute="centerY" secondItem="zE1-Sa-hUB" secondAttribute="centerY" constant="-0.5" id="s5b-oh-QcA"/>
-                                    </constraints>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="soh-B0-hKG" kind="show" identifier="ShowDetails" id="i9k-hF-dHm"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="z83-zQ-vTD" id="ec5-e8-tVc"/>
                             <outlet property="delegate" destination="z83-zQ-vTD" id="aWc-bC-PRQ"/>
@@ -762,7 +797,7 @@
         <!--详细信息-->
         <scene sceneID="z1W-CT-VBP">
             <objects>
-                <tableViewController id="soh-B0-hKG" userLabel="详细信息" customClass="NewsDetailViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="NewsDetailViewController" id="soh-B0-hKG" userLabel="详细信息" customClass="NewsDetailViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Y05-GV-2Lc">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

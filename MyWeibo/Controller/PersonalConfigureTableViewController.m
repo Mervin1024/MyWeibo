@@ -9,7 +9,9 @@
 #import "PersonalConfigureTableViewController.h"
 #import "PersonalModel.h"
 #import "DocumentAccess.h"
-#import "ConfigureDetailViewController.h"
+#import "AttentionsViewController.h"
+#import "OwnNewsViewController.h"
+#import "FansViewController.h"
 
 @interface PersonalConfigureTableViewController (){
     PersonalModel *personalModel;
@@ -129,7 +131,9 @@
 }
 
 - (IBAction)microblog:(id)sender {
-//    [self performSegueWithIdentifier:@"Microblog" sender:nil];
+//    OwnNewsViewController *controller = [[[NSBundle mainBundle] loadNibNamed:@"OwnNewsViewController" owner:self options:nil] lastObject];
+//    NSLog(@"%@",NSStringFromClass([controller class]));
+//    
 }
 
 - (IBAction)attention:(id)sender {
@@ -142,17 +146,13 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"Microblog"]) {
-        ConfigureDetailViewController *controller = segue.destinationViewController;
-        controller.checkedButtonType = CheckedButtonTypeMicroblog;
-        controller.personalModel = personalModel;
+//        OwnNewsViewController *controller = segue.destinationViewController;
     }else if ([segue.identifier isEqualToString:@"Attention"]){
-        ConfigureDetailViewController *controller = segue.destinationViewController;
+        AttentionsViewController *controller = segue.destinationViewController;
         controller.checkedButtonType = CheckedButtonTypeAttention;
         controller.personalModel = personalModel;
     }else if ([segue.identifier isEqualToString:@"Fans"]){
-        ConfigureDetailViewController *controller = segue.destinationViewController;
-        controller.checkedButtonType = CheckedButtonTypeFans;
-        controller.personalModel = personalModel;
+//        FansViewController *controller = segue.destinationViewController;
     }
 }
 @end

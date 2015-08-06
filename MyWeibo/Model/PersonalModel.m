@@ -20,7 +20,7 @@
 - (PersonalModel *)initWithUserID:(NSString *)userId password:(NSString *)passwords name:(NSString *)names avatar:(NSString *)avatars description:(NSString *)descr level:(NSInteger)lv praise:(NSArray *)prs attentions:(NSArray *)attention fans:(NSArray *)fan{
     if ((self = [super initWithUserID:userId name:names avatar:avatars description:descr])) {
         password = passwords;
-        news = [self arrayUserAllNewsBySelected];
+        news = [self arrayAllNewsOfUserBySelected];
         images = [self arrayAllImagesBySelected];
         level = lv;
         praise = prs;

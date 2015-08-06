@@ -7,23 +7,10 @@
 //
 
 #import "NewsTableViewController.h"
-#import "DBManager.h"
-#import "MyWeiboData.h"
-#import "NewsModel.h"
-#import "InitialNews.h"
-#import "DocumentAccess.h"
-#import "UIImage+ImageFrame.h"
-#import "UILabel+StringFrame.h"
-#import "CommentCell.h"
-#import "PersonalModel.h"
-#import "SVProgressHUD.h"
-#import "AddNewsViewController.h"
-#import "CommentCellMethod.h"
-#import "NewTableViewCellMethod.h"
-#import "NSArray+Assemble.h"
+
 
 @interface NewsTableViewController ()<NewsDetailViewControllerDelegate,UIAlertViewDelegate,CommentCellDelegate,NewTableViewCellMethodDelegate>{
-    PersonalModel *personalModel;
+//    PersonalModel *personalModel;
 //    NSMutableArray *tableData;
     BOOL haveData;              // 是否有数据,默认YES
     NSInteger sizeOfRefresh;    // 每次更新数据条目
@@ -110,7 +97,7 @@
 }
 
 - (void)initPersonal{
-    if ((personalModel = [[PersonalModel alloc]initWithUserDefaults])) {
+    if ((self.personalModel = [[PersonalModel alloc]initWithUserDefaults])) {
         
     }else{
         [InitialNews savePersonalInformation];
@@ -118,22 +105,29 @@
     }
 }
 #pragma mark - 读取数据库
-- (void) setTableData{
+- (NSArray *)dataByArrayFromDB{
     if ([NewsModel countOfNews] == 0) {
         
         [self initDB];
         
     }
     __block NSMutableArray *reloadData = [NSMutableArray array];
-    [personalModel.attentions excetueEach:^(NSString *userId){
-        [reloadData addObjectsFromArray:[[UserModel selectedByUserID:userId] arrayUserAllNewsBySelected]];
+    [self.personalModel.attentions excetueEach:^(NSString *userId){
+        [reloadData addObjectsFromArray:[[UserModel selectedByUserID:userId] arrayAllNewsOfUserBySelected]];
     }];
-    [reloadData addObjectsFromArray:[personalModel arrayUserAllNewsBySelected]];
+    [reloadData addObjectsFromArray:[self.personalModel arrayAllNewsOfUserBySelected]];
     NSArray *sortedArray = [reloadData sortedArrayUsingComparator:^(NewsModel *new1,NewsModel *new2){
         NSString *date1 = new1.publicTime;
         NSString *date2 = new2.publicTime;
         return [date1 compare:date2];
     }];
+    return sortedArray;
+}
+
+- (void) setTableData{
+    
+    NSArray *sortedArray = [self dataByArrayFromDB];
+    
     long since = from;
     from = to;
     to = sortedArray.count;
@@ -151,7 +145,6 @@
         }
     }
     
-//    [tableData addObjectsFromArray:sortedArray];
     if (tableData.count == 0) {
         haveData = NO;
         [SVProgressHUD dismiss];
@@ -169,10 +162,10 @@
         }
         
     }
-//    [SVProgressHUD dismiss];
     [self.tableView reloadData];
 
 }
+
 #pragma mark - 添加下拉刷新控件 UIRefreshControl
 - (void) setRefreshControl{
     aRefreshController = [[UIRefreshControl alloc]init];
@@ -231,10 +224,16 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (haveData == NO) {
         // 无数据时的cell
-        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NoDataCell"];
-        if (cell == nil) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NoDataCell"];
-        }
+//        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"NoDataCell"];
+//        if (cell == nil) {
+        UITableViewCell *cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"NoDataCell"];
+//        }
+        UILabel *label = [[UILabel alloc]initWithFrame:(CGRect){0,0,self.tableView.frame.size.width,self.tableView.frame.size.height/3}];
+        label.text = @"还没有新鲜事哦~";
+        label.textColor = [UIColor darkGrayColor];
+        label.font = [UIFont systemFontOfSize:15];
+        label.textAlignment = NSTextAlignmentCenter;
+        [cell addSubview:label];
         cell.backgroundColor = [UIColor clearColor];
 //        self.tableView.userInteractionEnabled = NO;
         cell.userInteractionEnabled = NO;
@@ -304,7 +303,7 @@
         CGFloat width = TABLE_CELL_CONTENT_WIDTH-CELL_CONTENT_MARGIN*2;
         return [NewTableViewCell heighForRowWithCellContentWidth:width Style:NewsStyleOfList model:new];
     }else if (haveData == NO){
-        return 200;
+        return self.tableView.frame.size.height/3;
     }else{
         return 30.0f;
     }
@@ -318,7 +317,15 @@
         long index = tableData.count -1- indexPath.section;
         NewsModel *news = tableData[index];
         
-        [self performSegueWithIdentifier:@"ShowDetails" sender:news];
+//        [self performSegueWithIdentifier:@"ShowDetails" sender:news];
+        UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        NewsDetailViewController *controller = [mainStoryboard instantiateViewControllerWithIdentifier:@"NewsDetailViewController"];
+//        NewsDetailViewController *controller = [[NewsDetailViewController alloc]init];
+        controller.hidesBottomBarWhenPushed = YES;
+        controller.newsModel = news;
+        controller.delegate = self;
+
+        [self.navigationController pushViewController:controller animated:YES];
     }
     
 }
@@ -434,14 +441,14 @@
 }
 
 #pragma mark - segue 跳转
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    if ([segue.identifier isEqualToString:@"ShowDetails"]) {
-        NewsDetailViewController *controller = segue.destinationViewController;
-        controller.hidesBottomBarWhenPushed = YES;
-        controller.newsModel = sender;
-        controller.delegate = self;
-    }
-}
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+//    if ([segue.identifier isEqualToString:@"ShowDetails"]) {
+//        NewsDetailViewController *controller = segue.destinationViewController;
+//        controller.hidesBottomBarWhenPushed = YES;
+//        controller.newsModel = sender;
+//        controller.delegate = self;
+//    }
+//}
 #pragma mark - navigationItemBarButton
 - (IBAction)dynamicStateButton:(id)sender {
     

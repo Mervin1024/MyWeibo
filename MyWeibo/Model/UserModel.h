@@ -19,7 +19,7 @@
 //- (NSDictionary *) dictionaryBySelectedWithUserID:(NSString *)userId;
 - (BOOL) insertItemToTable;
 - (BOOL) updateItemFromTable;
-- (NSArray *)arrayUserAllNewsBySelected;
+- (NSArray *)arrayAllNewsOfUserBySelected;
 @property (copy, nonatomic, readonly) NSString *user_ID;
 @property (copy, nonatomic, readonly) NSString *name;
 @property (copy, nonatomic, readonly) NSString *avatar;
