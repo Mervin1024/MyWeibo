@@ -7,6 +7,9 @@
 //
 
 #import "FansViewController.h"
+#import "UsersDetailTableViewCell.h"
+#import "DocumentAccess.h"
+#import "NewsTableViewController.h"
 
 @interface FansViewController ()
 
@@ -32,28 +35,51 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.personalModel.fans.count;
 }
 
-/*
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
+    //    NSLog(@"1");
+    UsersDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UsersDetailTableViewCell"];
+    if (cell == nil) {
+        cell = [[[NSBundle mainBundle] loadNibNamed:@"UsersDetailTableViewCell" owner:self options:nil] lastObject];
+    }
+    long row = indexPath.row;
+    //    NSLog(@"%ld",row);
+    UserModel *user = self.personalModel.fans[row];
+    //    NSLog(@"%@",user.user_ID);
+    if (user.name == nil) {
+        cell.userTextLabel.text = user.user_ID;
+    }
+    cell.userTextLabel.text = user.name;
+    cell.userDetailTextLabel.text = user.desc;
+    cell.userImageView.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:user.avatar]];
     return cell;
 }
-*/
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 66;
+}
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return TABLE_CONTENT_MARGIN;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return TABLE_CONTENT_MARGIN;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 - (IBAction)backButton:(id)sender {
     [self.navigationController popViewControllerAnimated:YES];
