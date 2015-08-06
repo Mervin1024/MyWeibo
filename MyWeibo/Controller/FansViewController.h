@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PersonalModel.h"
 
 @interface FansViewController : UITableViewController
 @property (strong, nonatomic) PersonalModel *personalModel;
+- (IBAction)backButton:(id)sender;
+
 @end

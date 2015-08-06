@@ -39,7 +39,7 @@
     return self;
 }
 
-+ (UserModel *)selectedByUserID:(NSString *)userId{
++ (UserModel *)userModelByUserID:(NSString *)userId{
     NSString *name = nil;
     NSDictionary *user = [self dictionaryBySelectedWithUserID:userId];
     if ([user count] == 4) {

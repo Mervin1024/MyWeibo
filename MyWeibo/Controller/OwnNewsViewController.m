@@ -49,4 +49,8 @@
 }
 */
 
+- (IBAction)backButton:(id)sender {
+//    NSLog(@"own back");
+    [self.navigationController popViewControllerAnimated:YES];
+}
 @end

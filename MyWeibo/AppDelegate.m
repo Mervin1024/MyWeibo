@@ -27,7 +27,7 @@
 
 - (void) setTab{
     UITabBarController *tabViewController = (UITabBarController *) self.window.rootViewController;
-    [tabViewController setSelectedIndex:4];
+    [tabViewController setSelectedIndex:0];
     //
     UITabBar *tabBar = tabViewController.tabBar;
     [tabBar setTintColor: [UIColor greenColor]];

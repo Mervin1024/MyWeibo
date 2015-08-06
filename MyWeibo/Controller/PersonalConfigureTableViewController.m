@@ -20,7 +20,7 @@
 @end
 
 @implementation PersonalConfigureTableViewController
-@synthesize personalAvatar,personalName,personalDesc;
+//@synthesize personalAvatar,personalName,personalDesc;
 @synthesize attentionButton,microblogButton,fansButton;
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -46,15 +46,15 @@
 }
 
 - (void)setValue{
-    personalAvatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:personalModel.avatar]];
-    NSString *str = personalModel.user_ID;
-    if (personalModel.name == nil) {
-        
-    }else{
-        str = personalModel.name;
-    }
-    personalName.text = str;
-    personalDesc.text = [NSString stringWithFormat:@"简介:%@",personalModel.desc];
+//    personalAvatar.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:personalModel.avatar]];
+//    NSString *str = personalModel.user_ID;
+//    if (personalModel.name == nil) {
+//        
+//    }else{
+//        str = personalModel.name;
+//    }
+//    personalName.text = str;
+//    personalDesc.text = [NSString stringWithFormat:@"简介:%@",personalModel.desc];
 //    if (personalModel.news.count != 0) {
     [microblogButton setTitle:[NSString stringWithFormat:@"%ld\n微博",personalModel.news.count] forState:UIControlStateNormal];
     
@@ -95,34 +95,50 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     long section = indexPath.section;
     long row = indexPath.row;
-    ConfigureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ConfigureTableViewCell"];
-    if (cell == nil) {
-        cell = [[[NSBundle mainBundle] loadNibNamed:@"ConfigureTableViewCell" owner:self options:nil] lastObject];
-    }
-    if (section == 1 && row == 1) {
-        cell.configureTextLabel.text = @"微博等级";
-        cell.configureDetailTextLabel.text = [NSString stringWithFormat:@"Lv%ld",(long)personalModel.level];
-        return cell;
-    }else if (section == 2 && row == 0){
-        cell.configureTextLabel.text = @"我的相册";
-        NSString *str = @"";
-        if (personalModel.images.count != 0) {
-            str = [NSString stringWithFormat:@"(%ld)",personalModel.images.count];
+    if (section == 0 && row == 0) {
+        UsersDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UsersDetailTableViewCell"];
+        if (cell == nil) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"UsersDetailTableViewCell" owner:self options:nil] lastObject];
         }
-        cell.configureDetailTextLabel.text = str;
-        return cell;
-    }else if (section == 2 && row == 2){
-        cell.configureTextLabel.text = @"我的赞";
-        NSString *str = @"";
-        if (personalModel.praise.count != 0) {
-            str = [NSString stringWithFormat:@"(%ld)",personalModel.praise.count];
+        if (personalModel) {
+            cell.userImageView.image = [UIImage imageWithContentsOfFile:[DocumentAccess stringOfFilePathForName:personalModel.avatar]];
+            if (personalModel.name == nil) {
+                cell.userTextLabel.text = personalModel.user_ID;
+            }
+            cell.userTextLabel.text = personalModel.name;
+            cell.userDetailTextLabel.text = [NSString stringWithFormat:@"简介:%@",personalModel.desc];
         }
-        cell.configureDetailTextLabel.text = str;
         return cell;
+    }else{
+        ConfigureTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ConfigureTableViewCell"];
+        if (cell == nil) {
+            cell = [[[NSBundle mainBundle] loadNibNamed:@"ConfigureTableViewCell" owner:self options:nil] lastObject];
+        }
+        if (section == 1 && row == 1) {
+            cell.configureTextLabel.text = @"微博等级";
+            cell.configureDetailTextLabel.text = [NSString stringWithFormat:@"Lv%ld",(long)personalModel.level];
+            return cell;
+        }else if (section == 2 && row == 0){
+            cell.configureTextLabel.text = @"我的相册";
+            NSString *str = @"";
+            if (personalModel.images.count != 0) {
+                str = [NSString stringWithFormat:@"(%ld)",personalModel.images.count];
+            }
+            cell.configureDetailTextLabel.text = str;
+            return cell;
+        }else if (section == 2 && row == 2){
+            cell.configureTextLabel.text = @"我的赞";
+            NSString *str = @"";
+            if (personalModel.praise.count != 0) {
+                str = [NSString stringWithFormat:@"(%ld)",personalModel.praise.count];
+            }
+            cell.configureDetailTextLabel.text = str;
+            return cell;
+        }else{
+            return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+        }
     }
-    else{
-        return [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    }
+
     
 }
 
@@ -146,13 +162,14 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"Microblog"]) {
-//        OwnNewsViewController *controller = segue.destinationViewController;
+        OwnNewsViewController *controller = segue.destinationViewController;
+        controller.personalModel = personalModel;
     }else if ([segue.identifier isEqualToString:@"Attention"]){
         AttentionsViewController *controller = segue.destinationViewController;
-        controller.checkedButtonType = CheckedButtonTypeAttention;
         controller.personalModel = personalModel;
     }else if ([segue.identifier isEqualToString:@"Fans"]){
-//        FansViewController *controller = segue.destinationViewController;
+        FansViewController *controller = segue.destinationViewController;
+        controller.personalModel = personalModel;
     }
 }
 @end

@@ -183,7 +183,10 @@
 //}
 
 - (void)deleteNewFromTable{
-    [self.delegate deleteNews:newsModel];
+//    [self.delegate deleteNews:newsModel];
+    NSDictionary *dic = @{@"news":newsModel};
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DeleteNewsNotification" object:self userInfo:dic];
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -316,6 +319,7 @@
 
 
 - (IBAction)backButton:(id)sender {
+//    NSLog(@"NewsDetailBack");
     [self.navigationController popViewControllerAnimated:YES];
 }
 @end

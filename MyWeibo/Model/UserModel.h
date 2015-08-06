@@ -11,7 +11,7 @@
 
 @interface UserModel : NSObject
 - (UserModel *)initWithUserID:(NSString *)userId name:(NSString *)names avatar:(NSString *)avatars description:(NSString *)descs;
-+ (UserModel *)selectedByUserID:(NSString *)userId;
++ (UserModel *)userModelByUserID:(NSString *)userId;
 + (int) countOfUsers;
 + (NSArray *) arrayOfProperties;
 + (NSDictionary *) dictionaryOfPropertiesAndTypes;

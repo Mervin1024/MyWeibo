@@ -10,4 +10,6 @@
 
 @interface OwnNewsViewController : NewsTableViewController
 
+- (IBAction)backButton:(id)sender;
+
 @end

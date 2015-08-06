@@ -7,9 +7,10 @@
 //
 
 #import "NewsTableViewController.h"
+#import "CommentCell.h"
 
 
-@interface NewsTableViewController ()<NewsDetailViewControllerDelegate,UIAlertViewDelegate,CommentCellDelegate,NewTableViewCellMethodDelegate>{
+@interface NewsTableViewController ()<UIAlertViewDelegate,CommentCellDelegate,NewTableViewCellMethodDelegate>{
 //    PersonalModel *personalModel;
 //    NSMutableArray *tableData;
     BOOL haveData;              // 是否有数据,默认YES
@@ -36,7 +37,9 @@
     [self initView];
     [self setRefreshControl];
     // 注册通知
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishPublish:) name:@"AddNewsNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didFinishPublishNotification:) name:@"AddNewsNotification" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteNewsNotification:) name:@"DeleteNewsNotification" object:nil];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -112,8 +115,8 @@
         
     }
     __block NSMutableArray *reloadData = [NSMutableArray array];
-    [self.personalModel.attentions excetueEach:^(NSString *userId){
-        [reloadData addObjectsFromArray:[[UserModel selectedByUserID:userId] arrayAllNewsOfUserBySelected]];
+    [self.personalModel.attentions excetueEach:^(UserModel *user){
+        [reloadData addObjectsFromArray:[user arrayAllNewsOfUserBySelected]];
     }];
     [reloadData addObjectsFromArray:[self.personalModel arrayAllNewsOfUserBySelected]];
     NSArray *sortedArray = [reloadData sortedArrayUsingComparator:^(NewsModel *new1,NewsModel *new2){
@@ -323,8 +326,7 @@
 //        NewsDetailViewController *controller = [[NewsDetailViewController alloc]init];
         controller.hidesBottomBarWhenPushed = YES;
         controller.newsModel = news;
-        controller.delegate = self;
-
+//        controller.delegate = self;
         [self.navigationController pushViewController:controller animated:YES];
     }
     
@@ -378,8 +380,6 @@
     return newsDidSelect;
 }
 
-#pragma mark - NewsDetailViewController 协议方法
-
 - (void)deleteNews:(NewsModel *)newsModel{
     [tableData removeObject:newsModel];
     [newsModel deleteNewFromTable];
@@ -427,8 +427,8 @@
     }
 }
 
-#pragma mark - AddNewsNotification 方法
-- (void)didFinishPublish:(NSNotification *)notification{
+#pragma mark - AddNewsNotification 通知方法
+- (void)didFinishPublishNotification:(NSNotification *)notification{
     // 实现发布动态
     NSDictionary *dic = [notification userInfo];
     if (dic != nil) {
@@ -438,6 +438,15 @@
 //        [self performSelector:@selector(setTableData) withObject:nil afterDelay:3];
         isReload = YES;
     }
+}
+#pragma mark - DeleteNewsNotification 通知方法
+- (void)deleteNewsNotification:(NSNotification *)notification{
+    NSDictionary *dic = [notification userInfo];
+    if (dic != nil) {
+        NewsModel *newsModel = [dic objectForKey:@"news"];
+        [self deleteNews:newsModel];
+    }
+
 }
 
 #pragma mark - segue 跳转

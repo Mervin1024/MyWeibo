@@ -43,7 +43,7 @@
         if (newsId > 0) {
             news_id = newsId;
         }
-        user = [UserModel selectedByUserID:user_id];
+        user = [UserModel userModelByUserID:user_id];
     }
     return self;
 }
@@ -61,7 +61,7 @@
         news_text = [data objectForKey:newsText];
         publicTime = [data objectForKey:newsPublicTime];
         imagesName = [self arrayAllImagesNameBySelected];
-        user = [UserModel selectedByUserID:user_id];
+        user = [UserModel userModelByUserID:user_id];
     }
     return self;
 }

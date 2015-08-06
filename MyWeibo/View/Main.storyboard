@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Own News View Controller-->
+        <!--全部微博-->
         <scene sceneID="0MW-Tw-NcW">
             <objects>
-                <tableViewController id="C8W-Mm-nPk" customClass="OwnNewsViewController" sceneMemberID="viewController">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="C8W-Mm-nPk" customClass="OwnNewsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="tLI-A6-Lfk">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -19,43 +19,66 @@
                             <outlet property="delegate" destination="C8W-Mm-nPk" id="fkr-sg-Jpl"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="全部微博" id="lAU-kU-xVL">
+                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="9Ax-jD-ekR">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="backButton:" destination="C8W-Mm-nPk" id="jZe-PF-W7C"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gIS-HZ-bFa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1184" y="2168"/>
         </scene>
-        <!--Attentions View Controller-->
+        <!--全部关注-->
         <scene sceneID="jfZ-a6-OCl">
             <objects>
-                <tableViewController id="dzi-59-NE9" customClass="AttentionsViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gTG-1P-I0m">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="dzi-59-NE9" customClass="AttentionsViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="gTG-1P-I0m">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <connections>
                             <outlet property="dataSource" destination="dzi-59-NE9" id="5EN-rF-e8x"/>
                             <outlet property="delegate" destination="dzi-59-NE9" id="A8d-4A-n9a"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="SeG-gX-lMT"/>
+                    <navigationItem key="navigationItem" title="全部关注" id="bcj-jJ-GRV">
+                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="l7l-cI-65X">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="backButton:" destination="dzi-59-NE9" id="FqT-hk-fTJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JDe-Oe-MNW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-544" y="2168"/>
         </scene>
-        <!--Fans View Controller-->
+        <!--粉丝-->
         <scene sceneID="vcq-a1-CF7">
             <objects>
-                <tableViewController id="TFW-FA-BAY" customClass="FansViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="OJU-pD-1yh">
+                <tableViewController hidesBottomBarWhenPushed="YES" id="TFW-FA-BAY" customClass="FansViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="OJU-pD-1yh">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <connections>
                             <outlet property="dataSource" destination="TFW-FA-BAY" id="5uy-Pj-edh"/>
                             <outlet property="delegate" destination="TFW-FA-BAY" id="L3v-Bc-L8S"/>
                         </connections>
                     </tableView>
+                    <navigationItem key="navigationItem" title="粉丝" id="2o4-jv-bF3">
+                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="vv8-md-2Sx">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="backButton:" destination="TFW-FA-BAY" id="ZbS-sb-rsk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="y8k-su-ByY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -581,9 +604,6 @@
                         <outlet property="attentionButton" destination="M1p-EB-8YP" id="opc-j2-wzU"/>
                         <outlet property="fansButton" destination="Jdm-bB-MCD" id="Y81-PE-dcp"/>
                         <outlet property="microblogButton" destination="m5i-dH-QOd" id="a6d-zi-Ua9"/>
-                        <outlet property="personalAvatar" destination="SpI-rA-7fC" id="YoM-LH-VrP"/>
-                        <outlet property="personalDesc" destination="Z7J-ke-df3" id="b52-nF-aJV"/>
-                        <outlet property="personalName" destination="LQv-5t-sXj" id="4Cm-7O-7eg"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iyR-tj-xq2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -834,14 +854,16 @@
                             <outlet property="delegate" destination="soh-B0-hKG" id="M92-Df-wsj"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="微博正文" id="pcd-Yq-cEk">
-                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="KdA-UO-kk7">
-                            <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="微博正文" id="HRW-lN-ba5">
+                        <barButtonItem key="leftBarButtonItem" systemItem="reply" id="c7d-gg-VqD">
+                            <color key="tintColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <action selector="backButton:" destination="soh-B0-hKG" id="saY-IP-T4X"/>
+                                <action selector="backButton:" destination="soh-B0-hKG" id="16H-Kh-ptl"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8p4-O2-9Mz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

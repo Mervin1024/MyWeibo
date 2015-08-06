@@ -9,18 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "ConfigureTableViewCell.h"
 #import "CommentButton.h"
+#import "UsersDetailTableViewCell.h"
 
-typedef NS_ENUM(NSInteger, CheckedButtonType) {
-    CheckedButtonTypeMicroblog = 0,
-    CheckedButtonTypeAttention,
-    CheckedButtonTypeFans
-};
+//typedef NS_ENUM(NSInteger, CheckedButtonType) {
+//    CheckedButtonTypeMicroblog = 0,
+//    CheckedButtonTypeAttention,
+//    CheckedButtonTypeFans
+//};
 
 @interface PersonalConfigureTableViewController : UITableViewController
 
-@property (weak, nonatomic) IBOutlet UIImageView *personalAvatar;
-@property (weak, nonatomic) IBOutlet UILabel *personalName;
-@property (weak, nonatomic) IBOutlet UILabel *personalDesc;
+//@property (weak, nonatomic) IBOutlet UIImageView *personalAvatar;
+//@property (weak, nonatomic) IBOutlet UILabel *personalName;
+//@property (weak, nonatomic) IBOutlet UILabel *personalDesc;
 @property (weak, nonatomic) IBOutlet CommentButton *microblogButton;
 @property (weak, nonatomic) IBOutlet CommentButton *attentionButton;
 @property (weak, nonatomic) IBOutlet CommentButton *fansButton;

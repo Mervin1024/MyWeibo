@@ -24,7 +24,10 @@
         images = [self arrayAllImagesBySelected];
         level = lv;
         praise = prs;
-        attentions = attention;
+        attentions = [attention arrayByMap:^(NSString *userId){
+            return [UserModel userModelByUserID:userId];
+        }];
+        
         fans = fan;
     }
     
@@ -60,7 +63,10 @@
     [userDefaults setObject:self.password forKey:personalPassword];
     [userDefaults setObject:@(self.level) forKey:personalLevel];
     [userDefaults setObject:self.praise forKey:personalPraise];
-    [userDefaults setObject:self.attentions forKey:personalAttentions];
+    NSArray *attention = [self.attentions arrayByMap:(id)^(UserModel *user){
+        return user.user_ID;
+    }];
+    [userDefaults setObject:attention forKey:personalAttentions];
     [userDefaults setObject:self.fans forKey:personalFans];
     return YES;
 }
@@ -81,5 +87,13 @@
 //    NSLog(@"allImages:%ld",allImages.count);
     return allImages;
 }
+
+//- (NSArray *)attentionsByUserIDs:(NSArray *)userIDs{
+//    __block NSMutableArray *users = [NSMutableArray array];
+//    [userIDs excetueEach:^(NSString *userId){
+//        [users addObject:[UserModel userModelByUserID:userId]];
+//    }];
+//    return users;
+//}
 
 @end

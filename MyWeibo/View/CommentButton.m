@@ -30,19 +30,6 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [super touchesBegan:touches withEvent:event];
-//    markView = [[UIView alloc]initWithFrame:buttonFrame];
-//    markView.alpha = 0;
-//    markView.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.35];
-//    [self addSubview:markView];
-//    
-//    if (markView.alpha == 1) {
-//        
-//    }else{
-//        [UIView animateWithDuration:0.1 animations:^{
-//            markView.alpha = 1;
-//        }];
-//    }
-    
     if ([self.delegate respondsToSelector:@selector(commentButton:touchesBegan:withEvent:)]) {
         [self.delegate commentButton:self touchesBegan:touches withEvent:event];
     }
@@ -50,13 +37,6 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event{
     [super touchesEnded:touches withEvent:event];
-//    if (markView.alpha == 0) {
-//        
-//    }else{
-//        [UIView animateWithDuration:0.4 animations:^{
-//            markView.alpha = 0;
-//        }];
-//    }
     if ([self.delegate respondsToSelector:@selector(commentButton:touchesEnded:withEvent:)]) {
         [self.delegate commentButton:self touchesEnded:touches withEvent:event];
     }
